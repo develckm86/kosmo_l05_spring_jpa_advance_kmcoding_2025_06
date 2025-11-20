@@ -1,0 +1,191 @@
+DROP USER km_coding CASCADE;
+
+-- 0. 유저 생성 및 권한
+
+-- 0. USER / SCHEMA 생성
+CREATE USER km_coding IDENTIFIED BY km_codingpw
+    DEFAULT TABLESPACE users
+    TEMPORARY TABLESPACE temp
+    QUOTA UNLIMITED ON users;
+
+GRANT CONNECT, RESOURCE TO km_coding;
+
+
+
+
+-- 1. 태그 마스터
+
+CREATE TABLE km_coding.TAG (
+                               TAG_ID        NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                               NAME          VARCHAR2(50) UNIQUE NOT NULL
+);
+
+
+
+
+-- 2. 멤버
+
+CREATE TABLE km_coding.MEMBER (
+                                  MEMBER_ID      NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                  EMAIL          VARCHAR2(200) UNIQUE NOT NULL,
+                                  PASSWORD       VARCHAR2(200) NOT NULL,
+                                  NICKNAME       VARCHAR2(100) NOT NULL,
+                                  CREATED_AT     TIMESTAMP NOT NULL,
+                                  UPDATED_AT     TIMESTAMP
+);
+
+
+
+
+-- 3. 정보공유 게시판
+
+-- 3-1. 정보공유 글
+
+CREATE TABLE km_coding.INFO_POST (
+                                     POST_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                     MEMBER_ID     NUMBER NOT NULL,
+                                     TITLE         VARCHAR2(200) NOT NULL,
+                                     CONTENT       CLOB NOT NULL,
+                                     CREATED_AT    TIMESTAMP NOT NULL,
+                                     UPDATED_AT    TIMESTAMP,
+                                     CONSTRAINT FK_INFO_POST_MEMBER
+                                         FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID)
+);
+CREATE TABLE km_coding.INFO_LIKE (
+                                     LIKE_ID      NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                     POST_ID      NUMBER NOT NULL,
+                                     MEMBER_ID    NUMBER NOT NULL,
+                                     CONSTRAINT FK_INFO_LIKE_POST
+                                         FOREIGN KEY (POST_ID) REFERENCES km_coding.INFO_POST(POST_ID),
+                                     CONSTRAINT FK_INFO_LIKE_MEMBER
+                                         FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID),
+                                     CONSTRAINT UQ_INFO_LIKE UNIQUE (POST_ID, MEMBER_ID)
+);
+
+-- 3-2. 정보공유 댓글
+
+CREATE TABLE km_coding.INFO_COMMENT (
+                                        COMMENT_ID    NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                        POST_ID       NUMBER NOT NULL,
+                                        MEMBER_ID     NUMBER NOT NULL,
+                                        CONTENT       VARCHAR2(2000) NOT NULL,
+                                        PARENT_ID     NUMBER NULL,
+                                        CREATED_AT    TIMESTAMP NOT NULL,
+                                        CONSTRAINT FK_INFO_COMMENT_POST
+                                            FOREIGN KEY (POST_ID) REFERENCES km_coding.INFO_POST(POST_ID),
+                                        CONSTRAINT FK_INFO_COMMENT_MEMBER
+                                            FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID),
+                                        CONSTRAINT FK_INFO_COMMENT_PARENT
+                                            FOREIGN KEY (PARENT_ID) REFERENCES km_coding.INFO_COMMENT(COMMENT_ID)
+);
+
+-- 3-3. 정보공유 좋아요
+CREATE TABLE km_coding.INFO_COMMENT_LIKE (
+                                     LIKE_ID      NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                     COMMENT_ID      NUMBER NOT NULL,
+                                     MEMBER_ID    NUMBER NOT NULL,
+                                     CONSTRAINT FK_INFO_COMMENT_LIKE_POST
+                                         FOREIGN KEY (COMMENT_ID) REFERENCES km_coding.INFO_COMMENT(COMMENT_ID),
+                                     CONSTRAINT FK_INFO_COMMENT_LIKE_MEMBER
+                                         FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID),
+                                     CONSTRAINT UQ_INFO_COMMENT_LIKE UNIQUE (COMMENT_ID, MEMBER_ID)
+);
+
+-- 3-4. 정보공유 태그 매핑
+
+CREATE TABLE km_coding.INFO_POST_TAG (
+                                         MAP_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                         POST_ID      NUMBER NOT NULL,
+                                         TAG_ID       NUMBER NOT NULL,
+                                         CONSTRAINT FK_INFO_TAG_POST
+                                             FOREIGN KEY (POST_ID) REFERENCES km_coding.INFO_POST(POST_ID),
+                                         CONSTRAINT FK_INFO_TAG_TAG
+                                             FOREIGN KEY (TAG_ID) REFERENCES km_coding.TAG(TAG_ID),
+                                         CONSTRAINT UQ_INFO_TAG UNIQUE (POST_ID, TAG_ID)
+);
+
+
+-- 4. 질문 게시판
+
+-- 4-1. 질문글
+
+CREATE TABLE km_coding.QNA_POST (
+                                    POST_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                    MEMBER_ID     NUMBER NOT NULL,
+                                    TITLE         VARCHAR2(200) NOT NULL,
+                                    CONTENT       CLOB NOT NULL,
+                                    CREATED_AT    TIMESTAMP NOT NULL,
+                                    UPDATED_AT    TIMESTAMP,
+                                    CONSTRAINT FK_QNA_POST_MEMBER
+                                        FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID)
+);
+-- 4-1-1. 질문 공감 EMPATHY','CONFUSING','INTERESTING','HELPFUL'
+CREATE TABLE km_coding.QNA_REACTION(
+                                            REACTION_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                            POST_ID    NUMBER NOT NULL,
+                                            MEMBER_ID     NUMBER NOT NULL,
+                                            REACTION_TYPE VARCHAR2(20) CHECK (REACTION_TYPE IN ('EMPATHY','CONFUSING','INTERESTING','HELPFUL')),
+                                            CONSTRAINT FK_QNA_REACTION_COMMENT
+                                                FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
+                                            CONSTRAINT FK_QNA_REACTION_MEMBER
+                                                FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID),
+                                            CONSTRAINT UQ_QNA_REACTION UNIQUE (POST_ID, MEMBER_ID)
+);
+
+-- 4-2. 질문 댓글/답변
+
+CREATE TABLE km_coding.QNA_COMMENT (
+                                       COMMENT_ID     NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                       POST_ID        NUMBER NOT NULL,
+                                       MEMBER_ID      NUMBER NOT NULL,
+                                       CONTENT        VARCHAR2(2000) NOT NULL,
+                                       PARENT_ID      NUMBER NULL,
+                                       CREATED_AT     TIMESTAMP NOT NULL,
+                                       CONSTRAINT FK_QNA_COMMENT_POST
+                                           FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
+                                       CONSTRAINT FK_QNA_COMMENT_MEMBER
+                                           FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID),
+                                       CONSTRAINT FK_QNA_COMMENT_PARENT
+                                           FOREIGN KEY (PARENT_ID) REFERENCES km_coding.QNA_COMMENT(COMMENT_ID)
+);
+
+-- 4-3. 질문 댓글 좋아요
+
+CREATE TABLE km_coding.QNA_COMMENT_LIKE (
+                                            LIKE_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                            COMMENT_ID    NUMBER NOT NULL,
+                                            MEMBER_ID     NUMBER NOT NULL,
+                                            CONSTRAINT FK_QNA_COMMENT_LIKE_COMMENT
+                                                FOREIGN KEY (COMMENT_ID) REFERENCES km_coding.QNA_COMMENT(COMMENT_ID),
+                                            CONSTRAINT FK_QNA_COMMENT_LIKE_MEMBER
+                                                FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID),
+                                            CONSTRAINT UQ_QNA_COMMENT_LIKE UNIQUE (COMMENT_ID, MEMBER_ID)
+);
+
+-- 4-4. 질문 채택
+
+CREATE TABLE km_coding.QNA_ADOPT (
+                                     ADOPT_ID      NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                     POST_ID       NUMBER NOT NULL UNIQUE,
+                                     COMMENT_ID    NUMBER NOT NULL,
+                                     CREATED_AT    TIMESTAMP NOT NULL,
+                                     CONSTRAINT FK_QNA_ADOPT_POST
+                                         FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
+                                     CONSTRAINT FK_QNA_ADOPT_COMMENT
+                                         FOREIGN KEY (COMMENT_ID) REFERENCES km_coding.QNA_COMMENT(COMMENT_ID)
+);
+
+-- 4-5. 질문 태그 매핑
+
+CREATE TABLE km_coding.QNA_POST_TAG (
+                                        MAP_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                        POST_ID      NUMBER NOT NULL,
+                                        TAG_ID       NUMBER NOT NULL,
+                                        CONSTRAINT FK_QNA_TAG_POST
+                                            FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
+                                        CONSTRAINT FK_QNA_TAG_TAG
+                                            FOREIGN KEY (TAG_ID) REFERENCES km_coding.TAG(TAG_ID),
+                                        CONSTRAINT UQ_QNA_TAG UNIQUE (POST_ID, TAG_ID)
+);
+
+
