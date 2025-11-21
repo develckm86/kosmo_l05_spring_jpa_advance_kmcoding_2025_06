@@ -71,8 +71,13 @@
 ## MEMBER — 모든 기능의 공통 사용자 정보
 `MEMBER (MEMBER_ID PK, EMAIL, PASSWORD, NICKNAME, CREATED_AT, UPDATED_AT)`
 
-## TAG — 모든 게시판 공통 태그
-`TAG (TAG_ID PK, NAME UK)`
+---
+
+## TAG — 모든 게시판에 여러개 작성가능한 해시태그
+`TAG (TAG_ID PK)`
+
+## CATEGORY — 모든 게시판의 카테고리 설정 예) TAG(development,개발,null),(backend, 서버개발, development),(java, 자바, backend) 
+`TAG (CATEGORY_ID PK, NAME UK, PARENT_ID FK)`
 
 ---
 
@@ -116,45 +121,72 @@
 ---
 
 # 서비스 인터페이스 명세 (README 기반)
-컨트롤러에서 사용할 서비스 계약 요약(기본 페이지 사이즈 20 가정).
+컨트롤러에서 사용할 서비스 계약 요약(기본 페이지 사이즈 20 가정). 실제 메서드 시그니처는 `service/` 인터페이스를 기준으로 한다.
 
 ## MemberService
 - `Member login(String email, String password)` — 로그인
 - `void logout(Long memberId)` — 로그아웃
 - `Member signup(Member member)` — 회원가입
-- `Member updateNickname(Long memberId, String nickname)` — 닉네임 수정
+- `Member modfiy(Member member)` — 회원 수정(닉네임/비밀번호/이메일)
 - `void delete(Long memberId)` — 회원 탈퇴
 - `Member getMember(Long memberId)` — ID로 조회
 - `Member getMember(String email)` — 이메일로 조회
 - `boolean existsByEmail(String email)` — 이메일 중복 확인
 - `Member getMyProfile(Long memberId)` — 내 정보 조회
 
-## InfoService
-- `Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field, String tag)` — 정보글 목록/검색
+## InfoService (게시판/마이페이지)
+- `Page<InfoPost> getInfoPosts(Pageable pageable)` — 정보글 목록
+- `Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field, String tag)` — 정보글 검색
 - `InfoPost getInfoPostDetail(Long postId)` — 정보글 상세
-- `InfoLike likeInfoPost(Long memberId, Long postId)` / `void cancelInfoPostLike(Long likeId)` — 정보글 좋아요 등록/취소
-- `Page<InfoComment> getInfoComments(Long postId, Pageable pageable)` — 댓글 목록
-- `InfoComment writeInfoComment(InfoComment infoComment)` / `void removeInfoComment(Long commentId)` — 댓글 작성/삭제
-- `InfoCommentLike likeInfoComment(Long memberId, Long commentId)` / `void cancelInfoCommentLike(Long likeId)` — 댓글 좋아요 등록/취소
-- `InfoPost writeInfoPost(InfoPost infoPost, Set<Long> tagIds)` / `InfoPost editInfoPost(InfoPost infoPost, Set<Long> tagIds)` / `void removeInfoPost(Long postId)` — 정보글 작성/수정/삭제
+- `InfoPost writeInfoPost(InfoPost infoPost, Set<Long> tagIds)` — 정보글 작성
+- `InfoPost editInfoPost(InfoPost infoPost, Set<Long> tagIds)` — 정보글 수정
+- `void removeInfoPost(Long postId)` — 정보글 삭제
 - `Page<InfoPost> getMyWrittenInfoPosts(Long memberId, Pageable pageable)` — 내가 작성한 정보글
 - `Page<InfoPost> getMyLikedInfoPosts(Long memberId, Pageable pageable)` — 내가 좋아요한 정보글
-- `Page<InfoComment> getMyWrittenInfoComments(Long memberId, Pageable pageable)` — 내가 작성한 댓글
-- `Page<InfoComment> getMyLikedInfoComments(Long memberId, Pageable pageable)` — 내가 좋아요한 댓글
 
-## QnaService
+## QnaService (게시판/마이페이지)
 - `Page<QnaPost> getQnaPosts(Pageable pageable, String search, String field, String tag)` — 질문글 목록/검색
 - `QnaPost getQnaPostDetail(Long postId)` — 질문 상세
-- `QnaReaction reactToQnaPost(Long memberId, Long postId, String reactionType)` / `void cancelQnaReaction(Long reactionId)` — 질문 리액션 등록/취소
-- `Page<QnaComment> getQnaComments(Long postId, Pageable pageable)` — 질문 댓글 목록
-- `QnaComment writeQnaComment(QnaComment qnaComment)` / `void removeQnaComment(Long commentId)` — 댓글 작성/삭제
-- `QnaAdopt adoptAnswer(Long postId, Long commentId)` / `void cancelAdopt(Long adoptId)` — 답변 채택/취소
-- `QnaCommentLike likeQnaComment(Long memberId, Long commentId)` / `void cancelQnaCommentLike(Long likeId)` — 댓글 좋아요 등록/취소
-- `QnaPost writeQnaPost(QnaPost qnaPost, Set<Long> tagIds)` / `QnaPost editQnaPost(QnaPost qnaPost, Set<Long> tagIds)` / `void removeQnaPost(Long postId)` — 질문글 작성/수정/삭제
+- `QnaPost writeQnaPost(QnaPost qnaPost, Set<Long> tagIds)` — 질문글 작성
+- `QnaPost editQnaPost(QnaPost qnaPost, Set<Long> tagIds)` — 질문글 수정
+- `void removeQnaPost(Long postId)` — 질문글 삭제
 - `Page<QnaPost> getMyWrittenQnaPosts(Long memberId, Pageable pageable)` — 내가 작성한 질문글
 - `Page<QnaPost> getMyReactedQnaPosts(Long memberId, Pageable pageable)` — 내가 리액션한 질문글
-- `Page<QnaComment> getMyWrittenQnaComments(Long memberId, Pageable pageable)` — 내가 작성한 질문 댓글
-- `Page<QnaComment> getMyLikedQnaComments(Long memberId, Pageable pageable)` — 내가 좋아요한 질문 댓글
 
 ## TagService
 - `List<Tag> searchTags(String keyword)` — 태그 검색/자동완성
+
+## InfoCommentService
+- `Page<InfoComment> getInfoComments(Long postId, Pageable pageable)` — 정보글 댓글/대댓글 조회
+- `InfoComment writeInfoComment(InfoComment infoComment)` — 정보글 댓글 작성
+- `void removeInfoComment(Long commentId)` — 정보글 댓글 삭제
+- `Page<InfoComment> getMyWrittenInfoComments(Long memberId, Pageable pageable)` — 내가 작성한 정보 댓글
+- `Page<InfoComment> getMyLikedInfoComments(Long memberId, Pageable pageable)` — 내가 좋아요한 정보 댓글
+
+## InfoLikeService
+- `InfoLike likeInfoPost(Long memberId, Long postId)` — 정보글 좋아요 등록
+- `void cancelInfoPostLike(Long likeId)` — 정보글 좋아요 취소
+
+## InfoCommentLikerService
+- `InfoCommentLike likeInfoComment(Long memberId, Long commentId)` — 정보 댓글 좋아요 등록
+- `void cancelInfoCommentLike(Long likeId)` — 정보 댓글 좋아요 취소
+
+## QnaCommentService
+- `Page<QnaComment> getQnaComments(Long postId, Pageable pageable)` — 질문 댓글/답변 조회
+- `QnaComment writeQnaComment(QnaComment qnaComment)` — 질문 댓글/답변 작성
+- `void removeQnaComment(Long commentId)` — 질문 댓글 삭제
+- `Page<QnaComment> getMyWrittenQnaComments(Long memberId, Pageable pageable)` — 내가 작성한 질문 댓글
+- `Page<QnaComment> getMyAdoptedQnaComments(Long memberId, Pageable pageable)` — 내가 채택된 질문 댓글
+- `Page<QnaComment> getMyLikedQnaComments(Long memberId, Pageable pageable)` — 내가 좋아요한 질문 댓글
+
+## QnaCommentAdoptService
+- `QnaAdopt adoptAnswer(Long postId, Long commentId)` — 질문 댓글 채택
+- `void cancelAdopt(Long adoptId)` — 질문 댓글 채택 취소
+
+## QnaCommentLikerService
+- `QnaCommentLike likeQnaComment(Long memberId, Long commentId)` — 질문 댓글 좋아요 등록
+- `void cancelQnaCommentLike(Long likeId)` — 질문 댓글 좋아요 취소
+
+## QnaReactionService
+- `QnaReaction reactToQnaPost(Long memberId, Long postId, String reactionType)` — 질문글 리액션 등록/변경
+- `void cancelQnaReaction(Long reactionId)` — 질문글 리액션 취소

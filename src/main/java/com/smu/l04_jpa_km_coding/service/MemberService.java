@@ -23,9 +23,9 @@ public interface MemberService {
     Member signup(Member member);
 
     /**
-     * 회원 닉네임 수정
+     * 회원 수정 (닉네임, 비밀번호, 이메일)
      */
-    Member updateNickname(Long memberId, String nickname);
+    Member modfiy(Member member);
 
     /**
      * 회원 탈퇴

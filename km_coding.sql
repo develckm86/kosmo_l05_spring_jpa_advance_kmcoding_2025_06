@@ -13,14 +13,23 @@ GRANT CONNECT, RESOURCE TO km_coding;
 
 
 
--- 1. 태그 마스터
+-- -- 1. 해시 태그
 
 CREATE TABLE km_coding.TAG (
-                               TAG_ID        NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                               NAME          VARCHAR2(50) UNIQUE NOT NULL
+                               TAG_ID          VARCHAR2(50) PRIMARY KEY
 );
 
+-- -- 1. 카테고리
 
+CREATE TABLE km_coding.CATEGORY (
+                                    CATEGORY_ID     VARCHAR2(50) PRIMARY KEY,   -- 직접 만드는 코드 (예: DEV_BACK_JAVA)
+                                    PARENT_ID       VARCHAR2(50),               -- 부모 카테고리 (NULL이면 대분류)
+                                    NAME            VARCHAR2(100) NOT NULL,     -- 한글 이름
+
+                                    CONSTRAINT FK_CATEGORY_PARENT
+                                        FOREIGN KEY (PARENT_ID)
+                                            REFERENCES km_coding.CATEGORY(CATEGORY_ID)
+);
 
 
 -- 2. 멤버
@@ -48,6 +57,9 @@ CREATE TABLE km_coding.INFO_POST (
                                      CONTENT       CLOB NOT NULL,
                                      CREATED_AT    TIMESTAMP NOT NULL,
                                      UPDATED_AT    TIMESTAMP,
+                                     CATEGORY_ID     VARCHAR2(50),
+                                     CONSTRAINT FK_INFO_POST_CATEGORY
+                                        Foreign Key (CATEGORY_ID) References km_coding.CATEGORY(CATEGORY_ID),
                                      CONSTRAINT FK_INFO_POST_MEMBER
                                          FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID)
 );
@@ -96,7 +108,7 @@ CREATE TABLE km_coding.INFO_COMMENT_LIKE (
 CREATE TABLE km_coding.INFO_POST_TAG (
                                          MAP_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                                          POST_ID      NUMBER NOT NULL,
-                                         TAG_ID       NUMBER NOT NULL,
+                                         TAG_ID     VARCHAR2(50) NOT NULL,
                                          CONSTRAINT FK_INFO_TAG_POST
                                              FOREIGN KEY (POST_ID) REFERENCES km_coding.INFO_POST(POST_ID),
                                          CONSTRAINT FK_INFO_TAG_TAG
@@ -116,6 +128,9 @@ CREATE TABLE km_coding.QNA_POST (
                                     CONTENT       CLOB NOT NULL,
                                     CREATED_AT    TIMESTAMP NOT NULL,
                                     UPDATED_AT    TIMESTAMP,
+                                    CATEGORY_ID   VARCHAR2(50),
+                                    CONSTRAINT FK_QNA_POST_CATEGORY
+                                        Foreign Key (CATEGORY_ID) References km_coding.CATEGORY(CATEGORY_ID),
                                     CONSTRAINT FK_QNA_POST_MEMBER
                                         FOREIGN KEY (MEMBER_ID) REFERENCES km_coding.MEMBER(MEMBER_ID)
 );
@@ -180,7 +195,7 @@ CREATE TABLE km_coding.QNA_ADOPT (
 CREATE TABLE km_coding.QNA_POST_TAG (
                                         MAP_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                                         POST_ID      NUMBER NOT NULL,
-                                        TAG_ID       NUMBER NOT NULL,
+                                        TAG_ID     VARCHAR2(50) NOT NULL,
                                         CONSTRAINT FK_QNA_TAG_POST
                                             FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
                                         CONSTRAINT FK_QNA_TAG_TAG

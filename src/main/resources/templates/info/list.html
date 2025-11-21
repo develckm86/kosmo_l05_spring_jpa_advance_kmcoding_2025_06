@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>정보 리스트</title>
+</head>
+<body>
+<h1>정보 리스트</h1>
+<p>검색/정렬 파라미터: sort=<span th:text="${sort}">sort</span>, search=<span th:text="${search}">search</span>, field=<span th:text="${field}">field</span>, tag=<span th:text="${tag}">tag</span></p>
+<p>Pageable: <span th:text="${pageable}">pageable</span></p>
+<a href="/info/write.do">글 작성</a>
+<ul>
+    <li>예시 정보글 1</li>
+    <li>예시 정보글 2</li>
+</ul>
+<a href="/index.html">← 홈</a>
+</body>
+</html>

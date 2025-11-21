@@ -24,22 +24,83 @@ INSERT INTO km_coding.member (email, password, nickname, created_at, updated_at)
 ------------------------------------------------------
 -- 2. TAG (10개)
 ------------------------------------------------------
-INSERT INTO km_coding.tag (name) VALUES ('java');
-INSERT INTO km_coding.tag (name) VALUES ('spring');
-INSERT INTO km_coding.tag (name) VALUES ('mysql');
-INSERT INTO km_coding.tag (name) VALUES ('oracle');
-INSERT INTO km_coding.tag (name) VALUES ('react');
-INSERT INTO km_coding.tag (name) VALUES ('javascript');
-INSERT INTO km_coding.tag (name) VALUES ('docker');
-INSERT INTO km_coding.tag (name) VALUES ('devops');
-INSERT INTO km_coding.tag (name) VALUES ('jpa');
-INSERT INTO km_coding.tag (name) VALUES ('algorithm');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('java');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('spring');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('mysql');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('oracle');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('react');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('javascript');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('docker');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('devops');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('jpa');
+INSERT INTO km_coding.tag (TAG_ID) VALUES ('algorithm');
 ------------------------------------------------------
 -- 3. INFO_POST (10개)
 ------------------------------------------------------
 
+
+--1) 최상위 카테고리
+
+INSERT INTO km_coding.category VALUES ('backend', NULL, '백엔드');
+INSERT INTO km_coding.category VALUES ('frontend', NULL, '프론트엔드');
+INSERT INTO km_coding.category VALUES ('database', NULL, '데이터베이스');
+INSERT INTO km_coding.category VALUES ('devops', NULL, '데브옵스');
+INSERT INTO km_coding.category VALUES ('ai', NULL, '인공지능 / 머신러닝');
+INSERT INTO km_coding.category VALUES ('design', NULL, 'UI/UX 디자인');
+
+commit;
+--2) 서브 카테고리
+--백엔드
+INSERT INTO km_coding.category VALUES ('backend_java', 'backend', '자바(Spring)');
+INSERT INTO km_coding.category VALUES ('backend_springboot', 'backend', '스프링 부트');
+INSERT INTO km_coding.category VALUES ('backend_jpa', 'backend', 'JPA');
+INSERT INTO km_coding.category VALUES ('backend_model2', 'backend', 'Model2');
+INSERT INTO km_coding.category VALUES ('backend_jsp', 'backend', 'jsp');
+INSERT INTO km_coding.category VALUES ('backend_api', 'backend', 'API / 서버 개발');
+INSERT INTO km_coding.category VALUES ('backend_arch', 'backend', '아키텍처 / 패턴');
+
+--프론트엔드
+
+INSERT INTO km_coding.category VALUES ('frontend_js', 'frontend', '자바스크립트');
+INSERT INTO km_coding.category VALUES ('frontend_react', 'frontend', 'React');
+INSERT INTO km_coding.category VALUES ('frontend_perf', 'frontend', '웹 성능 / 최적화');
+INSERT INTO km_coding.category VALUES ('frontend_ui', 'frontend', 'UI 컴포넌트 / DOM');
+
+--데이터베이스
+
+INSERT INTO km_coding.category VALUES ('database_oracle', 'database', 'Oracle');
+INSERT INTO km_coding.category VALUES ('database_mysql', 'database', 'MySQL');
+INSERT INTO km_coding.category VALUES ('database_tuning', 'database', 'SQL 튜닝');
+INSERT INTO km_coding.category VALUES ('database_schema', 'database', '스키마 모델링');
+
+--데브옵스
+
+INSERT INTO km_coding.category VALUES ('devops_docker', 'devops', 'Docker');
+INSERT INTO km_coding.category VALUES ('devops_cicd', 'devops', 'CI/CD');
+INSERT INTO km_coding.category VALUES ('devops_deploy', 'devops', '배포 자동화');
+INSERT INTO km_coding.category VALUES ('devops_server', 'devops', '서버 / 네트워크');
+
+--AI
+
+INSERT INTO km_coding.category VALUES ('ai_ml', 'ai', '머신러닝');
+INSERT INTO km_coding.category VALUES ('ai_dl', 'ai', '딥러닝');
+INSERT INTO km_coding.category VALUES ('ai_serving', 'ai', '모델 서빙');
+INSERT INTO km_coding.category VALUES ('ai_preprocess', 'ai', '데이터 전처리');
+
+--디자인
+
+INSERT INTO km_coding.category VALUES ('design_ux', 'design', 'UX 설계');
+INSERT INTO km_coding.category VALUES ('design_ui', 'design', 'UI 그래픽');
+INSERT INTO km_coding.category VALUES ('design_figma', 'design', '프로토타이핑(Figma)');
+INSERT INTO km_coding.category VALUES ('design_flow', 'design', '사용자 여정/플로우');
+
+
+
+
+
+
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (1,
      'Java Stream API 핵심 개념 정리',
@@ -64,11 +125,11 @@ VALUES
      </code></pre>
 
      <p>Stream은 <strong>지연 평가(lazy evaluation)</strong>이므로 성능적으로도 효율적입니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','backend_java', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (2,
      '신입이 경험한 첫 배포 후기',
@@ -88,11 +149,11 @@ VALUES
      </code></pre>
 
      <p>신입 개발자로서 좋은 경험이었습니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','devops_deploy', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (3,
      'React 상태관리 패턴 비교',
@@ -114,11 +175,11 @@ VALUES
      </code></pre>
 
      <p>프로젝트 규모에 따라 적절한 패턴을 선택해야 합니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','frontend_react', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (4,
      '학교 프로젝트에서 JPA 적용 후기',
@@ -137,11 +198,11 @@ VALUES
      </ul>
 
      <p>이 경험이 큰 공부가 되었습니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','backend_jpa', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (5,
      'UI/UX에서 FE로 넘어오며 느낀 점',
@@ -159,11 +220,11 @@ VALUES
      </ul>
 
      <p>앞으로도 디자인 감각을 살려 더 나은 UI를 만들고 싶어요.</p>
-     ', SYSDATE, SYSDATE);
+     ','frontend_ui', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (6,
      'Docker로 개발환경 통합한 이야기',
@@ -191,11 +252,11 @@ VALUES
      </code></pre>
 
      <p>환경 통일은 생산성을 크게 올려줬습니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','devops_docker', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (7,
      '인덱스 튜닝 기초 가이드',
@@ -215,11 +276,11 @@ VALUES
      EXPLAIN PLAN FOR
      SELECT * FROM user WHERE name LIKE "%kim";
 </code></pre>
-', SYSDATE, SYSDATE);
+','database_tuning', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (9,
      'AI 모델 Serving 전략',
@@ -240,11 +301,11 @@ VALUES
      session = ort.InferenceSession("model.onnx")
      result = session.run(None, {"input": input_data})
      </code></pre>
-     ', SYSDATE, SYSDATE);
+     ','ai_serving', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (10,
      '코드 리뷰 팁 7가지',
@@ -263,11 +324,11 @@ VALUES
      <h2>5. 불필요한 의존성 제거</h2>
 
      <p>현업에서 5년 동안 느낀 리뷰 노하우입니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','backend_arch', SYSDATE, SYSDATE);
 
 
 INSERT INTO km_coding.info_post
-(member_id, title, content, created_at, updated_at)
+(member_id, title, content, category_id, created_at, updated_at)
 VALUES
     (1,
      'Spring Boot 에러 해결 10선',
@@ -284,7 +345,7 @@ VALUES
 
      <h2>실전 해결 팁</h2>
      <p>에러 메시지를 <strong>차근차근 읽는 습관</strong>이 가장 중요합니다.</p>
-     ', SYSDATE, SYSDATE);
+     ','backend_springboot', SYSDATE, SYSDATE);
 ------------------------------------------------------
 -- 4. INFO_COMMENT (20개)
 ------------------------------------------------------
@@ -353,27 +414,27 @@ INSERT INTO km_coding.info_like (post_id, member_id) VALUES (10,3);
 ------------------------------------------------------
 -- 6. INFO_POST_TAG
 ------------------------------------------------------
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES    (1,1);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (1,10);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (2,2);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (2,8);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (3,5);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (3,6);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (4,9);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (4,1);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (5,5);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (5,6);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (6,7);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (6,8);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (7,3);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (7,1);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (8,10);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (9,1);
-INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (10,2);
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES    (1,'java');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (1,'algorithm');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (2,'spring');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (2,'devops');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (3,'react');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (3,'javascript');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (4,'jpa');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (4,'java');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (5,'react');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (5,'javascript');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (6,'docker');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (6,'devops');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (7,'mysql');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (7,'java');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (8,'algorithm');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (9,'java');
+INSERT INTO km_coding.info_post_tag (post_id, tag_id) VALUES (10,'spring');
 -- – 7. QNA_POST
--- – 컬럼 구조: (POST_ID identity), MEMBER_ID, TITLE, CONTENT, CREATED_AT, UPDATED_AT
+-- – 컬럼 구조: (POST_ID identity), MEMBER_ID, TITLE, content, category_id, created_at, UPDATED_AT
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            2,
            'Spring Boot 3 CORS 오류 해결',
@@ -395,11 +456,11 @@ VALUES (
 
            <h2>질문</h2>
            <p>Spring Boot 3 기준으로 <strong>CORS 설정 추천 방식</strong>이 무엇인가요?</p>
-           ', SYSDATE, SYSDATE);
+           ','backend_springboot', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            4,
            'JPA 양방향 매핑 문제',
@@ -427,11 +488,11 @@ VALUES (
            </ul>
 
            <p>어디서 잘못된 건지 조언 부탁드립니다!</p>
-           ', SYSDATE, SYSDATE);
+           ','backend_jpa', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            3,
            'React useEffect 무한렌더링',
@@ -455,11 +516,11 @@ VALUES (
 
            <h2>질문</h2>
            <p>이럴 때의 <strong>정석적인 해결 방법</strong>이 궁금합니다.</p>
-           ', SYSDATE, SYSDATE);
+           ','frontend_react', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            1,
            'Oracle DATE vs TIMESTAMP',
@@ -477,11 +538,11 @@ VALUES (
            <h2>고민되는 점</h2>
            <p>DATE는 시분초 저장되지만 밀리초는 안 되고,<br>
            TIMESTAMP는 정밀도가 높아서 더 좋은 것 같은데 성능 차이가 있을까요?</p>
-           ', SYSDATE, SYSDATE);
+           ','database_oracle', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            7,
            'MySQL 인덱스 안타는 문제',
@@ -502,11 +563,11 @@ VALUES (
 
            <h2>질문</h2>
            <p>왜 인덱스가 안 타는지 원인을 알고 싶습니다.</p>
-           ', SYSDATE, SYSDATE);
+           ','database_mysql', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            6,
            'docker-compose 네트워크 충돌',
@@ -527,11 +588,11 @@ VALUES (
 
            <h2>질문</h2>
            <p>두 서비스가 같은 포트를 쓰지 않도록 구성하는 방법이 있을까요?</p>
-           ', SYSDATE, SYSDATE);
+           ','devops_docker', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            10,
            'JWT 재발급 문제',
@@ -549,11 +610,11 @@ VALUES (
 
            <h2>질문</h2>
            <p>Spring Security 6 기준으로 <strong>JWT 재발급 플로우</strong>를 다시 설계해야 하나요?</p>
-           ', SYSDATE, SYSDATE);
+           ','backend_springboot', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            9,
            'AI 모델 서빙 속도',
@@ -575,11 +636,11 @@ VALUES (
 
            <h2>질문</h2>
            <p>가장 효과가 좋았던 최적화 방법이 있을까요?</p>
-           ', SYSDATE, SYSDATE);
+           ','ai_serving', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            8,
            '게임 루프 GC 튐',
@@ -597,11 +658,11 @@ VALUES (
              <li>GC 튐 현상 기본 원인은 무엇인가?</li>
              <li>객체 풀링이 정말 효과적인가?</li>
            </ul>
-           ', SYSDATE, SYSDATE);
+           ','backend_java', SYSDATE, SYSDATE);
 
 
 
-INSERT INTO km_coding.qna_post (member_id,title,content,created_at,updated_at)
+INSERT INTO km_coding.qna_post (member_id,title,content, category_id, created_at,updated_at)
 VALUES (
            2,
            'Spring Validation 메시지 출력 문제',
@@ -624,7 +685,7 @@ VALUES (
            <h2>질문</h2>
            <p>혹시 Validation 처리 순서가 바뀐 걸까요?<br>
            BindingResult가 null이 되는 경우 원인이 뭔가요?</p>
-           ', SYSDATE, SYSDATE);
+           ','backend_springboot', SYSDATE, SYSDATE);
 
 
 -- – 8. QNA_COMMENT
@@ -755,28 +816,26 @@ VALUES (10,19,SYSDATE);
 
 -- – 11. QNA_POST_TAG
 -- – 컬럼 구조: (MAP_ID identity), POST_ID, TAG_ID
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (1,2);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (1,'spring');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (2,9);
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (2,1);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (2,'jpa');
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (2,'java');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (3,5);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (3,'react');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (4,4);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (4,'oracle');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (5,3);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (5,'mysql');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (6,7);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (6,'docker');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (7,2);
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (7,6);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (7,'spring');
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (7,'javascript');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (8,10);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (8,'algorithm');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (9,1);
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (9,'java');
 
-INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (10,2);
-
-
+INSERT INTO km_coding.qna_post_tag (post_id,tag_id) VALUES (10,'spring');
 
 commit;

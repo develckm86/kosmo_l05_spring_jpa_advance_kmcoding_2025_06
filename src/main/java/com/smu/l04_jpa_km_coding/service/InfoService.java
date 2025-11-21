@@ -16,7 +16,12 @@ import java.util.Set;
 public interface InfoService {
 
     /**
-     * 정보글 목록/검색 조회 (Pageable 기반, 기본 page size=20)
+     * 정보글 목록 조회 (Pageable 기반, 기본 page size=20)
+     */
+    Page<InfoPost> getInfoPosts(Pageable pageable);
+
+    /**
+     * 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
      */
     Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field, String tag);
 
@@ -25,40 +30,6 @@ public interface InfoService {
      */
     InfoPost getInfoPostDetail(Long postId);
 
-    /**
-     * 정보글 좋아요 등록
-     */
-    InfoLike likeInfoPost(Long memberId, Long postId);
-
-    /**
-     * 정보글 좋아요 취소
-     */
-    void cancelInfoPostLike(Long likeId);
-
-    /**
-     * 정보 댓글 리스트 조회 (Pageable 기반, 기본 page size=20)
-     */
-    Page<InfoComment> getInfoComments(Long postId, Pageable pageable);
-
-    /**
-     * 정보 댓글 작성(대댓글 parentId 허용) - 엔티티 기반 입력
-     */
-    InfoComment writeInfoComment(InfoComment infoComment);
-
-    /**
-     * 정보 댓글 삭제
-     */
-    void removeInfoComment(Long commentId);
-
-    /**
-     * 정보 댓글 좋아요 등록
-     */
-    InfoCommentLike likeInfoComment(Long memberId, Long commentId);
-
-    /**
-     * 정보 댓글 좋아요 취소
-     */
-    void cancelInfoCommentLike(Long likeId);
 
     /**
      * 정보글 작성 (태그 N:N 매핑 포함) - 엔티티 기반 입력
@@ -85,13 +56,4 @@ public interface InfoService {
      */
     Page<InfoPost> getMyLikedInfoPosts(Long memberId, Pageable pageable);
 
-    /**
-     * 내 활동 - 내가 작성한 댓글 페이지 조회 (Pageable, 기본 page size=20)
-     */
-    Page<InfoComment> getMyWrittenInfoComments(Long memberId, Pageable pageable);
-
-    /**
-     * 내 활동 - 내가 좋아요한 댓글 페이지 조회 (Pageable, 기본 page size=20)
-     */
-    Page<InfoComment> getMyLikedInfoComments(Long memberId, Pageable pageable);
 }

@@ -45,9 +45,9 @@ public class QnaPost {
     private Set<QnaComment> qnaComments = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "post")
-    private Set<com.smu.l04_jpa_km_coding.entity.QnaPostTag> qnaPostTags = new LinkedHashSet<>();
+    private Set<QnaPostTag> qnaPostTags = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "post")
-    private Set<com.smu.l04_jpa_km_coding.entity.QnaReaction> qnaReactions = new LinkedHashSet<>();
+    private Set<QnaReaction> qnaReactions = new LinkedHashSet<>();
 
 }
