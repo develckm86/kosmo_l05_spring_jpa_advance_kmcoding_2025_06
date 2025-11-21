@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>정보 상세</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='정보 상세'">
+<head></head>
 <body>
-<h1>정보 상세</h1>
-<p>POST ID: <span th:text="${postId}">1</span></p>
-<form th:action="@{'/info/' + ${postId} + '/like'}" method="post">
-    <button type="submit">좋아요</button>
-</form>
-<form th:action="@{'/info/' + ${postId} + '/detail.do'}" method="get">
-    <button type="submit">댓글 새로고침</button>
-</form>
-<section>
-    <h2>댓글</h2>
-    <ul>
-        <li>예시 댓글 1</li>
-        <li>예시 댓글 2</li>
-    </ul>
-    <form th:action="@{'/info/comment/write.do'}" method="post">
-        <input type="hidden" name="postId" th:value="${postId}">
-        <textarea name="content" placeholder="댓글 입력"></textarea>
-        <button type="submit">댓글 등록</button>
+<div layout:fragment="content">
+    <h1>정보 상세</h1>
+    <p>POST ID: <span th:text="${postId}">1</span></p>
+    <form th:action="@{'/info/' + ${postId} + '/like'}" method="post">
+        <button type="submit">좋아요</button>
     </form>
-</section>
-<a th:href="@{'/info/edit.do'(id=${postId})}">수정</a>
-<a th:href="@{'/info/' + ${postId} + '/remove.do'}">삭제</a>
-<br>
-<a href="/info/list.do">← 목록</a>
+    <form th:action="@{'/info/' + ${postId} + '/detail.do'}" method="get">
+        <button type="submit">댓글 새로고침</button>
+    </form>
+    <section>
+        <h2>댓글</h2>
+        <ul>
+            <li>예시 댓글 1</li>
+            <li>예시 댓글 2</li>
+        </ul>
+        <form th:action="@{'/info/comment/write.do'}" method="post">
+            <input type="hidden" name="postId" th:value="${postId}">
+            <textarea name="content" placeholder="댓글 입력"></textarea>
+            <button type="submit">댓글 등록</button>
+        </form>
+    </section>
+    <a th:href="@{'/info/edit.do'(id=${postId})}">수정</a>
+    <a th:href="@{'/info/' + ${postId} + '/remove.do'}">삭제</a>
+    <br>
+    <a href="/info/list.do">← 목록</a>
+</div>
 </body>
 </html>

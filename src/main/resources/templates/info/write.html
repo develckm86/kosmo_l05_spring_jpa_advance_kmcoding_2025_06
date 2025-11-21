@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>정보 작성</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='정보 작성'">
+<head></head>
 <body>
-<h1>정보 작성</h1>
-<form action="/info/write.do" method="post">
-    <input type="text" name="title" placeholder="제목">
-    <br>
-    <textarea name="content" placeholder="내용"></textarea>
-    <br>
-    <input type="text" name="tags" placeholder="태그 콤마로 입력">
-    <br>
-    <button type="submit">작성</button>
-</form>
-<a href="/info/list.do">← 목록</a>
+<div layout:fragment="content">
+    <h1>정보 작성</h1>
+    <form action="/info/write.do" method="post">
+        <input type="text" name="title" placeholder="제목">
+        <br>
+        <textarea name="content" placeholder="내용"></textarea>
+        <br>
+        <input type="text" name="tags" placeholder="태그 콤마로 입력">
+        <br>
+        <button type="submit">작성</button>
+    </form>
+    <a href="/info/list.do">← 목록</a>
+</div>
 </body>
 </html>

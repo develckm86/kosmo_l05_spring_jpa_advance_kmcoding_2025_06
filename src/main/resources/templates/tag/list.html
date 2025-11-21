@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>태그 검색</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='태그 검색'">
+<head></head>
 <body>
-<h1>태그 검색</h1>
-<form action="/tag/list.do" method="get">
-    <input type="text" name="keyword" placeholder="태그 검색" th:value="${keyword}">
-    <button type="submit">검색</button>
-</form>
-<ul>
-    <li th:text="'검색 키워드: ' + ${keyword}">검색 키워드</li>
-    <li>예시 태그 1</li>
-    <li>예시 태그 2</li>
-    <li>예시 태그 3</li>
+<div layout:fragment="content">
+    <h1>태그 검색</h1>
+    <form action="/tag/list.do" method="get">
+        <input type="text" name="keyword" placeholder="태그 검색" th:value="${keyword}">
+        <button type="submit">검색</button>
+    </form>
+    <ul>
+        <li th:text="'검색 키워드: ' + ${keyword}">검색 키워드</li>
+        <li>예시 태그 1</li>
+        <li>예시 태그 2</li>
+        <li>예시 태그 3</li>
     </ul>
-<a href="/index.html">← 홈</a>
+    <a href="/index.html">← 홈</a>
+</div>
 </body>
 </html>

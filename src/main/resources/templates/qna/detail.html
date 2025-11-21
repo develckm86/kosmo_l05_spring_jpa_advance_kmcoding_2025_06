@@ -1,37 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>질문 상세</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='질문 상세'">
+<head></head>
 <body>
-<h1>질문 상세</h1>
-<p>POST ID: <span th:text="${postId}">1</span></p>
-<section>
-    <h2>리액션</h2>
-    <form th:action="@{'/qna/' + ${postId} + '/recation'}" method="post">
-        <select name="react">
-            <option value="helpful">도움됨</option>
-            <option value="fun">흥미</option>
-        </select>
-        <button type="submit">리액션 등록</button>
-    </form>
-</section>
-<section>
-    <h2>댓글</h2>
-    <ul>
-        <li>예시 댓글 1</li>
-        <li>예시 댓글 2</li>
-    </ul>
-    <form th:action="@{'/qna/comment/write.do'}" method="post">
-        <input type="hidden" name="postId" th:value="${postId}">
-        <textarea name="content" placeholder="댓글 입력"></textarea>
-        <button type="submit">댓글 등록</button>
-    </form>
-</section>
-<a th:href="@{'/qna/edit.do'(id=${postId})}">수정</a>
-<a th:href="@{'/qna/' + ${postId} + '/remove.do'}">삭제</a>
-<br>
-<a href="/qna/list.do">← 목록</a>
+<div layout:fragment="content">
+    <h1>질문 상세</h1>
+    <p>POST ID: <span th:text="${postId}">1</span></p>
+    <section>
+        <h2>리액션</h2>
+        <form th:action="@{'/qna/' + ${postId} + '/recation'}" method="post">
+            <select name="react">
+                <option value="helpful">도움됨</option>
+                <option value="fun">흥미</option>
+            </select>
+            <button type="submit">리액션 등록</button>
+        </form>
+    </section>
+    <section>
+        <h2>댓글</h2>
+        <ul>
+            <li>예시 댓글 1</li>
+            <li>예시 댓글 2</li>
+        </ul>
+        <form th:action="@{'/qna/comment/write.do'}" method="post">
+            <input type="hidden" name="postId" th:value="${postId}">
+            <textarea name="content" placeholder="댓글 입력"></textarea>
+            <button type="submit">댓글 등록</button>
+        </form>
+    </section>
+    <a th:href="@{'/qna/edit.do'(id=${postId})}">수정</a>
+    <a th:href="@{'/qna/' + ${postId} + '/remove.do'}">삭제</a>
+    <br>
+    <a href="/qna/list.do">← 목록</a>
+</div>
 </body>
 </html>

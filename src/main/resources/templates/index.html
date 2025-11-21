@@ -1,23 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>KM CODING - 홈</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='KM CODING - 홈'">
+<head></head>
 <body>
-<h1>KM CODING</h1>
-<p>로그인 / 회원가입 / 인기 정보글 / 최신 질문 영역 목업</p>
-<nav>
-    <ul>
-        <li><a href="/user/login.do">로그인</a></li>
-        <li><a href="/user/signup.do">회원가입</a></li>
-        <li><a href="/info/list.do">정보공유 게시판</a></li>
-        <li><a href="/qna/list.do">질문 게시판</a></li>
-        <li><a href="/tag/list.do">태그 검색</a></li>
-        <li><a href="/user/my.do">마이페이지</a></li>
-    </ul>
-    <hr>
+<div layout:fragment="content">
+    <h1>KM CODING</h1>
+    <p>로그인 / 회원가입 / 인기 정보글 / 최신 질문 영역 목업</p>
     <p>README 정의된 URL 구조에 맞춰 각 메뉴로 이동합니다.</p>
-</nav>
+</div>
 </body>
 </html>

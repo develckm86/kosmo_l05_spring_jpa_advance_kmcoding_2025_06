@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='질문 수정'">
 <head>
-    <meta charset="UTF-8">
-    <title>질문 수정</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 </head>
 <body>
-<h1>질문 수정</h1>
-<p>POST ID: <span th:text="${postId}">1</span></p>
-<form th:action="@{'/qna/edit.do'(id=${postId})}" method="post">
-    <input type="text" name="title" placeholder="제목">
-    <br>
-    <textarea name="content" placeholder="내용"></textarea>
-    <br>
-    <input type="text" name="tags" placeholder="태그 콤마로 입력">
-    <br>
-    <button type="submit">수정</button>
-    <a th:href="@{'/qna/' + ${postId} + '/detail.do'}">취소</a>
-</form>
+<div layout:fragment="content">
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="h3 mb-0 me-3">질문 수정</h1>
+        <span class="text-secondary">POST ID: <span th:text="${postId}">1</span></span>
+    </div>
+
+    <form name="qnaEdit" th:action="@{'/qna/edit.do'(id=${postId})}" method="post" class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input id="title" type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
+            </div>
+            <div class="mb-3">
+                <p for="content" class="form-label" >내용 (HTML 허용)</p>
+                <div id="editor"></div>
+                <textarea id="content" name="content" class="form-control" rows="8" style="display: none"></textarea>
+                <div class="form-text">간단한 마크업을 그대로 저장할 수 있도록 textarea에 HTML 입력을 허용합니다.</div>
+            </div>
+            <div class="mb-3">
+                <label for="tags" class="form-label">태그</label>
+                <input id="tags" type="text" name="tags" class="form-control" placeholder="태그를 콤마로 구분해 입력">
+            </div>
+        </div>
+        <div class="card-footer bg-transparent d-flex gap-2 justify-content-end">
+            <a class="btn btn-outline-secondary" th:href="@{'/qna/' + ${postId} + '/detail.do'}">취소</a>
+            <button type="submit" class="btn btn-primary">수정</button>
+        </div>
+    </form>
+    <script>
+        const qnaEdit=document.forms["qnaEdit"];
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical'
+        });
+        qnaEdit.addEventListener('submit', function(e) {
+            e.preventDefault();
+            qnaEdit.content.value=editor.getHTML()
+            console.log(editor.getHTML())
+        })
+
+    </script>
+</div>
 </body>
 </html>
