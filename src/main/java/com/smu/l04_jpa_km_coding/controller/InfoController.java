@@ -13,14 +13,14 @@ public class InfoController {
     // 정보글 리스트/검색
     @GetMapping("/list.do")
     public String list(@PageableDefault(size = 20) Pageable pageable,
-                       @RequestParam(required = false) String sort,
+//                       @RequestParam(required = false) String sort,
                        @RequestParam(required = false) String search,
                        @RequestParam(required = false) String field,
                        @RequestParam(required = false) String tag,
                        Model model) {
         // TODO 서비스 연동 예정
         model.addAttribute("pageable", pageable);
-        model.addAttribute("sort", sort);
+//        model.addAttribute("sort", sort);
         model.addAttribute("search", search);
         model.addAttribute("field", field);
         model.addAttribute("tag", tag);

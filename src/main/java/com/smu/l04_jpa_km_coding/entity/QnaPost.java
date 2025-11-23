@@ -50,4 +50,9 @@ public class QnaPost {
     @OneToMany(mappedBy = "post")
     private Set<QnaReaction> qnaReactions = new LinkedHashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
 }

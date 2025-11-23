@@ -41,58 +41,58 @@ INSERT INTO km_coding.tag (TAG_ID) VALUES ('algorithm');
 
 --1) 최상위 카테고리
 
-INSERT INTO km_coding.category VALUES ('backend', NULL, '백엔드');
-INSERT INTO km_coding.category VALUES ('frontend', NULL, '프론트엔드');
-INSERT INTO km_coding.category VALUES ('database', NULL, '데이터베이스');
-INSERT INTO km_coding.category VALUES ('devops', NULL, '데브옵스');
-INSERT INTO km_coding.category VALUES ('ai', NULL, '인공지능 / 머신러닝');
-INSERT INTO km_coding.category VALUES ('design', NULL, 'UI/UX 디자인');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend', NULL, '백엔드');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('frontend', NULL, '프론트엔드');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('database', NULL, '데이터베이스');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('devops', NULL, '데브옵스');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('ai', NULL, '인공지능 / 머신러닝');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('design', NULL, 'UI/UX 디자인');
 
 commit;
 --2) 서브 카테고리
 --백엔드
-INSERT INTO km_coding.category VALUES ('backend_java', 'backend', '자바(Spring)');
-INSERT INTO km_coding.category VALUES ('backend_springboot', 'backend', '스프링 부트');
-INSERT INTO km_coding.category VALUES ('backend_jpa', 'backend', 'JPA');
-INSERT INTO km_coding.category VALUES ('backend_model2', 'backend', 'Model2');
-INSERT INTO km_coding.category VALUES ('backend_jsp', 'backend', 'jsp');
-INSERT INTO km_coding.category VALUES ('backend_api', 'backend', 'API / 서버 개발');
-INSERT INTO km_coding.category VALUES ('backend_arch', 'backend', '아키텍처 / 패턴');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_java', 'backend', '자바(Spring)');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_springboot', 'backend', '스프링 부트');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_jpa', 'backend', 'JPA');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_model2', 'backend', 'Model2');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_jsp', 'backend', 'jsp');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_api', 'backend', 'API / 서버 개발');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('backend_arch', 'backend', '아키텍처 / 패턴');
 
 --프론트엔드
 
-INSERT INTO km_coding.category VALUES ('frontend_js', 'frontend', '자바스크립트');
-INSERT INTO km_coding.category VALUES ('frontend_react', 'frontend', 'React');
-INSERT INTO km_coding.category VALUES ('frontend_perf', 'frontend', '웹 성능 / 최적화');
-INSERT INTO km_coding.category VALUES ('frontend_ui', 'frontend', 'UI 컴포넌트 / DOM');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('frontend_js', 'frontend', '자바스크립트');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('frontend_react', 'frontend', 'React');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('frontend_perf', 'frontend', '웹 성능 / 최적화');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('frontend_ui', 'frontend', 'UI 컴포넌트 / DOM');
 
 --데이터베이스
 
-INSERT INTO km_coding.category VALUES ('database_oracle', 'database', 'Oracle');
-INSERT INTO km_coding.category VALUES ('database_mysql', 'database', 'MySQL');
-INSERT INTO km_coding.category VALUES ('database_tuning', 'database', 'SQL 튜닝');
-INSERT INTO km_coding.category VALUES ('database_schema', 'database', '스키마 모델링');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('database_oracle', 'database', 'Oracle');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('database_mysql', 'database', 'MySQL');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('database_tuning', 'database', 'SQL 튜닝');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('database_schema', 'database', '스키마 모델링');
 
 --데브옵스
 
-INSERT INTO km_coding.category VALUES ('devops_docker', 'devops', 'Docker');
-INSERT INTO km_coding.category VALUES ('devops_cicd', 'devops', 'CI/CD');
-INSERT INTO km_coding.category VALUES ('devops_deploy', 'devops', '배포 자동화');
-INSERT INTO km_coding.category VALUES ('devops_server', 'devops', '서버 / 네트워크');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('devops_docker', 'devops', 'Docker');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('devops_cicd', 'devops', 'CI/CD');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('devops_deploy', 'devops', '배포 자동화');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('devops_server', 'devops', '서버 / 네트워크');
 
 --AI
 
-INSERT INTO km_coding.category VALUES ('ai_ml', 'ai', '머신러닝');
-INSERT INTO km_coding.category VALUES ('ai_dl', 'ai', '딥러닝');
-INSERT INTO km_coding.category VALUES ('ai_serving', 'ai', '모델 서빙');
-INSERT INTO km_coding.category VALUES ('ai_preprocess', 'ai', '데이터 전처리');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('ai_ml', 'ai', '머신러닝');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('ai_dl', 'ai', '딥러닝');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('ai_serving', 'ai', '모델 서빙');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('ai_preprocess', 'ai', '데이터 전처리');
 
 --디자인
 
-INSERT INTO km_coding.category VALUES ('design_ux', 'design', 'UX 설계');
-INSERT INTO km_coding.category VALUES ('design_ui', 'design', 'UI 그래픽');
-INSERT INTO km_coding.category VALUES ('design_figma', 'design', '프로토타이핑(Figma)');
-INSERT INTO km_coding.category VALUES ('design_flow', 'design', '사용자 여정/플로우');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('design_ux', 'design', 'UX 설계');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('design_ui', 'design', 'UI 그래픽');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('design_figma', 'design', '프로토타이핑(Figma)');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('design_flow', 'design', '사용자 여정/플로우');
 
 
 

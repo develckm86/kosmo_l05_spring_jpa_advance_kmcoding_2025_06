@@ -23,8 +23,8 @@ CREATE TABLE km_coding.TAG (
 
 CREATE TABLE km_coding.CATEGORY (
                                     CATEGORY_ID     VARCHAR2(50) PRIMARY KEY,   -- 직접 만드는 코드 (예: DEV_BACK_JAVA)
-                                    PARENT_ID       VARCHAR2(50),               -- 부모 카테고리 (NULL이면 대분류)
                                     NAME            VARCHAR2(100) NOT NULL,     -- 한글 이름
+                                    PARENT_ID       VARCHAR2(50),               -- 부모 카테고리 (NULL이면 대분류)
 
                                     CONSTRAINT FK_CATEGORY_PARENT
                                         FOREIGN KEY (PARENT_ID)
@@ -52,12 +52,12 @@ CREATE TABLE km_coding.MEMBER (
 
 CREATE TABLE km_coding.INFO_POST (
                                      POST_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                                     MEMBER_ID     NUMBER NOT NULL,
                                      TITLE         VARCHAR2(200) NOT NULL,
                                      CONTENT       CLOB NOT NULL,
                                      CREATED_AT    TIMESTAMP NOT NULL,
                                      UPDATED_AT    TIMESTAMP,
-                                     CATEGORY_ID     VARCHAR2(50),
+                                     MEMBER_ID     NUMBER NOT NULL,
+                                     CATEGORY_ID     VARCHAR2(50) NOT NULL,
                                      CONSTRAINT FK_INFO_POST_CATEGORY
                                         Foreign Key (CATEGORY_ID) References km_coding.CATEGORY(CATEGORY_ID),
                                      CONSTRAINT FK_INFO_POST_MEMBER
@@ -79,10 +79,10 @@ CREATE TABLE km_coding.INFO_LIKE (
 CREATE TABLE km_coding.INFO_COMMENT (
                                         COMMENT_ID    NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                                         POST_ID       NUMBER NOT NULL,
-                                        MEMBER_ID     NUMBER NOT NULL,
                                         CONTENT       VARCHAR2(2000) NOT NULL,
-                                        PARENT_ID     NUMBER NULL,
                                         CREATED_AT    TIMESTAMP NOT NULL,
+                                        MEMBER_ID     NUMBER NOT NULL,
+                                        PARENT_ID     NUMBER NULL,
                                         CONSTRAINT FK_INFO_COMMENT_POST
                                             FOREIGN KEY (POST_ID) REFERENCES km_coding.INFO_POST(POST_ID),
                                         CONSTRAINT FK_INFO_COMMENT_MEMBER
@@ -123,12 +123,12 @@ CREATE TABLE km_coding.INFO_POST_TAG (
 
 CREATE TABLE km_coding.QNA_POST (
                                     POST_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                                    MEMBER_ID     NUMBER NOT NULL,
                                     TITLE         VARCHAR2(200) NOT NULL,
                                     CONTENT       CLOB NOT NULL,
                                     CREATED_AT    TIMESTAMP NOT NULL,
                                     UPDATED_AT    TIMESTAMP,
-                                    CATEGORY_ID   VARCHAR2(50),
+                                    MEMBER_ID     NUMBER NOT NULL,
+                                    CATEGORY_ID   VARCHAR2(50) NOT NULL,
                                     CONSTRAINT FK_QNA_POST_CATEGORY
                                         Foreign Key (CATEGORY_ID) References km_coding.CATEGORY(CATEGORY_ID),
                                     CONSTRAINT FK_QNA_POST_MEMBER
@@ -137,9 +137,9 @@ CREATE TABLE km_coding.QNA_POST (
 -- 4-1-1. 질문 공감 EMPATHY','CONFUSING','INTERESTING','HELPFUL'
 CREATE TABLE km_coding.QNA_REACTION(
                                             REACTION_ID       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                                            POST_ID    NUMBER NOT NULL,
-                                            MEMBER_ID     NUMBER NOT NULL,
                                             REACTION_TYPE VARCHAR2(20) CHECK (REACTION_TYPE IN ('EMPATHY','CONFUSING','INTERESTING','HELPFUL')),
+                                            MEMBER_ID     NUMBER NOT NULL,
+                                            POST_ID    NUMBER NOT NULL,
                                             CONSTRAINT FK_QNA_REACTION_COMMENT
                                                 FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
                                             CONSTRAINT FK_QNA_REACTION_MEMBER
@@ -152,10 +152,10 @@ CREATE TABLE km_coding.QNA_REACTION(
 CREATE TABLE km_coding.QNA_COMMENT (
                                        COMMENT_ID     NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                                        POST_ID        NUMBER NOT NULL,
-                                       MEMBER_ID      NUMBER NOT NULL,
                                        CONTENT        VARCHAR2(2000) NOT NULL,
-                                       PARENT_ID      NUMBER NULL,
                                        CREATED_AT     TIMESTAMP NOT NULL,
+                                       MEMBER_ID      NUMBER NOT NULL,
+                                       PARENT_ID      NUMBER NULL,
                                        CONSTRAINT FK_QNA_COMMENT_POST
                                            FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID),
                                        CONSTRAINT FK_QNA_COMMENT_MEMBER

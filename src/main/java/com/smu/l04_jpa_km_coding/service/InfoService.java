@@ -16,14 +16,23 @@ import java.util.Set;
 public interface InfoService {
 
     /**
-     * 정보글 목록 조회 (Pageable 기반, 기본 page size=20)
+     * 전체 정보글 목록 조회 (Pageable 기반, 기본 page size=20)
      */
     Page<InfoPost> getInfoPosts(Pageable pageable);
+    /**
+     * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
+     */
+    Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field);
 
     /**
-     * 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
+     * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
      */
-    Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field, String tag);
+    Page<InfoPost> getInfoPosts(Pageable pageable, String categoryId);
+
+    /**
+     * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
+     */
+    Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field, String categoryId);
 
     /**
      * 정보글 상세 조회
