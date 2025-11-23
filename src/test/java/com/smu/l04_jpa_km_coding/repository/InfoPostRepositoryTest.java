@@ -1,7 +1,6 @@
 package com.smu.l04_jpa_km_coding.repository;
 
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
-import com.smu.l04_jpa_km_coding.entity.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,19 +10,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class InfoRepositoryTest {
+class InfoPostRepositoryTest {
     @Autowired
-    private InfoRepository infoRepository;
+    private InfoPostRepository infoPostRepository;
     @Transactional
     @Test
     void findAll() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoRepository.findAll(pageable);
+        Page infoPage = infoPostRepository.findAll(pageable);
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
@@ -39,14 +36,14 @@ class InfoRepositoryTest {
         //infoPost.setCreatedAt(LocalDateTime.now());
         //infoPost.setUpdatedAt(LocalDateTime.now());
         infoPost.setCategoryId("backend_springboot");
-        InfoPost save =infoRepository.save(infoPost);
+        InfoPost save = infoPostRepository.save(infoPost);
         System.out.println(save);
     }
 
     @Test
     void findByTitleContainingAndContentContaining() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoRepository.findByTitleContainingAndContentContaining("test", "", pageable);
+        Page infoPage = infoPostRepository.findByTitleContainingAndContentContaining("test", "", pageable);
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
@@ -55,7 +52,7 @@ class InfoRepositoryTest {
     @Transactional
     void search() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoRepository.search("","spring","2025-11", pageable);
+        Page infoPage = infoPostRepository.search("","spring","2025-11", pageable);
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
@@ -63,7 +60,7 @@ class InfoRepositoryTest {
     @Transactional
     void searchTag() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoRepository.search("","","","java", pageable);
+        Page infoPage = infoPostRepository.search("","","","java", pageable);
         List<InfoPost> content = infoPage.getContent();
         for(InfoPost infoPost : content){
             System.out.println(infoPost);

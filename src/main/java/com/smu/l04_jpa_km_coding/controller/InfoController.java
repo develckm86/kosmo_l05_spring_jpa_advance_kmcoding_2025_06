@@ -1,14 +1,21 @@
 package com.smu.l04_jpa_km_coding.controller;
 
+import com.smu.l04_jpa_km_coding.entity.Category;
+import com.smu.l04_jpa_km_coding.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/info")
+@RequiredArgsConstructor
 public class InfoController {
+    private final CategoryRepository categoryRepository;
 
     // 정보글 리스트/검색
     @GetMapping("/list.do")
@@ -18,12 +25,24 @@ public class InfoController {
                        @RequestParam(required = false) String field,
                        @RequestParam(required = false) String tag,
                        Model model) {
+        List<Category> categoriesLv1 = categoryRepository.findByParentIdIsNull();
+        List<Category> categoriesLv2 = categoriesLv1.stream()
+                .flatMap(c -> c.getCategories().stream())
+                .toList();
+        List<Category> categoriesLv3 = categoriesLv2.stream()
+                .flatMap(c -> c.getCategories().stream())
+                .toList();
+
         // TODO 서비스 연동 예정
         model.addAttribute("pageable", pageable);
 //        model.addAttribute("sort", sort);
         model.addAttribute("search", search);
         model.addAttribute("field", field);
         model.addAttribute("tag", tag);
+        model.addAttribute("categories", categoriesLv1);
+        model.addAttribute("categoriesLv1", categoriesLv1);
+        model.addAttribute("categoriesLv2", categoriesLv2);
+        model.addAttribute("categoriesLv3", categoriesLv3);
         return "info/list";
     }
 

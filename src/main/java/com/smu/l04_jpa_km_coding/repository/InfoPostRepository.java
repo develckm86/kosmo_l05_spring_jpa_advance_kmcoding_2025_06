@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-
 
 @Repository
-public interface InfoRepository extends JpaRepository<InfoPost, Long> {
+public interface InfoPostRepository extends JpaRepository<InfoPost, Long> {
     Page<InfoPost> findAll(Pageable pageable);
     //25/11/23 00:31:05.606589
     @Query("SELECT i FROM InfoPost i WHERE " +

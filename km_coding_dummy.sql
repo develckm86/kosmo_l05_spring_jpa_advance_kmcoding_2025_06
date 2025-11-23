@@ -96,7 +96,207 @@ INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES  ('design_flo
 
 
 
+---
 
+--## 1) 백엔드 소분류
+
+--### backend_java (자바 Spring)
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_java_basic', 'backend_java', '자바 문법 기초');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_java_oop', 'backend_java', '객체지향(OOP)');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_java_thread', 'backend_java', '스레드 / 동시성');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_java_memory', 'backend_java', 'JVM / 메모리 구조');
+
+
+--### backend_springboot
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_springboot_core', 'backend_springboot', '스프링 핵심 개념');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_springboot_mvc', 'backend_springboot', 'Spring MVC');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_springboot_security', 'backend_springboot', 'Spring Security');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_springboot_rest', 'backend_springboot', 'REST API');
+
+
+--### backend_jpa
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jpa_entity', 'backend_jpa', '엔티티 매핑');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jpa_query', 'backend_jpa', 'JPQL / QueryDSL');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jpa_performance', 'backend_jpa', '성능 최적화');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jpa_transaction', 'backend_jpa', '트랜잭션 관리');
+
+
+--### backend_model2
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_model2_servlet', 'backend_model2', 'Servlet');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_model2_jspmvc', 'backend_model2', 'JSP MVC 구조');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_model2_jstl', 'backend_model2', 'JSTL / EL');
+
+
+--### backend_jsp
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jsp_basic', 'backend_jsp', 'JSP 기본 문법');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jsp_form', 'backend_jsp', '폼 처리 / request');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_jsp_session', 'backend_jsp', '세션/쿠키');
+
+
+--### backend_api (API / 서버 개발)
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_api_rest', 'backend_api', 'REST 규칙');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_api_auth', 'backend_api', '인증/인가');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_api_error', 'backend_api', '에러 처리');
+
+
+--### backend_arch (아키텍처/패턴)
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_arch_layer', 'backend_arch', '레이어드 아키텍처');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_arch_clean', 'backend_arch', '클린 아키텍처');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('backend_arch_designpattern', 'backend_arch', '디자인 패턴');
+
+
+---
+
+--## 2) 프론트엔드 소분류
+
+--### frontend_js
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_js_basic', 'frontend_js', 'JS 기초');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_js_dom', 'frontend_js', 'DOM 조작');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_js_async', 'frontend_js', '비동기 / fetch');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_js_module', 'frontend_js', '모듈 시스템');
+
+
+--### frontend_react
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_react_hooks', 'frontend_react', 'React Hooks');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_react_router', 'frontend_react', 'React Router');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_react_state', 'frontend_react', '상태 관리');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_react_effect', 'frontend_react', '렌더링 / 사이드이펙트');
+
+
+--### frontend_perf (웹 성능 / 최적화)
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_perf_lcp', 'frontend_perf', 'LCP / 렌더링 최적화');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_perf_bundle', 'frontend_perf', '번들 최적화');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_perf_cache', 'frontend_perf', '캐싱 전략');
+
+
+--### frontend_ui
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_ui_css', 'frontend_ui', 'CSS / 스타일링');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_ui_component', 'frontend_ui', 'UI 컴포넌트');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('frontend_ui_event', 'frontend_ui', 'DOM 이벤트');
+
+
+---
+
+--## 3) 데이터베이스 소분류
+
+--### database_oracle
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_oracle_sql', 'database_oracle', 'Oracle SQL');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_oracle_plsql', 'database_oracle', 'PL/SQL');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_oracle_index', 'database_oracle', '인덱스 최적화');
+
+
+--### database_mysql
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_mysql_query', 'database_mysql', '쿼리 작성');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_mysql_index', 'database_mysql', '인덱스/튜닝');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_mysql_lock', 'database_mysql', 'Lock 이해');
+
+
+--### database_tuning
+
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_tuning_plan', 'database_tuning', '실행 계획 분석');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_tuning_index', 'database_tuning', '인덱스 전략');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_tuning_stats', 'database_tuning', '통계/히스토그램');
+
+
+--### database_schema
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_schema_normal', 'database_schema', '정규화');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_schema_relation', 'database_schema', '관계 설계');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('database_schema_keys', 'database_schema', '키/제약조건');
+
+--## 4) 데브옵스 소분류
+
+--### devops_docker
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_docker_basic', 'devops_docker', 'Docker 기본');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_docker_compose', 'devops_docker', 'Compose');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_docker_image', 'devops_docker', '이미지 빌드');
+
+--### devops_cicd
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_cicd_github', 'devops_cicd', 'GitHub Actions');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_cicd_pipeline', 'devops_cicd', 'Pipeline 구조');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_cicd_test', 'devops_cicd', '테스트 자동화');
+
+--### devops_deploy
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_deploy_blue', 'devops_deploy', 'Blue/Green 배포');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_deploy_canary', 'devops_deploy', '카나리 배포');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_deploy_ec2', 'devops_deploy', 'EC2 배포');
+
+--### devops_server
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_server_linux', 'devops_server', '리눅스 기초');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_server_network', 'devops_server', '네트워크 기초');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('devops_server_nginx', 'devops_server', 'Nginx 설정');
+
+--## 5) AI 소분류
+--### ai_ml
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_ml_regression', 'ai_ml', '회귀 분석');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_ml_classification', 'ai_ml', '분류 알고리즘');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_ml_feature', 'ai_ml', '특징 엔지니어링');
+--### ai_dl
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_dl_cnn', 'ai_dl', 'CNN / 이미지');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_dl_rnn', 'ai_dl', 'RNN / LSTM');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_dl_transformer', 'ai_dl', 'Transformer');
+--### ai_serving
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_serving_fastapi', 'ai_serving', 'FastAPI 서빙');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_serving_docker', 'ai_serving', 'Docker 서빙');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_serving_batch', 'ai_serving', 'Batch Serving');
+--### ai_preprocess
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_preprocess_cleaning', 'ai_preprocess', '데이터 정제');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_preprocess_scaling', 'ai_preprocess', '정규화/스케일링');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('ai_preprocess_split', 'ai_preprocess', '데이터 분리');
+
+
+--## 6) 디자인 소분류
+
+--### design_ux
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_ux_research', 'design_ux', 'UX 리서치');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_ux_flow', 'design_ux', '플로우 디자인');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_ux_wireframe', 'design_ux', '와이어프레임');
+--### design_ui
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_ui_color', 'design_ui', '컬러 시스템');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_ui_typo', 'design_ui', '타이포그래피');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_ui_component', 'design_ui', 'UI 컴포넌트');
+
+--### design_figma
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_figma_auto', 'design_figma', '오토 레이아웃');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_figma_component', 'design_figma', '컴포넌트');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_figma_prototype', 'design_figma', '프로토타이핑');
+
+--### design_flow
+
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_flow_user', 'design_flow', '사용자 흐름 분석');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_flow_map', 'design_flow', '서비스 맵');
+INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_flow_story', 'design_flow', '유저 스토리');
 
 
 INSERT INTO km_coding.info_post
