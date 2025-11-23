@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}"
+      th:with="pageTitle='정보 리스트'">
+<head></head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="h3 mb-0 fw-semibold">정보 리스트</h1>
+        <a class="btn btn-primary" href="/info/write.do">글 작성</a>
+    </div>
+
+    <form th:action="@{/info/list.do}" method="get" class="card mb-4 shadow-sm">
+        <div class="card-header bg-light">
+            <span class="fw-semibold">검색</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-4">
+                    <label class="form-label" for="title">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${param.title}"
+                           placeholder="제목 키워드">
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <label class="form-label" for="content">내용</label>
+                    <input type="text" class="form-control" id="content" name="content" th:value="${param.content}"
+                           placeholder="내용 키워드">
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <label class="form-label" for="tag">태그</label>
+                    <input type="text" class="form-control" id="tag" name="tag" th:value="${param.tag}"
+                           placeholder="#태그 ID 또는 이름">
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <label class="form-label">작성일 (년/월/일 선택)</label>
+                    <div class="d-flex gap-2">
+                        <input type="number" class="form-control" name="year" min="1900" max="2100"
+                               th:value="${param.year}" placeholder="YYYY">
+                        <input type="number" class="form-control" name="month" min="1" max="12"
+                               th:value="${param.month}" placeholder="MM">
+                        <input type="number" class="form-control" name="day" min="1" max="31"
+                               th:value="${param.day}" placeholder="DD">
+                    </div>
+                    <small class="text-muted">년만 또는 년/월만 입력해도 검색 가능하게 처리 예정</small>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary">검색</button>
+            <a class="btn btn-outline-secondary" th:href="@{/info/list.do}">초기화</a>
+        </div>
+    </form>
+
+    <section class="card">
+        <div class="card-header d-flex align-items-center justify-content-between bg-light">
+            <h2 class="h5 mb-0">목록</h2>
+            <small class="text-muted">Pageable: <span th:text="${pageable}">pageable</span></small>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">예시 정보글 1</li>
+                <li class="list-group-item">예시 정보글 2</li>
+            </ul>
+        </div>
+        <div class="card-footer">
+            <a class="link-secondary" href="/index.html">← 홈</a>
+        </div>
+    </section>
+
+</div>
+
+
+</body>
+</html>

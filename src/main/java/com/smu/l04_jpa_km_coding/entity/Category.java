@@ -35,7 +35,7 @@ public class Category {
     private Category parent;
     //1+N 대신 in 으로 조회
     @BatchSize(size = 50)
-    @OneToMany(mappedBy = "parent",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent",fetch = FetchType.LAZY)
     private Set<Category> categories = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "category")

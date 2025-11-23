@@ -297,7 +297,7 @@ INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_figm
 INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_flow_user', 'design_flow', '사용자 흐름 분석');
 INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_flow_map', 'design_flow', '서비스 맵');
 INSERT INTO km_coding.category(CATEGORY_ID, PARENT_ID,NAME) VALUES ('design_flow_story', 'design_flow', '유저 스토리');
-
+commit;
 
 INSERT INTO km_coding.info_post
 (member_id, title, content, category_id, created_at, updated_at)

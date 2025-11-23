@@ -1,48 +1,40 @@
 package com.smu.l04_jpa_km_coding.controller;
 
 import com.smu.l04_jpa_km_coding.entity.Category;
+import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import com.smu.l04_jpa_km_coding.repository.CategoryRepository;
+import com.smu.l04_jpa_km_coding.repository.InfoPostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @Controller
 @RequestMapping("/info")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class InfoController {
-    private final CategoryRepository categoryRepository;
-
+    private final InfoPostRepository infoPostRepository;
+    //private static Logger log = LoggerFactory.getLogger(this.getClass()); //@Slf4j
     // 정보글 리스트/검색
     @GetMapping("/list.do")
-    public String list(@PageableDefault(size = 20) Pageable pageable,
-//                       @RequestParam(required = false) String sort,
-                       @RequestParam(required = false) String search,
-                       @RequestParam(required = false) String field,
-                       @RequestParam(required = false) String tag,
+    public String list(@PageableDefault(size = 20,page = 0,sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable,
+                       String categoryId,
                        Model model) {
-        List<Category> categoriesLv1 = categoryRepository.findByParentIdIsNull();
-        List<Category> categoriesLv2 = categoriesLv1.stream()
-                .flatMap(c -> c.getCategories().stream())
-                .toList();
-        List<Category> categoriesLv3 = categoriesLv2.stream()
-                .flatMap(c -> c.getCategories().stream())
-                .toList();
-
-        // TODO 서비스 연동 예정
         model.addAttribute("pageable", pageable);
-//        model.addAttribute("sort", sort);
-        model.addAttribute("search", search);
-        model.addAttribute("field", field);
-        model.addAttribute("tag", tag);
-        model.addAttribute("categories", categoriesLv1);
-        model.addAttribute("categoriesLv1", categoriesLv1);
-        model.addAttribute("categoriesLv2", categoriesLv2);
-        model.addAttribute("categoriesLv3", categoriesLv3);
+        model.addAttribute("categoryId", categoryId);
+        Page<InfoPost> infoPostPage=infoPostRepository.findByCategoryIdContaining(categoryId,pageable);
+//        log.info("categoryId : {}", infoPostPage.getContent());
+        model.addAttribute("infoPostPage", infoPostPage);
         return "info/list";
     }
 

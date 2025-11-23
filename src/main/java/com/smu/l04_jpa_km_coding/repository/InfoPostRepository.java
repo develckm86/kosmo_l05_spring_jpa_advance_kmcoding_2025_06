@@ -11,6 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InfoPostRepository extends JpaRepository<InfoPost, Long> {
     Page<InfoPost> findAll(Pageable pageable);
+    Page<InfoPost> findByCategoryId(String categoryId,Pageable pageable);
+    Page<InfoPost> findByCategoryIdContaining(String categoryId,Pageable pageable);
+
+
     //25/11/23 00:31:05.606589
     @Query("SELECT i FROM InfoPost i WHERE " +
             "i.title LIKE CONCAT('%',:title,'%') AND " +

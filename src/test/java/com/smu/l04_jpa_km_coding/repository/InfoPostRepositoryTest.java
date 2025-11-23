@@ -68,4 +68,21 @@ class InfoPostRepositoryTest {
         }
 //        System.out.println(content);
     }
+
+    @Test
+    void findByCategoryId() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page infoPage = infoPostRepository.findByCategoryId("backend_springboot", pageable);
+        List<InfoPost> content = infoPage.getContent();
+        System.out.println(content);
+    }
+
+    @Test
+    void findByCategoryIdContaining() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page infoPage = infoPostRepository.findByCategoryIdContaining("backend", pageable);
+        List<InfoPost> content = infoPage.getContent();
+        System.out.println(content);
+
+    }
 }
