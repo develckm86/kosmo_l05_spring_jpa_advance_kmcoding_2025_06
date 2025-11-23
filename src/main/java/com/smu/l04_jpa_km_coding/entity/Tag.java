@@ -14,11 +14,8 @@ import java.util.Set;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TAG_ID", nullable = false)
-    private Long id;
-
-    @Column(name = "NAME", nullable = false, length = 50)
-    private String name;
+    @Column(name = "TAG_ID", nullable = false, length = 50)
+    private String id;
 
     @OneToMany(mappedBy = "tag")
     private Set<InfoPostTag> infoPostTags = new LinkedHashSet<>();

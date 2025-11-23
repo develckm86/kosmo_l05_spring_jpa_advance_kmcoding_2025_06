@@ -21,6 +21,14 @@ public interface InfoRepository extends JpaRepository<InfoPost, Long> {
     )
     Page<InfoPost> search(String title,String content,String createdAtStr, Pageable pageable);
 
+    @Query("SELECT i FROM InfoPost i JOIN FETCH i.infoPostTags t WHERE " +
+            "i.title LIKE CONCAT('%',:title,'%') AND " +
+            "i.content LIKE CONCAT('%',:content,'%') AND "+
+            "TO_CHAR(i.createdAt,'YYYY-MM-dd') LIKE CONCAT(:createdAtStr,'%') AND "+
+            "t.tagId=:tag"
+    )
+    Page<InfoPost> search(String title,String content,String createdAtStr,String tag, Pageable pageable);
+
 //    /*SELECT * FROM info_post WHERE title LIKE '%title%' AND content LIKE '%content%'*/
     Page<InfoPost> findByTitleContainingAndContentContaining(String title,String content, Pageable pageable);
 //    Page<InfoPost> findByTitleContaining(String title, Pageable pageable);

@@ -59,4 +59,16 @@ class InfoRepositoryTest {
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
+    @Test
+    @Transactional
+    void searchTag() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page infoPage = infoRepository.search("","","","java", pageable);
+        List<InfoPost> content = infoPage.getContent();
+        for(InfoPost infoPost : content){
+            System.out.println(infoPost);
+            System.out.println(infoPost.getInfoPostTags());
+        }
+//        System.out.println(content);
+    }
 }
