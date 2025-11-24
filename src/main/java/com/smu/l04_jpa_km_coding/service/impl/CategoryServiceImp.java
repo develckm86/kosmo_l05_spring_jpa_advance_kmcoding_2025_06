@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,5 +30,10 @@ public class CategoryServiceImp implements CategoryService {
             });
         });
         return categories;
+    }
+
+    @Override
+    public Optional<Category> getOne(String categoryId) {
+        return categoryRepository.findById(categoryId);
     }
 }

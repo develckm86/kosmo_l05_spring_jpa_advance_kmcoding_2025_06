@@ -546,6 +546,2348 @@ VALUES
      <h2>실전 해결 팁</h2>
      <p>에러 메시지를 <strong>차근차근 읽는 습관</strong>이 가장 중요합니다.</p>
      ','backend_springboot', SYSDATE, SYSDATE);
+
+-- 추가 INFO_POST 더미 데이터 (서사형)
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-011 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-012 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-013 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-014 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-015 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-016 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-017 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-018 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-019 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #01',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 1 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-020 / 스프린트-01</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-021 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-022 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-023 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-024 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-025 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-026 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-027 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-028 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-029 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #02',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 2 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-030 / 스프린트-02</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-031 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-032 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-033 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-034 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-035 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-036 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-037 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-038 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-039 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #03',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 3 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-040 / 스프린트-03</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-041 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-042 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-043 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-044 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-045 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-046 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-047 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-048 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-049 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #04',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 4 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-050 / 스프린트-04</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-051 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-052 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-053 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-054 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-055 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-056 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-057 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-058 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-059 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #05',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 5 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-060 / 스프린트-05</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-061 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-062 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-063 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-064 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-065 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-066 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-067 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-068 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-069 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #06',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 6 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-070 / 스프린트-06</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-071 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-072 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-073 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-074 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-075 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-076 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-077 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-078 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-079 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #07',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 7 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-080 / 스프린트-07</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-081 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-082 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-083 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-084 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-085 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-086 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-087 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-088 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-089 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #08',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 8 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-090 / 스프린트-08</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (1,
+     'Batch Stream 리팩토링 회고 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 대용량 배치 로그를 Stream으로 리팩토링하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>groupingBy 단계에서 Null 값 때문에 NPE와 성능 저하가 동시에 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>null-safe filter와 map 단계 분리</li>
+       <li>Collectors.toMap에 merge 함수 지정</li>
+       <li>parallel 스트림 대신 sequential로 회귀</li>
+       <li>이슈 로그: INFO-091 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>스트림 설계는 가독성이 좋아도 예외 흐름을 먼저 정의해야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_java', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (2,
+     'Spring Boot 운영 이슈 기록 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 신규 REST API를 운영 반영하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>CORS와 Bean Validation 에러가 로드밸런서 뒤에서만 재현 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>SecurityFilterChain에 corsConfigurationSource 주입</li>
+       <li>ConstraintViolation 로그를 MDC에 포함</li>
+       <li>헬스체크 엔드포인트를 별도 프로필로 분리</li>
+       <li>이슈 로그: INFO-092 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>운영 환경의 체이닝을 그대로 흉내 낸 통합 테스트가 필수임을 체감했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_springboot', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (3,
+     'JPA N+1 탈출기 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 조회 API 응답 시간이 스파이크를 치며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>toOne 연관관계가 모두 Lazy라 fetch join 없이 N+1이 폭발 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>Querydsl로 fetch join + batch size 적용</li>
+       <li>조회 전용 DTO 프로젝션으로 페이로드 축소</li>
+       <li>읽기 전용 트랜잭션으로 2차 캐시 활용</li>
+       <li>이슈 로그: INFO-093 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>toOne fetch 전략과 조회 전용 쿼리를 초기에 설계했어야 했다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'backend_jpa', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (4,
+     'Toast UI 연동 삽질기 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 Toast UI Editor/Viewer를 공지 작성 페이지에 붙이며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>이미지 업로드 훅이 두 번 호출되고 상태가 꼬이는 문제 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>custom image hook에서 debounce 처리</li>
+       <li>unmount 시 editorInstance.destroy로 메모리 정리</li>
+       <li>drag&drop 업로드는 presigned URL 응답으로 교체</li>
+       <li>이슈 로그: INFO-094 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>에디터 라이프사이클을 명확히 관리하지 않으면 예상치 못한 렌더링이 발생한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_react', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (5,
+     '부트스트랩 테마 튜닝 노트 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 디자인 시스템 맞춰 부트스트랩 변수를 재정의하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>다크모드 토글 시 focus outline이 사라져 접근성 기준을 놓침 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>CSS 변수로 색상 토큰 통합</li>
+       <li>focus-visible 기반 outline 재적용</li>
+       <li>Toast 메시지 대비비율을 WCAG AA 이상으로 조정</li>
+       <li>이슈 로그: INFO-095 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인 토큰을 먼저 잡아두면 테마 전환과 접근성 대응이 쉬워진다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'frontend_ui', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (6,
+     'Docker Compose 안정화 기록 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 로컬 개발환경을 Compose로 단일화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>컨테이너 간 DNS 지연으로 애플리케이션 부팅이 랜덤하게 실패 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>healthcheck와 depends_on 조건 강화</li>
+       <li>네트워크 모드를 bridge 단일 네트워크로 통일</li>
+       <li>환경변수를 .env로 모아 온보딩 속도 개선</li>
+       <li>이슈 로그: INFO-096 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>헬스체크를 설계에 포함시키면 팀 전체 개발 경험이 안정된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_docker', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (7,
+     '배포 자동화 회고 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 배포 파이프라인을 blue-green에서 canary로 전환하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>초기 canary 트래픽 분배가 잘못되어 세션 스티키가 깨짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>ALB 타겟 그룹 가중치 재조정 자동화</li>
+       <li>배포 단계별 슬랙 알림에 메트릭 링크 포함</li>
+       <li>롤백 스크립트에 DB 마이그레이션 검증 추가</li>
+       <li>이슈 로그: INFO-097 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>점진적 배포는 메트릭과 롤백 스크립트가 함께 설계되어야 안전하다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'devops_deploy', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (8,
+     '인덱스 튜닝 실습 메모 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 월간 리포트 쿼리를 최적화하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>범위 조건과 정렬 조건이 복합 인덱스를 타지 못해 full scan 발생 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>커버링 인덱스와 힌트를 실험</li>
+       <li>gather stats로 최신 통계 반영</li>
+       <li>불필요한 함수 사용을 제거해 검색 조건 단순화</li>
+       <li>이슈 로그: INFO-098 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>실행 계획은 데이터 분포가 바뀔 때마다 다시 검증해야 한다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'database_tuning', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (9,
+     '분류 모델 운영 체험기 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 간단한 분류 모델을 배포해 주간 리포트를 생성하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>피처 스케일이 drift 되어 F1 점수가 스프린트마다 흔들림 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>모니터링에 feature distribution 로그 추가</li>
+       <li>베이스라인과 최신 모델을 shadow 테스트</li>
+       <li>전처리 파이프라인을 모델 버전과 함께 고정</li>
+       <li>이슈 로그: INFO-099 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>모델 품질은 파이프라인 재현성과 모니터링이 함께 가야 유지된다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'ai_ml_classification', SYSDATE, SYSDATE);
+
+INSERT INTO km_coding.info_post
+(member_id, title, content, category_id, created_at, updated_at)
+VALUES
+    (10,
+     '디자인 시스템 QA 로그 #09',
+     ' 
+     <h3>배경</h3>
+     <p>스프린트 9 에서 새로운 UI 컴포넌트 라이브러리를 배포하며 겪은 기록입니다.</p>
+
+     <h3>문제</h3>
+     <p>Figma 토큰과 실제 CSS 변수 값이 어긋나 브랜드 컬러가 틀어짐 상황을 재현하며 팀원들과 실시간으로 디버깅했습니다.</p>
+
+     <h3>해결</h3>
+     <ul>
+       <li>디자인 토큰 스냅샷을 CI에 추가</li>
+       <li>스토리북에 상태별 스크린샷 테스트 도입</li>
+       <li>컴포넌트 prop 타입을 문서화하여 FE/디자이너 합의</li>
+       <li>이슈 로그: INFO-100 / 스프린트-09</li>
+     </ul>
+
+     <h3>배운 점</h3>
+     <p>디자인-개발 간 소스오브트루스를 정리하면 QA 소요가 크게 준다.</p>
+     <p>자료 공유용 메모라 나중에 리딩할 때 리마인드 카드로 활용할 수 있습니다.</p>
+',
+     'design_ui_component', SYSDATE, SYSDATE);
+
 ------------------------------------------------------
 -- 4. INFO_COMMENT (20개)
 ------------------------------------------------------

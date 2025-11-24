@@ -66,5 +66,11 @@ public class InfoPost {
     @OneToMany(mappedBy = "post")
     private Set<InfoPostTag> infoPostTags = new LinkedHashSet<>();
 
+    //Formula : 서브쿼리 작성, 즉시조회(지연조회 불가능), 네이티브쿼리만 가능, 엔티티 필드로 취급되지 않음
+    @Formula("(select count(*) from info_comment c where c.post_id = post_id)")
+    private Long commentCount=0L;
+
+    @Formula("(select count(*) from info_like l where l.post_id = post_id)")
+    private Long likeCount=0L;
 
 }

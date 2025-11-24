@@ -4,6 +4,10 @@ import com.smu.l04_jpa_km_coding.entity.Category;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import com.smu.l04_jpa_km_coding.repository.CategoryRepository;
 import com.smu.l04_jpa_km_coding.repository.InfoPostRepository;
+import com.smu.l04_jpa_km_coding.service.CategoryService;
+import com.smu.l04_jpa_km_coding.service.InfoPostService;
+import com.smu.l04_jpa_km_coding.service.impl.CategoryServiceImp;
+import com.smu.l04_jpa_km_coding.service.impl.InfoPostServiceImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -12,29 +16,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Controller
 @RequestMapping("/info")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class InfoController {
-    private final InfoPostRepository infoPostRepository;
+    private final InfoPostServiceImp infoPostService;
+    private final CategoryServiceImp categoryService;
     //private static Logger log = LoggerFactory.getLogger(this.getClass()); //@Slf4j
     // 정보글 리스트/검색
     @GetMapping("/list.do")
     public String list(@PageableDefault(size = 20,page = 0,sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable,
-                       String categoryId,
+                       @RequestParam(defaultValue = "") String categoryId,
+                       @RequestParam(defaultValue = "") String search,
+                       @RequestParam(defaultValue = "") String field,
                        Model model) {
         model.addAttribute("pageable", pageable);
         model.addAttribute("categoryId", categoryId);
-        Page<InfoPost> infoPostPage=infoPostRepository.findByCategoryIdContaining(categoryId,pageable);
-//        log.info("categoryId : {}", infoPostPage.getContent());
+
+        Page<InfoPost> infoPostPage=null;
+        if(!field.isEmpty() && !search.isEmpty()){
+            infoPostPage =infoPostService.getInfoPosts(field, search, categoryId, pageable);
+        }else {
+            infoPostPage = infoPostService.getInfoPosts(categoryId, pageable);
+        }
         model.addAttribute("infoPostPage", infoPostPage);
+        if(!categoryId.isEmpty()){
+            Optional<Category> categoryOpt=categoryService.getOne(categoryId);
+            categoryOpt.ifPresent(category -> model.addAttribute("category", category));
+        }
+
         return "info/list";
     }
 
@@ -42,6 +62,11 @@ public class InfoController {
     @GetMapping("/write.do")
     public String writeForm() {
         return "info/write";
+    }
+    // 정보글 작성 폼
+    @GetMapping("/search.do")
+    public String search() {
+        return "info/search";
     }
 
     // 정보글 작성 액션

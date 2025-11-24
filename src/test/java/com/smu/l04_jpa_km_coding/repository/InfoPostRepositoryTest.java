@@ -52,22 +52,22 @@ class InfoPostRepositoryTest {
     @Transactional
     void search() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoPostRepository.search("","spring","2025-11", pageable);
+        Page infoPage = infoPostRepository.search("","spring","2025-11","","", pageable);
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
-    @Test
-    @Transactional
-    void searchTag() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoPostRepository.search("","","","java", pageable);
-        List<InfoPost> content = infoPage.getContent();
-        for(InfoPost infoPost : content){
-            System.out.println(infoPost);
-            System.out.println(infoPost.getInfoPostTags());
-        }
-//        System.out.println(content);
-    }
+//    @Test
+//    @Transactional
+//    void searchTag() {
+//        Pageable pageable = PageRequest.of(0, 10);
+//        Page infoPage = infoPostRepository.search("","","","java", pageable);
+//        List<InfoPost> content = infoPage.getContent();
+//        for(InfoPost infoPost : content){
+//            System.out.println(infoPost);
+//            System.out.println(infoPost.getInfoPostTags());
+//        }
+////        System.out.println(content);
+//    }
 
     @Test
     void findByCategoryId() {
@@ -76,7 +76,6 @@ class InfoPostRepositoryTest {
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
-
     @Test
     void findByCategoryIdContaining() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -84,5 +83,17 @@ class InfoPostRepositoryTest {
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
 
+    }
+    @Test
+    void searchDynamic() {
+        String s= """
+                라인개행  문자열
+                """;//java 15+
+        Pageable pageable = PageRequest.of(0, 10);
+//        Page infoPage = infoPostRepository.searchDynamic("title","Java", pageable);
+        Page infoPage = infoPostRepository.searchDynamic("nickname","경민", "spring",pageable);
+        //info_post i join member m where m.nickname='경민'
+        List<InfoPost> content = infoPage.getContent();
+        System.out.println(content);
     }
 }

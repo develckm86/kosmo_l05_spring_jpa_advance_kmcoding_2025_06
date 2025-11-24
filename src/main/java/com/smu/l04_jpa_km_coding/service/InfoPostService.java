@@ -1,38 +1,42 @@
 package com.smu.l04_jpa_km_coding.service;
 
-import com.smu.l04_jpa_km_coding.entity.InfoComment;
-import com.smu.l04_jpa_km_coding.entity.InfoCommentLike;
-import com.smu.l04_jpa_km_coding.entity.InfoLike;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Set;
 
 /**
  * README에 정의된 INFO 게시판 기능 계약 인터페이스
  */
-public interface InfoService {
+public interface InfoPostService {
 
     /**
      * 전체 정보글 목록 조회 (Pageable 기반, 기본 page size=20)
      */
     Page<InfoPost> getInfoPosts(Pageable pageable);
-    /**
-     * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
-     */
-    Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field);
 
     /**
      * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
      */
-    Page<InfoPost> getInfoPosts(Pageable pageable, String categoryId);
+    Page<InfoPost> getInfoPosts( String categoryId,Pageable pageable);
 
     /**
      * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
      */
-    Page<InfoPost> getInfoPosts(Pageable pageable, String search, String field, String categoryId);
+    Page<InfoPost> getInfoPosts(String field,String search,String categoryId, Pageable pageable);
+
+
+    /**
+     * 카테고리의 정보글 검색 조회 (Pageable 기반, 기본 page size=20)
+     */
+    Page<InfoPost> getInfoPosts(
+            String title,
+            String content,
+            String categoryId,
+            String tagId,
+            String createdAtStr,
+            Pageable pageable);
 
     /**
      * 정보글 상세 조회
