@@ -16,6 +16,10 @@ import java.util.Set;
  */
 public interface QnaService {
 
+    //질문글 전체 조회(Paging 기반)
+    //Page java.util.List+Pageable :List 인데 페이지 정보를 포함
+    Page<QnaPost> getQnaPosts(Pageable pageable);
+
     /**
      * 질문글 목록/검색 조회 (Pageable 기반, 기본 page size=20)
      */
