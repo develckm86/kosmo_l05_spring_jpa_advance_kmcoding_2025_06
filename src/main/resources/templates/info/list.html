@@ -106,8 +106,23 @@
             </div>
 
         </div>
-        <div class="card-body">
-            <div th:replace="~{comment/list :: commentList(infoPostPage=${infoPostPage})}"></div>
+        <div class="card-body" th:with="currentSort=${param.sort != null ? param.sort[0] : 'createdAt,desc'}">
+            <div class="list-group list-group-flush">
+                <a th:each="info : ${infoPostPage.content}" th:href="@{/info/{id}/detail.do(id=${info.id})}" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" th:text="${info.title}"></h5>
+                        <small th:text="${info.createdAt}"></small>
+                    </div>
+                    <p class="mb-1">
+                        <span th:text="${info.member.nickname}"></span>
+                        <span th:text="${info.member.email}"></span>
+                    </p>
+                    <ul class="breadcrumb" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                        <li class="breadcrumb-item"> 댓글: <b th:text="${ info.commentCount }"></b> </li>
+                        <li class="breadcrumb-item"> 좋아요: <b th:text="${ info.likeCount }"></b> </li>
+                    </ul>
+                </a>
+            </div>
         </div>
         <div class="card-footer">
             <!--
