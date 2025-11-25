@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -37,8 +38,8 @@ public class InfoPostServiceImp implements InfoPostService {
 
 
     @Override
-    public InfoPost getInfoPostDetail(Long postId) {
-        return null;
+    public Optional<InfoPost> getInfoPostDetail(Long postId) {
+        return infoPostRepository.findById(postId);
     }
 
     @Override

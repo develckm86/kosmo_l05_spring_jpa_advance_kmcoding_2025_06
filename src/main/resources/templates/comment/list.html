@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section th:fragment="commentList(infoPostPage)"
+        class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+            <h2 class="h5 mb-0">댓글</h2>
+            <span class="badge text-bg-secondary" th:text="${commentCount}">0</span>
+        </div>
+        <a class="btn btn-sm btn-outline-secondary"
+           th:href="@{/info/{id}/detail.do(id=${info.id})}">새로고침</a>
+    </div>
+    <div class="card-body">
+        <form class="mb-4" th:action="@{/info/comment/write.do}" method="post">
+            <input type="hidden" name="postId" th:value="${info?.id} ?: ${postId}">
+            <label for="commentContent" class="form-label">댓글 작성</label>
+            <textarea class="form-control mb-2" id="commentContent" name="content" rows="3" placeholder="내용을 입력하세요" required></textarea>
+            <div class="d-flex justify-content-end gap-2">
+                <a class="btn btn-outline-secondary btn-sm"
+                   th:href="@{/info/{id}/detail.do(id=${info.id})}">취소</a>
+                <button type="submit" class="btn btn-primary btn-sm">등록</button>
+            </div>
+        </form>
+
+        <div th:if="${commentCount > 0}">
+            <div class="list-group list-group-flush">
+                <div class="list-group-item px-0" th:each="comment : ${commentList}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="fw-semibold" th:text="${comment.member?.nickname} ?: '익명'">익명</div>
+                            <div class="text-secondary small"
+                                 th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')} ?: '-'">날짜</div>
+                        </div>
+                        <form th:action="@{/info/comment/{commentId}/remove.do(commentId=${comment.id})}"
+                              method="post"
+                              onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="postId" th:value="${info?.id} ?: ${postId}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                        </form>
+                    </div>
+                    <p class="mb-2" th:text="${comment.content}">댓글 내용</p>
+                    <div class="d-flex gap-2 align-items-center">
+                        <form th:action="@{/info/comment/{commentId}/like(commentId=${comment.id})}"
+                              method="post">
+                            <button class="btn btn-sm btn-outline-primary" type="submit">
+                                좋아요
+                                <span class="badge text-bg-primary ms-1"
+                                      th:text="${comment.infoCommentLikes != null ? #lists.size(comment.infoCommentLikes) : 0}">0</span>
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                onclick="document.getElementById('commentContent').focus();">
+                            답글
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-muted py-4" th:if="${commentCount == 0}">
+            아직 등록된 댓글이 없습니다.
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -4,6 +4,7 @@ import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -41,7 +42,7 @@ public interface InfoPostService {
     /**
      * 정보글 상세 조회
      */
-    InfoPost getInfoPostDetail(Long postId);
+    Optional<InfoPost> getInfoPostDetail(Long postId);
 
 
     /**

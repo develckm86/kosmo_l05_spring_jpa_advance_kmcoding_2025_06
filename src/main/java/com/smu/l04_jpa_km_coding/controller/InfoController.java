@@ -1,6 +1,7 @@
 package com.smu.l04_jpa_km_coding.controller;
 
 import com.smu.l04_jpa_km_coding.entity.Category;
+import com.smu.l04_jpa_km_coding.entity.InfoComment;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import com.smu.l04_jpa_km_coding.repository.CategoryRepository;
 import com.smu.l04_jpa_km_coding.repository.InfoPostRepository;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +38,7 @@ public class InfoController {
     //private static Logger log = LoggerFactory.getLogger(this.getClass()); //@Slf4j
     // 정보글 리스트/검색
     @GetMapping("/list.do")
-    public String list(@PageableDefault(size = 20,page = 0,sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable,
+    public String list(@PageableDefault(size = 10,page = 0,sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(defaultValue = "") String categoryId,
                        @RequestParam(defaultValue = "") String search,
                        @RequestParam(defaultValue = "") String field,
@@ -57,6 +60,26 @@ public class InfoController {
 
         return "info/list";
     }
+    // 정보글 상세
+    @GetMapping("/{id}/detail.do")
+    public String detail(@PathVariable Long id,
+                         @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                         Model model) {
+        model.addAttribute("postId", id);
+        Optional<InfoPost> infoPostOpt=infoPostService.getInfoPostDetail(id);
+        if(infoPostOpt.isEmpty()){
+            model.addAttribute("errorMessage", "존재하지 않는 게시물입니다.");
+            return "info/detail";
+        }
+
+        InfoPost infoPost = infoPostOpt.get();
+        Page<InfoComment> commentPage = paginateComments(infoPost.getInfoComments(), pageable);
+
+        model.addAttribute("infoPost", infoPost);
+        model.addAttribute("commentPage", commentPage);
+        return "info/detail";
+    }
+
 
     // 정보글 작성 폼
     @GetMapping("/write.do")
@@ -92,14 +115,6 @@ public class InfoController {
     @GetMapping("/{id}/remove.do")
     public String remove(@PathVariable Long id) {
         return "redirect:/info/list.do";
-    }
-
-    // 정보글 상세
-    @GetMapping("/{id}/detail.do")
-    public String detail(@PathVariable Long id,
-                         Model model) {
-        model.addAttribute("postId", id);
-        return "info/detail";
     }
 
     // 좋아요 등록
@@ -149,5 +164,23 @@ public class InfoController {
     @DeleteMapping("/comment/{commentId}/like")
     public String cancelCommentLike(@PathVariable Long commentId, @RequestParam Long postId) {
         return "redirect:/info/" + postId + "/detail.do";
+    }
+
+    /**
+     * 간단한 in-memory 페이징 유틸 (별도 댓글 리포지토리/서비스가 준비되지 않은 상태 고려)
+     */
+    private Page<InfoComment> paginateComments(java.util.Set<InfoComment> comments, Pageable pageable) {
+        List<InfoComment> sorted = new ArrayList<>();
+        if (comments != null) {
+            sorted = comments.stream()
+                    .sorted(Comparator.comparing(InfoComment::getCreatedAt, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
+                    .toList();
+        }
+
+        int start = Math.min((int) pageable.getOffset(), sorted.size());
+        int end = Math.min(start + pageable.getPageSize(), sorted.size());
+        List<InfoComment> pageContent = sorted.subList(start, end);
+
+        return new org.springframework.data.domain.PageImpl<>(pageContent, pageable, sorted.size());
     }
 }

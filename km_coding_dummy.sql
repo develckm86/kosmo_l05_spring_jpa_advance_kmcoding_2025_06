@@ -2911,6 +2911,148 @@ INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, crea
 INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (10,2,'저도 이 에러 봤습니다.',NULL,SYSDATE);
 INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (10,3,'스택트레이스 분석이 중요합니다.',NULL,SYSDATE);
 INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (10,1,'설정 문제일 때가 많아요.',NULL,SYSDATE);
+
+-- INFO_POST 1번에 대한 스토리형 댓글 100개 (깊이 최대 3)
+-- 01. 킥오프
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[1-본댓글] 글 덕분에 자바 스트림 스터디를 킥오프합니다. 4주간 기록 남길게요.',NULL,SYSDATE-5);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[1-답글1] 자료 공유해줘서 고마워요. 노션 보드 열었어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[1-본댓글] 글 덕분에 자바 스트림 스터디를 킥오프합니다. 4주간 기록 남길게요.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.9);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[1-답글1-1] 노션 링크 복붙했어요. 체크리스트도 추가!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[1-답글1] 자료 공유해줘서 고마워요. 노션 보드 열었어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.8);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[1-답글2] 주제별 실습 코드 깃허브에 올릴게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[1-본댓글] 글 덕분에 자바 스트림 스터디를 킥오프합니다. 4주간 기록 남길게요.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.7);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[1-답글3] 매주 회고에 스트림 성능 팁도 넣어봅시다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[1-본댓글] 글 덕분에 자바 스트림 스터디를 킥오프합니다. 4주간 기록 남길게요.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.6);
+
+-- 02. 챕터1: map/filter 정복
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[2-본댓글] map/filter 정리 모임 끝. 예제에서 null 처리 팁 얻었습니다.',NULL,SYSDATE-4.5);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[2-답글1] Optional.ofNullable 로 바꿔보니 NPE 사라졌어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[2-본댓글] map/filter 정리 모임 끝. 예제에서 null 처리 팁 얻었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.4);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[2-답글1-1] 서비스 단에선 guard clause로 선제 차단도 추천!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[2-답글1] Optional.ofNullable 로 바꿔보니 NPE 사라졌어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.3);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[2-답글2] map 체인 길면 메서드로 분리하는 게 가독성 좋네요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[2-본댓글] map/filter 정리 모임 끝. 예제에서 null 처리 팁 얻었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.2);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[2-답글3] Stream.peek 디버깅 팁도 노션에 적었어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[2-본댓글] map/filter 정리 모임 끝. 예제에서 null 처리 팁 얻었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-4.1);
+
+-- 03. 챕터2: collect와 groupingBy
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[3-본댓글] groupingBy로 통계 내보며 팀 데일리 리포트 만들었습니다.',NULL,SYSDATE-4);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[3-답글1] 문자열 key 트림 안 해서 삽질했네요. 지금은 정규화 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[3-본댓글] groupingBy로 통계 내보며 팀 데일리 리포트 만들었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.9);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[3-답글1-1] trim 공통 util 만들었으니 재사용합시다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[3-답글1] 문자열 key 트림 안 해서 삽질했네요. 지금은 정규화 완료.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.8);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[3-답글2] parallelStream 썼다가 순서 틀어져서 주의 메모 추가.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[3-본댓글] groupingBy로 통계 내보며 팀 데일리 리포트 만들었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.7);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[3-답글3] collect(Collectors.toMap) 에 merge 함수 넣으니 깔끔.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[3-본댓글] groupingBy로 통계 내보며 팀 데일리 리포트 만들었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.6);
+
+-- 04. 실습: 파일 로그 처리
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[4-본댓글] 로그 파일 10만 줄 스트림으로 파싱 성공했습니다. 병목 없어요.',NULL,SYSDATE-3.5);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[4-답글1] BufferedReader lines() 로 바꾸니 메모리 여유가 확 나네요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[4-본댓글] 로그 파일 10만 줄 스트림으로 파싱 성공했습니다. 병목 없어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.4);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[4-답글1-1] try-with-resources 샘플도 추가했습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[4-답글1] BufferedReader lines() 로 바꾸니 메모리 여유가 확 나네요.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.3);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[4-답글2] benchmark 기록 노션에 캡처했습니다. CPU 20% 절감!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[4-본댓글] 로그 파일 10만 줄 스트림으로 파싱 성공했습니다. 병목 없어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.2);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[4-답글3] mapMulti 활용 버전도 공유할게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[4-본댓글] 로그 파일 10만 줄 스트림으로 파싱 성공했습니다. 병목 없어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-3.1);
+
+-- 05. 코드리뷰 세션
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[5-본댓글] 코드리뷰 녹화 링크 올립니다. 변수 네이밍 피드백 많아요.',NULL,SYSDATE-3);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[5-답글1] 스트림 체이닝 길 때 지역변수로 끊는 패턴 참고하세요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[5-본댓글] 코드리뷰 녹화 링크 올립니다. 변수 네이밍 피드백 많아요.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.9);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[5-답글1-1] 변수명 사전 업데이트했습니다. 도메인 용어 맞춤!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[5-답글1] 스트림 체이닝 길 때 지역변수로 끊는 패턴 참고하세요.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.8);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[5-답글2] 리뷰 중 나온 stream().toList() 전환도 반영 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[5-본댓글] 코드리뷰 녹화 링크 올립니다. 변수 네이밍 피드백 많아요.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.7);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[5-답글3] 테스트 코드도 람다 가독성 챙겼습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[5-본댓글] 코드리뷰 녹화 링크 올립니다. 변수 네이밍 피드백 많아요.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.6);
+
+-- 06. 버그헌팅
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[6-본댓글] 특정 케이스에서 skip/limit 잘못 써서 데이터 빠지는 버그 찾음.',NULL,SYSDATE-2.5);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[6-답글1] limit 전에 sorted 추가하니 재현 안 됩니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[6-본댓글] 특정 케이스에서 skip/limit 잘못 써서 데이터 빠지는 버그 찾음.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.4);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[6-답글1-1] stable sort 확인했어요. Comparator 바꿨습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[6-답글1] limit 전에 sorted 추가하니 재현 안 됩니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.3);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[6-답글2] 회의록에 재현 시나리오 적어두었어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[6-본댓글] 특정 케이스에서 skip/limit 잘못 써서 데이터 빠지는 버그 찾음.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.2);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[6-답글3] 스트림 대신 for 루프 비교 결과도 첨부.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[6-본댓글] 특정 케이스에서 skip/limit 잘못 써서 데이터 빠지는 버그 찾음.' FETCH FIRST 1 ROW ONLY),SYSDATE-2.1);
+
+-- 07. 성능 튜닝
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[7-본댓글] profiling 결과 filter 중복 호출로 15% 손실 발견.',NULL,SYSDATE-2);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[7-답글1] predicate 합치는 util 만들었습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[7-본댓글] profiling 결과 filter 중복 호출로 15% 손실 발견.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.9);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[7-답글1-1] 병렬 스트림 시 predicate thread-safe 확인 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[7-답글1] predicate 합치는 util 만들었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.8);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[7-답글2] collectors.toUnmodifiableList 써도 퍼포먼스 동일했어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[7-본댓글] profiling 결과 filter 중복 호출로 15% 손실 발견.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.7);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[7-답글3] warm-up 후 JIT 최적화 그래프 첨부합니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[7-본댓글] profiling 결과 filter 중복 호출로 15% 손실 발견.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.6);
+
+-- 08. 테스트 커버리지
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[8-본댓글] 스트림 유틸 테스트 커버리지 95% 달성.',NULL,SYSDATE-1.5);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[8-답글1] parameterized test 로 입력 케이스 늘렸어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[8-본댓글] 스트림 유틸 테스트 커버리지 95% 달성.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.4);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[8-답글1-1] Mockito 대신 stub 객체로 교체한 버전 참고.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[8-답글1] parameterized test 로 입력 케이스 늘렸어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.3);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[8-답글2] mutation testing 결과도 공유할까요?',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[8-본댓글] 스트림 유틸 테스트 커버리지 95% 달성.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.2);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[8-답글3] IDE live template 정리해서 단축키 공유합니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[8-본댓글] 스트림 유틸 테스트 커버리지 95% 달성.' FETCH FIRST 1 ROW ONLY),SYSDATE-1.1);
+
+-- 09. 문서화
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[9-본댓글] 스트림 가이드 PDF 초안 올렸어요. 피드백 주세요.',NULL,SYSDATE-1);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[9-답글1] 챕터 순서만 조금 바꾸면 흐름 더 좋을 듯!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[9-본댓글] 스트림 가이드 PDF 초안 올렸어요. 피드백 주세요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.9);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[9-답글1-1] 용어집 표까지 추가했습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[9-답글1] 챕터 순서만 조금 바꾸면 흐름 더 좋을 듯!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.8);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[9-답글2] 코드 스니펫에 주석 번역도 넣었어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[9-본댓글] 스트림 가이드 PDF 초안 올렸어요. 피드백 주세요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.7);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[9-답글3] 표지 디자인 간단히 넣어봤습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[9-본댓글] 스트림 가이드 PDF 초안 올렸어요. 피드백 주세요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.6);
+
+-- 10. 발표 리허설
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[10-본댓글] 사내 점심 세미나 리허설 완료. 20분 안에 끝!',NULL,SYSDATE-0.5);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[10-답글1] 데모에서 toList() 변환 시점 강조 부탁.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[10-본댓글] 사내 점심 세미나 리허설 완료. 20분 안에 끝!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.4);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[10-답글1-1] 추가한 슬라이드 확인했습니다. 타이밍 굿.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[10-답글1] 데모에서 toList() 변환 시점 강조 부탁.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.35);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[10-답글2] QA 질문 리스트 만들어 둘게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[10-본댓글] 사내 점심 세미나 리허설 완료. 20분 안에 끝!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.3);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[10-답글3] 발표 후 설문 링크도 세팅해둘게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[10-본댓글] 사내 점심 세미나 리허설 완료. 20분 안에 끝!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.25);
+
+-- 11. 라이브 데모 후
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[11-본댓글] 라이브 데모 끝! 질문 12개 나왔습니다.',NULL,SYSDATE-0.2);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[11-답글1] 녹화 영상 링크 댓글에 남겼어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[11-본댓글] 라이브 데모 끝! 질문 12개 나왔습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.18);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[11-답글1-1] Q&A 문서에 답변 정리 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[11-답글1] 녹화 영상 링크 댓글에 남겼어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.16);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[11-답글2] 질문 중 스트림 종료 연산 관련은 따로 글 써볼게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[11-본댓글] 라이브 데모 끝! 질문 12개 나왔습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.14);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[11-답글3] 사내 게시판에도 공유 완료했습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[11-본댓글] 라이브 데모 끝! 질문 12개 나왔습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.12);
+
+-- 12. 피드백 반영
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[12-본댓글] 피드백 반영해서 샘플 코드에 주석 추가했습니다.',NULL,SYSDATE-0.1);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[12-답글1] stream API 버전별 차이도 표로 넣었어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[12-본댓글] 피드백 반영해서 샘플 코드에 주석 추가했습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.09);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[12-답글1-1] JDK21 예제 링크도 배치 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[12-답글1] stream API 버전별 차이도 표로 넣었어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.08);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[12-답글2] 테스트에 record 타입 케이스 추가했어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[12-본댓글] 피드백 반영해서 샘플 코드에 주석 추가했습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.07);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[12-답글3] PDF 다시 빌드해서 공유 링크 교체.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[12-본댓글] 피드백 반영해서 샘플 코드에 주석 추가했습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.06);
+
+-- 13. 실무 적용
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[13-본댓글] 사내 배치 코드에 스트림 적용했더니 40줄 줄었습니다.',NULL,SYSDATE-0.05);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[13-답글1] NPE 보호막 덕분에 장애 알림도 안 울렸어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[13-본댓글] 사내 배치 코드에 스트림 적용했더니 40줄 줄었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.045);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[13-답글1-1] 배포 로그에 before/after 비교 남겼습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[13-답글1] NPE 보호막 덕분에 장애 알림도 안 울렸어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.04);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[13-답글2] 캐시 적용 부분도 스트림으로 합치니 더 깔끔.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[13-본댓글] 사내 배치 코드에 스트림 적용했더니 40줄 줄었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.035);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[13-답글3] 리뷰 승인 완료! 릴리스 티켓 닫습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[13-본댓글] 사내 배치 코드에 스트림 적용했더니 40줄 줄었습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.03);
+
+-- 14. 추가 학습 아이디어
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[14-본댓글] 다음엔 reactive-streams 비교 세션 어때요?',NULL,SYSDATE-0.025);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[14-답글1] Reactor vs Coroutine 사례 모으겠습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[14-본댓글] 다음엔 reactive-streams 비교 세션 어때요?' FETCH FIRST 1 ROW ONLY),SYSDATE-0.02);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[14-답글1-1] 토이 프로젝트로 실험해봐요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[14-답글1] Reactor vs Coroutine 사례 모으겠습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.018);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[14-답글2] 스케줄링 이슈도 같이 다루면 좋겠어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[14-본댓글] 다음엔 reactive-streams 비교 세션 어때요?' FETCH FIRST 1 ROW ONLY),SYSDATE-0.016);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[14-답글3] 슬라이드 템플릿 그대로 재사용할게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[14-본댓글] 다음엔 reactive-streams 비교 세션 어때요?' FETCH FIRST 1 ROW ONLY),SYSDATE-0.014);
+
+-- 15. 팀 합류자 온보딩
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[15-본댓글] 신입 두 명 온보딩하면서 이 글 링크 바로 줬습니다.',NULL,SYSDATE-0.012);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[15-답글1] 온보딩 퀴즈도 만들면 재미있겠네요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[15-본댓글] 신입 두 명 온보딩하면서 이 글 링크 바로 줬습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.01);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[15-답글1-1] 퀴즈 초안 올렸습니다. 10문항.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[15-답글1] 온보딩 퀴즈도 만들면 재미있겠네요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.009);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[15-답글2] 멘토링 일정 캘린더에 등록 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[15-본댓글] 신입 두 명 온보딩하면서 이 글 링크 바로 줬습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.008);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[15-답글3] 교육 후 피드백 받으면 여기 업데이트할게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[15-본댓글] 신입 두 명 온보딩하면서 이 글 링크 바로 줬습니다.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.007);
+
+-- 16. 회고 준비
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[16-본댓글] 회고 문항 5개 정리했습니다. 모두 답변 부탁!',NULL,SYSDATE-0.006);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[16-답글1] 익명 설문 링크 만들어서 전달했어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[16-본댓글] 회고 문항 5개 정리했습니다. 모두 답변 부탁!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.005);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[16-답글1-1] 응답 수집하면 대시보드로 시각화할게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[16-답글1] 익명 설문 링크 만들어서 전달했어요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0045);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[16-답글2] 회고 인터뷰도 2명 진행 예정.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[16-본댓글] 회고 문항 5개 정리했습니다. 모두 답변 부탁!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.004);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[16-답글3] 회고 결과는 PDF로 묶어서 사내 공유.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[16-본댓글] 회고 문항 5개 정리했습니다. 모두 답변 부탁!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0035);
+
+-- 17. 회고 완료
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[17-본댓글] 회고 끝! 스트림 학습이 실무 적용까지 이어진 게 최고.',NULL,SYSDATE-0.003);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[17-답글1] next action: reactive 비교, 온보딩 퀴즈 정식 배포.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[17-본댓글] 회고 끝! 스트림 학습이 실무 적용까지 이어진 게 최고.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0025);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[17-답글1-1] 일정은 다음 분기 OKR에 넣겠습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[17-답글1] next action: reactive 비교, 온보딩 퀴즈 정식 배포.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0022);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[17-답글2] 덕분에 스트림 공포증 사라졌어요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[17-본댓글] 회고 끝! 스트림 학습이 실무 적용까지 이어진 게 최고.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.002);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[17-답글3] 회고록 링크 북마크 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[17-본댓글] 회고 끝! 스트림 학습이 실무 적용까지 이어진 게 최고.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0018);
+
+-- 18. 오픈 커뮤니티 공유
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[18-본댓글] 이 글과 자료를 커뮤니티에 공유했더니 북마크 폭발!',NULL,SYSDATE-0.0016);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[18-답글1] 댓글로 추가 질문 들어오면 여기에도 정리할게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[18-본댓글] 이 글과 자료를 커뮤니티에 공유했더니 북마크 폭발!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0014);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[18-답글1-1] 커뮤니티 질문 3건 답변 완료.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[18-답글1] 댓글로 추가 질문 들어오면 여기에도 정리할게요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0013);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[18-답글2] 슬라이드 공유 링크 클릭수 200 넘었네요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[18-본댓글] 이 글과 자료를 커뮤니티에 공유했더니 북마크 폭발!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0012);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[18-답글3] 실습 코드 repo 스타도 30 찍었습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[18-본댓글] 이 글과 자료를 커뮤니티에 공유했더니 북마크 폭발!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0011);
+
+-- 19. 유지보수 플랜
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,3,'[19-본댓글] 자료 유지보수 플랜: 분기별 업데이트로 정리.',NULL,SYSDATE-0.001);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,5,'[19-답글1] changelog 템플릿 만들어 둘게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[19-본댓글] 자료 유지보수 플랜: 분기별 업데이트로 정리.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0009);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,1,'[19-답글1-1] release tag 네이밍 규칙도 제안했습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[19-답글1] changelog 템플릿 만들어 둘게요.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0008);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,8,'[19-답글2] 번역 버전 요청 들어오면 슬랙으로 공유할게요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[19-본댓글] 자료 유지보수 플랜: 분기별 업데이트로 정리.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0007);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,6,'[19-답글3] 라이선스 표기 추가했습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[19-본댓글] 자료 유지보수 플랜: 분기별 업데이트로 정리.' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0006);
+
+-- 20. 마무리 감사
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,2,'[20-본댓글] 긴 스레드였네요. 다들 덕분에 완주했습니다!',NULL,SYSDATE-0.0005);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,7,'[20-답글1] 함께 달려서 즐거웠습니다. 다음 주제 기대!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[20-본댓글] 긴 스레드였네요. 다들 덕분에 완주했습니다!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0004);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,4,'[20-답글1-1] 후속 글 쓰면 여기에도 공유해주세요.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[20-답글1] 함께 달려서 즐거웠습니다. 다음 주제 기대!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.00035);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,10,'[20-답글2] PDF 북마크하고 회사 위키에도 추가했습니다.',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[20-본댓글] 긴 스레드였네요. 다들 덕분에 완주했습니다!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0003);
+INSERT INTO km_coding.info_comment (post_id, member_id, content, parent_id, created_at) VALUES (1,9,'[20-답글3] 모두 고생했습니다. 커피 사드릴게요!',(SELECT comment_id FROM km_coding.info_comment WHERE post_id=1 AND content='[20-본댓글] 긴 스레드였네요. 다들 덕분에 완주했습니다!' FETCH FIRST 1 ROW ONLY),SYSDATE-0.0002);
+commit;
 ------------------------------------------------------
 -- 5. INFO_LIKE (30개)
 ------------------------------------------------------

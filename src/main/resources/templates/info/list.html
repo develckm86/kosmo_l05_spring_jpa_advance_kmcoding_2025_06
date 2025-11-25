@@ -43,54 +43,62 @@
     </form>
     <div class="m-2 d-flex justify-content-between align-items-center">
         <div class="small text-muted">
-            <span class="me-2">page : <th:block th:text="${infoPostPage.pageable.pageNumber+1}"></th:block></span>
-            <span>total : <th:block th:text="${infoPostPage.getTotalElements()}"></th:block></span>
+            <span class="me-2">page : <th:block th:text="${infoPostPage.number+1}"></th:block></span>
+            <span>total : <th:block th:text="${infoPostPage.totalPages}"></th:block></span>
         </div>
         <div class="nav nav-pills gap-2">
             <a class="btn btn-sm btn-outline-dark"
-               th:classappend="${#strings.equals(param.size,'10')} ? ' active' : ''"
+               th:classappend="${#strings.equals(infoPostPage.size,'10')} ? ' active' : ''"
                th:href="@{/info/list.do(sort=${param.sort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${10})}">
                 10
             </a>
             <a class="btn btn-sm btn-outline-dark"
-               th:classappend="${#strings.equals(param.size,'20')} ? ' active' : ''"
+               th:classappend="${#strings.equals(infoPostPage.size,'20')} ? ' active' : ''"
                th:href="@{/info/list.do(sort=${param.sort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${20})}">
                 20
             </a>
             <a class="btn btn-sm btn-outline-dark"
-               th:classappend="${#strings.equals(param.size,'30')} ? ' active' : ''"
+               th:classappend="${#strings.equals(infoPostPage.size,'30')} ? ' active' : ''"
                th:href="@{/info/list.do(sort=${param.sort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${30})}">
                 30
             </a>
             <a class="btn btn-sm btn-outline-dark"
-               th:classappend="${#strings.equals(param.size,'40')} ? ' active' : ''"
+               th:classappend="${#strings.equals(infoPostPage.size,'40')} ? ' active' : ''"
                th:href="@{/info/list.do(sort=${param.sort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${40})}">
                 40
             </a>
         </div>
     </div>
     <section class="card">
-        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2 bg-light">
+        <!--
+        ${ param.sort!=null && !param.sort[0].isEmpty() ? param.sort[0] : 'createdAt,desc'}"
+        ${ parm.sort!=null && param.sort[0] ?: 'createdAt,desc'}  ?: Elvis연산자 (공백이 아니면 사용 아니면 'createdAt,desc')
+        ${ #strings.defaultString(param.sort, 'createdAt,desc')}   #strings.defaultString  (null이 아니고 공백이 아니면 사용 아니면 'createdAt,desc')
+
+        -->
+        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2 bg-light"
+             th:with="currentSort=${ #strings.defaultString(param.sort, 'createdAt,desc')}"
+        >
             <h2 class="h5 mb-0">목록</h2>
             <div class="d-flex flex-wrap align-items-center">
                 <div class="nav nav-pills gap-2">
                     <a class="btn btn-sm btn-outline-secondary"
-                       th:classappend="${ #strings.equals(param.sort,'createdAt,desc')} ? ' active' : ''"
+                       th:classappend="${ #strings.equals(currentSort,'createdAt,desc')} ? 'active' "
                        th:href="@{/info/list.do(sort='createdAt,desc', field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${param.size})}">
                         최신순
                     </a>
                     <a class="btn btn-sm btn-outline-secondary"
-                       th:classappend="${#strings.equals(param.sort,'createdAt,asc')} ? ' active' : ''"
+                       th:classappend="${#strings.equals(currentSort,'createdAt,asc')} ? 'active' "
                        th:href="@{/info/list.do(sort='createdAt,asc', field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${param.size})}">
                         오래된순
                     </a>
                     <a class="btn btn-sm btn-outline-secondary"
-                       th:classappend="${#strings.equals(param.sort,'commentCount,desc')} ? ' active' : ''"
+                       th:classappend="${#strings.equals(currentSort,'commentCount,desc')} ? 'active' "
                        th:href="@{/info/list.do(sort='commentCount,desc', field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${param.size})}">
                         댓글 많은 순
                     </a>
                     <a class="btn btn-sm btn-outline-secondary"
-                       th:classappend="${#strings.equals(param.sort,'likeCount,desc')} ? ' active' : ''"
+                       th:classappend="${#strings.equals(currentSort,'likeCount,desc')} ? 'active' "
                        th:href="@{/info/list.do(sort='likeCount,desc', field=${param.field}, search=${param.search}, categoryId=${param.categoryId}, page=${param.page}, size=${param.size})}">
                         좋아요 많은 순
                     </a>
@@ -98,29 +106,23 @@
             </div>
 
         </div>
-        <div class="card-body" th:with="currentSort=${param.sort != null ? param.sort[0] : 'createdAt,desc'}">
-            <div class="list-group list-group-flush">
-                <a th:each="info : ${infoPostPage.content}" href="#" class="list-group-item list-group-item-action" aria-current="true">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1" th:text="${info.title}"></h5>
-                        <small th:text="${info.createdAt}"></small>
-                    </div>
-                    <p class="mb-1">
-                        <span th:text="${info.member.nickname}"></span>
-                        <span th:text="${info.member.email}"></span>
-                    </p>
-                    <ul class="breadcrumb" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
-                        <li class="breadcrumb-item"> 댓글: <b th:text="${ info.commentCount }"></b> </li>
-                        <li class="breadcrumb-item"> 좋아요: <b th:text="${ info.likeCount }"></b> </li>
-                    </ul>
-                </a>
-            </div>
+        <div class="card-body">
+            <div th:replace="~{comment/list :: commentList(infoPostPage=${infoPostPage})}"></div>
         </div>
         <div class="card-footer">
-            <div class="d-flex justify-content-center my-2" th:if="${infoPostPage.totalPages > 1}"
-                 th:with="start=${( infoPostPage.number - 2 < 0 )? 0 : ( infoPostPage.number - 2)  },
-                          end=${( infoPostPage.number + 2 > infoPostPage.totalPages - 1 ) ? infoPostPage.totalPages - 1 : infoPostPage.number + 2 }">
-                <nav aria-label="페이지 이동">
+            <!--
+                  현재 페이지가  5이면 앞뒤로 2개씩 보이게 하는 코드  3 4 [5] 6 7
+                  현재 페이지가 1 이면 0 이하가 보임  -1 0 [1] 2 3  => page - 2 < 0 ? 0 : page - 2
+                  현재 페이지가 마지막 페이지면이면  last+2가 포임    5 6 [7:last] 8 9   => page + 2 > last ? last : page + 2
+                  -->
+            <div class="d-flex justify-content-center my-2"
+                 th:if="${infoPostPage.totalPages > 0}"
+                 th:with="  page=${infoPostPage.number},
+                            last=${infoPostPage.totalPages}-1,
+                            size=${infoPostPage.size}">
+                <nav aria-label="페이지 이동"
+                     th:with="  start=${ page - 2 < 0 ? 0 : page - 2 },
+                                end=${ page + 2 > last ? last : page + 2 }">
                     <ul class="pagination mb-0">
                         <li class="page-item" th:classappend="${infoPostPage.first} ? ' disabled'">
                             <a class="page-link"
@@ -129,24 +131,24 @@
                         </li>
                         <li class="page-item" th:classappend="${infoPostPage.first} ? ' disabled'">
                             <a class="page-link"
-                               th:href="@{/info/list.do (page=${infoPostPage.number - 1}, size=${infoPostPage.size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
+                               th:href="@{/info/list.do (page=${page - 1}, size=${infoPostPage.size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
                                aria-label="이전">«</a>
                         </li>
                         <li class="page-item"
                             th:each="pageNum : ${#numbers.sequence(start, end)}"
-                            th:classappend="(${pageNum} == ${infoPostPage.number} ? ' active')">
+                            th:classappend="(${pageNum} == ${page} ? ' active')">
                             <a class="page-link"
                                th:text="${pageNum + 1}"
-                               th:href="@{/info/list.do (page=${pageNum}, size=${infoPostPage.size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"></a>
+                               th:href="@{/info/list.do (page=${pageNum}, size=${size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"></a>
                         </li>
                         <li class="page-item" th:classappend="${infoPostPage.last} ? ' disabled'">
                             <a class="page-link"
-                               th:href="@{/info/list.do (page=${infoPostPage.number + 1}, size=${infoPostPage.size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
+                               th:href="@{/info/list.do (page=${page + 1}, size=${size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
                                aria-label="다음">»</a>
                         </li>
                         <li class="page-item" th:classappend="${infoPostPage.last} ? ' disabled'">
                             <a class="page-link"
-                               th:href="@{/info/list.do (page=${infoPostPage.totalPages - 1}, size=${infoPostPage.size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
+                               th:href="@{/info/list.do (page=${last}, size=${size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
                                aria-label="마지막">last</a>
                         </li>
                     </ul>
