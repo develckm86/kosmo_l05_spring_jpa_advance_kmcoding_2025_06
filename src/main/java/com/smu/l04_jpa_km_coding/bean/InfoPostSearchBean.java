@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class InfoPostSearchBean {
     private String title;
     private String content;
-    private String categoryId;
+    private String categoryId="";
     private String nickname;
     private String email;
     private LocalDateTime startAt;

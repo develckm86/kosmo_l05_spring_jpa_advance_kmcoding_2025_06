@@ -24,7 +24,7 @@ public class Member {
     @Column(name = "PASSWORD", nullable = false, length = 200)
     private String password;
 
-    @Column(name = "NICKNAME", nullable = false, length = 100)
+    @Column(name = "NICKNAME", nullable = false, length = 100, columnDefinition = "VARCHAR2")
     private String nickname;
 
     @Column(name = "CREATED_AT", nullable = false)

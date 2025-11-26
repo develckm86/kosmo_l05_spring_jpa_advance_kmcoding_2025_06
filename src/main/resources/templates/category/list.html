@@ -14,7 +14,7 @@
             <input type="search" id="categorySearch" class="form-control" placeholder="카테고리명 검색">
         </div>
     </div>
-    <div class="row px-4 py-2" id="categoryList" th:fragment="categoryList(categories)">
+    <div  th:fragment="categoryList(categories)" class="row px-4 py-2" id="categoryList">
         <style>
             .list-group-item:has( .form-check-input:checked) {
                 background-color: #0d6efd;
@@ -80,6 +80,19 @@
                 </div>
             </th:block>
         </div>
+        <script th:inline="javascript">
+            const selectedCategoryId=[[${param.categoryId?.get(0) }]];
+            if(selectedCategoryId){
+                const categories=selectedCategoryId.split("_");
+                console.log(categories)
+                let fullId='';
+                categories.forEach(id=>{
+                    fullId+=id;
+                    document.getElementById(fullId).click();
+                    fullId+='_';
+                })
+            }
+        </script>
     </div>
     <hr>
     <h4>중첩형태의 카테고리 선택</h4>

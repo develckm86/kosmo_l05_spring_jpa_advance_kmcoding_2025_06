@@ -43,8 +43,8 @@ public class InfoPostServiceImp implements InfoPostService {
                 infoPostSearchBean.getTitle(),
                 infoPostSearchBean.getContent(),
                 infoPostSearchBean.getCategoryId(),
-                infoPostSearchBean.getEmail(),
                 infoPostSearchBean.getNickname(),
+                infoPostSearchBean.getEmail(),
                 infoPostSearchBean.getStartAt(),
                 infoPostSearchBean.getEndAt(),
                 pageable

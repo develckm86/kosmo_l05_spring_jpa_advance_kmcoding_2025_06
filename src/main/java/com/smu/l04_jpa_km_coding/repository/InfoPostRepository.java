@@ -74,11 +74,11 @@ public interface InfoPostRepository extends JpaRepository<InfoPost, Long> {
     //양식에서 여러개의 input 으로 다양한 필드 검색
     //25/11/23 00:31:05.606589
     @Query("""
-            SELECT i FROM InfoPost i WHERE 
+            SELECT i FROM InfoPost i JOIN fetch i.member WHERE 
                 ( TRIM(:title)='' OR i.title LIKE CONCAT('%',:title,'%'))
                 AND ( TRIM(:content)=''  OR i.content LIKE CONCAT('%',:content,'%'))
-                AND ( TRIM(:categoryId)=''  OR i.categoryId LIKE CONCAT('%',:categoryId,'%'))
-                AND ( TRIM(:nickname)=''  OR i.member.nickname LIKE CONCAT('%',:nickname,'%'))
+                AND ( TRIM(:categoryId)='' OR i.categoryId LIKE CONCAT('%',:categoryId,'%'))
+                AND ( TRIM(:nickname)='' OR i.member.nickname LIKE CONCAT('%',:nickname,'%'))
                 AND ( TRIM(:email)=''  OR i.member.email LIKE CONCAT('%',:email,'%'))
                 AND ( :startAt IS NULL OR :endAt IS NULL OR i.createdAt BETWEEN :startAt AND :endAt)
             """)

@@ -16,4 +16,10 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        format_sql: true
+        use_sql_comments: true
         dialect: org.hibernate.dialect.OracleDialect
+        highlight_sql: true
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
