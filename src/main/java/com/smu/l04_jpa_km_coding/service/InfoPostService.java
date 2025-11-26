@@ -4,6 +4,7 @@ import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,8 +36,8 @@ public interface InfoPostService {
             String title,
             String content,
             String categoryId,
-            String tagId,
-            String createdAtStr,
+            LocalDateTime startAt,
+            LocalDateTime endAtStr,
             Pageable pageable);
 
     /**

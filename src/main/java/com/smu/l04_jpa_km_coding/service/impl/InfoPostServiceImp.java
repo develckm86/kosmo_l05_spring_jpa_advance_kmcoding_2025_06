@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,8 +32,8 @@ public class InfoPostServiceImp implements InfoPostService {
     }
     //복수 조건 검색
     @Override
-    public Page<InfoPost> getInfoPosts(String title, String content, String categoryId, String tagId, String createdAtStr, Pageable pageable) {
-        return infoPostRepository.search(title, content, categoryId, tagId, createdAtStr, pageable);
+    public Page<InfoPost> getInfoPosts(String title, String content, String categoryId, LocalDateTime startAt, LocalDateTime endAt, Pageable pageable) {
+        return infoPostRepository.search(title, content, categoryId, startAt, endAt, pageable);
     }
 
 

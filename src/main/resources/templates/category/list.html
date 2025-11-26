@@ -13,7 +13,13 @@
 </head>
 <body>
 <div layout:fragment="content" class="container mt-4">
-    <h4>카테고리 선택</h4>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="mb-0">카테고리 선택</h4>
+        <div class="ms-auto" style="max-width: 320px;">
+            <label class="form-label mb-1" for="categorySearch">카테고리 검색</label>
+            <input type="search" id="categorySearch" class="form-control" placeholder="카테고리명 검색">
+        </div>
+    </div>
     <div class="row" id="categoryList">
         <div class="col border-end list-group">
             <!-- 대분류 반복 -->
@@ -73,6 +79,18 @@
                     }
                 })
             })
+
+            const categorySearchInput = document.getElementById('categorySearch');
+            const categoryItems = document.querySelectorAll('#categoryList .list-group-item');
+            if (categorySearchInput) {
+                categorySearchInput.addEventListener('input', () => {
+                    const keyword = categorySearchInput.value.trim().toLowerCase();
+                    categoryItems.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        item.style.display = keyword === '' || text.includes(keyword) ? '' : 'none';
+                    });
+                });
+            }
         </script>
     </div>
     <hr>

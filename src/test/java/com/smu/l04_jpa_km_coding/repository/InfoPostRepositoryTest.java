@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -52,9 +54,11 @@ class InfoPostRepositoryTest {
     @Transactional
     void search() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoPostRepository.search("","spring","2025-11","","", pageable);
+        Page infoPage = infoPostRepository.search("","실전","", LocalDateTime.parse("2025-10-01T00:00:00"),LocalDateTime.parse("2025-12-31T00:00:00"), pageable);
         List<InfoPost> content = infoPage.getContent();
+        System.out.println(infoPage.getTotalElements());
         System.out.println(content);
+
     }
 //    @Test
 //    @Transactional
