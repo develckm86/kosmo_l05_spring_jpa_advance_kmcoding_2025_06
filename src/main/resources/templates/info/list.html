@@ -142,7 +142,7 @@
                     <ul class="pagination mb-0">
                         <li class="page-item" th:classappend="${infoPostPage.first} ? ' disabled'">
                             <a class="page-link"
-                               th:href="@{/info/list.do (page=${0}, size=${infoPostPage.size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
+                               th:href="@{/info/list.do (page=${0}, size=${size}, sort=${currentSort}, field=${param.field}, search=${param.search}, categoryId=${param.categoryId})}"
                                aria-label="처음">first</a>
                         </li>
                         <li class="page-item" th:classappend="${infoPostPage.first} ? ' disabled'">
