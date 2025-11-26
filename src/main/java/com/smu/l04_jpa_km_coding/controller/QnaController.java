@@ -1,6 +1,14 @@
 package com.smu.l04_jpa_km_coding.controller;
 
+import com.smu.l04_jpa_km_coding.entity.QnaPost;
+import com.smu.l04_jpa_km_coding.service.QnaService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,21 +16,23 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/qna")
+@AllArgsConstructor
+@Slf4j
 public class QnaController {
+
+    private final QnaService qnaService;
+    //private static Logger log = LoggerFactory.getLogger(this.getClass());
 
     // 질문 리스트/검색
     @GetMapping("/list.do")
-    public String list(@PageableDefault(size = 20) Pageable pageable,
-                       @RequestParam(required = false) String sort,
-                       @RequestParam(required = false) String search,
-                       @RequestParam(required = false) String field,
-                       @RequestParam(required = false) String tag,
-                       Model model) {
-        model.addAttribute("pageable", pageable);
-        model.addAttribute("sort", sort);
-        model.addAttribute("search", search);
-        model.addAttribute("field", field);
-        model.addAttribute("tag", tag);
+    public String list(
+            Model model,
+            @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        model.addAttribute("keyword", "안녕!");
+        Page<QnaPost> qnaPostPage=qnaService.getQnaPosts(pageable);
+        model.addAttribute("qnaPostPage", qnaPostPage);
+        log.info("qnaPostPage.content : {}", qnaPostPage.getContent());
         return "qna/list";
     }
 

@@ -2,18 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}"
-      th:with="pageTitle='질문 리스트'">
+      th:with="pageTitle='질문 리스트2'">
 <head></head>
 <body>
 <div layout:fragment="content">
     <h1>질문 리스트</h1>
-    <p>검색/정렬 파라미터: sort=<span th:text="${sort}">sort</span>, search=<span th:text="${search}">search</span>, field=<span th:text="${field}">field</span>, tag=<span th:text="${tag}">tag</span></p>
-    <p>Pageable: <span th:text="${pageable}">pageable</span></p>
     <a href="/qna/write.do">질문 작성</a>
-    <ul>
-        <li>예시 질문 1</li>
-        <li>예시 질문 2</li>
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>이메일</th>
+                <th>상세</th>
+            </tr>
+        </thead>
+        <tbody>
+<!--     List Set  []  for(QnaPost post : qnaPostPage.getContent()){} -->
+            <tr th:each="post : ${qnaPostPage.content}">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.title}"></td>
+                <td th:text="${post.member.email}"></td>
+                <td>
+                    <a th:href="@{/qna/{id}/detail.do (id=${post.id})}">상세</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <ul>
+            <li><a href="?page=0">1</a></li>
+            <li><a href="?page=1">2</a></li>
+            <li><a href="?page=2">3</a></li>
+            <li><a href="?page=3">4</a></li>
+            <li><a href="?page=4">5</a></li>
+        </ul>
+    </div>
+
     <a href="/index.html">← 홈</a>
 </div>
 </body>

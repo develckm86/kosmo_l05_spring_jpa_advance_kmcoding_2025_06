@@ -38,7 +38,8 @@ public class QnaPost {
     //n+1 문제
     @OneToOne(mappedBy = "post",fetch = FetchType.LAZY)
     private QnaAdopt qnaAdopt;
-
+    //FetchType.LAZY
+    //@Transaction이나 View에서 member를 호출하면 그 때 조회
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "MEMBER_ID", nullable = false)
