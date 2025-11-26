@@ -86,7 +86,8 @@ public class InfoController {
             @ModelAttribute InfoPostSearchBean infoPostSearchBean,
             @PageableDefault(size = 10,page =0, sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable) {
         System.out.println(infoPostSearchBean);
-        Page<InfoPost> infoPostPage=infoPostService.getInfoPosts(infoPostSearchBean, pageable);
+//        Page<InfoPost> infoPostPage=infoPostService.getInfoPosts(infoPostSearchBean, pageable);
+        Page<InfoPost> infoPostPage=infoPostService.searchSpec2(infoPostSearchBean, pageable);
         List<Category> categories=categoryService.getCategories();
 
         model.addAttribute("categories", categories);

@@ -102,7 +102,7 @@ public class InfoPostServiceImp implements InfoPostService {
 //        }
         return page;
     }
-    Page<InfoPost> searchSpec(InfoPostSearchBean searchBean,Pageable pageable) {
+    public Page<InfoPost> searchSpec(InfoPostSearchBean searchBean,Pageable pageable) {
         Page<InfoPost>  infoPostPage=null;
         Specification<InfoPost> spec= (root,query,cb)->{
             if(!searchBean.getNickname().isEmpty() || !searchBean.getEmail().isEmpty()){
@@ -137,7 +137,8 @@ public class InfoPostServiceImp implements InfoPostService {
         infoPostPage=infoPostRepository.findAll(spec,pageable);
         return infoPostPage;
     }
-    Page<InfoPost> searchSpec2(InfoPostSearchBean searchBean,Pageable pageable) {
+    @Override
+    public Page<InfoPost> searchSpec2(InfoPostSearchBean searchBean,Pageable pageable) {
         Specification<InfoPost> spec = Specification.allOf(InfoPostSpecification.fetchMember())
                 .and(InfoPostSpecification.titleContains(searchBean.getTitle()))
                 .and(InfoPostSpecification.contentContains(searchBean.getContent()))

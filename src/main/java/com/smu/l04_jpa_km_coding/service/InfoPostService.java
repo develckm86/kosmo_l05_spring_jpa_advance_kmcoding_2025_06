@@ -42,10 +42,16 @@ public interface InfoPostService {
             LocalDateTime startAt,
             LocalDateTime endAtStr,
             Pageable pageable);
-Page<InfoPost> getInfoPosts(
+    /**
+     * Query 로 다이나믹 쿼리 조회
+     * */
+    Page<InfoPost> getInfoPosts(
             InfoPostSearchBean infoPostSearchBean,
             Pageable pageable);
-
+    /**
+     * jpa specification 으로 다이나믹 쿼리 조회
+     * */
+    Page<InfoPost> searchSpec2(InfoPostSearchBean searchBean,Pageable pageable);
     /**
      * 정보글 상세 조회
      */
