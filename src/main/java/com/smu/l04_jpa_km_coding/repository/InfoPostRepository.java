@@ -3,18 +3,24 @@ package com.smu.l04_jpa_km_coding.repository;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Repository
-public interface InfoPostRepository extends JpaRepository<InfoPost, Long> {
+public interface InfoPostRepository extends JpaRepository<InfoPost, Long> , JpaSpecificationExecutor<InfoPost> {
+
+
     Page<InfoPost> findAll(Pageable pageable);
+
     Page<InfoPost> findByCategoryId(String categoryId,Pageable pageable);
 
     /**findByTitleContainingAndContentContaining 생성될 쿼리
@@ -91,6 +97,12 @@ public interface InfoPostRepository extends JpaRepository<InfoPost, Long> {
             LocalDateTime startAt,
             LocalDateTime endAt,
             Pageable pageable);
+
+    @Override
+    Optional<InfoPost> findOne(Specification<InfoPost> spec);
+
+    @Override
+    Page<InfoPost> findAll(Specification<InfoPost> spec, Pageable pageable);
 
 
 }

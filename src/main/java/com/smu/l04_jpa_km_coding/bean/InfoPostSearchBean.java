@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class InfoPostSearchBean {
-    private String title;
-    private String content;
+    private String title="";
+    private String content="";
     private String categoryId="";
-    private String nickname;
-    private String email;
+    private String nickname="";
+    private String email="";
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 }
