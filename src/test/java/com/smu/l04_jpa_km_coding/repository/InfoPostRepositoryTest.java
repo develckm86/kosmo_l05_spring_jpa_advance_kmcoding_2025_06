@@ -54,7 +54,9 @@ class InfoPostRepositoryTest {
     @Transactional
     void search() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page infoPage = infoPostRepository.search("","실전","", LocalDateTime.parse("2025-10-01T00:00:00"),LocalDateTime.parse("2025-12-31T00:00:00"), pageable);
+//        Page infoPage = infoPostRepository.search("","실전","","","", LocalDateTime.parse("2025-10-01T00:00:00"),LocalDateTime.parse("2025-12-31T00:00:00"), pageable);
+//        Page infoPage = infoPostRepository.search("","실전","","","", LocalDateTime.parse("2025-10-01T00:00:00"),LocalDateTime.parse("2025-12-31T00:00:00"), pageable);
+        Page infoPage = infoPostRepository.search("","트래픽","","","", null,null, pageable);
         List<InfoPost> content = infoPage.getContent();
         System.out.println(infoPage.getTotalElements());
         System.out.println(content);

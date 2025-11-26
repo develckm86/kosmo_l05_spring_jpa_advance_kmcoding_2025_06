@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.controller;
 
+import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
 import com.smu.l04_jpa_km_coding.entity.Category;
 import com.smu.l04_jpa_km_coding.entity.InfoComment;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
@@ -79,6 +80,17 @@ public class InfoController {
         model.addAttribute("commentPage", commentPage);
         return "info/detail";
     }
+    @GetMapping("/search.do")
+    public String search(
+            Model model,
+            @ModelAttribute InfoPostSearchBean infoPostSearchBean,
+            @PageableDefault(size = 10,page =0, sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<InfoPost> infoPostPage=infoPostService.getInfoPosts(infoPostSearchBean, pageable);
+        List<Category> categories=categoryService.getCategories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("infoPostPage", infoPostPage);
+        return "info/search";
+    }
 
 
     // 정보글 작성 폼
@@ -87,10 +99,6 @@ public class InfoController {
         return "info/write";
     }
     // 정보글 작성 폼
-    @GetMapping("/search.do")
-    public String search() {
-        return "info/search";
-    }
 
     // 정보글 작성 액션
     @PostMapping("/write.do")

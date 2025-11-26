@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.service;
 
+import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,8 +37,13 @@ public interface InfoPostService {
             String title,
             String content,
             String categoryId,
+            String nickname,
+            String email,
             LocalDateTime startAt,
             LocalDateTime endAtStr,
+            Pageable pageable);
+Page<InfoPost> getInfoPosts(
+            InfoPostSearchBean infoPostSearchBean,
             Pageable pageable);
 
     /**

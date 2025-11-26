@@ -60,21 +60,34 @@ public interface InfoPostRepository extends JpaRepository<InfoPost, Long> {
      * 동적 검색 2: 여러 입력값을 조합해 검색하는 방식
      *      입력받은 title, content, categoryId, tagId 등 여러 조건을 결합해 검색
      * 	    다중 조건 검색을 구현할 때 유용
+     * 	    """
+     *             SELECT i FROM InfoPost i  WHERE
+     *                 i.title LIKE CONCAT('%',:title,'%') AND
+     *                 i.content LIKE CONCAT('%',:content,'%') AND
+     *                 i.categoryId LIKE CONCAT('%',:categoryId,'%') AND
+     *                 i.member.nickname LIKE CONCAT('%',:nickname,'%') AND
+     *                 i.member.email LIKE CONCAT('%',:email,'%') AND
+     *                 i.createdAt BETWEEN :startAt AND :endAt
+     *             """
+     *
      * */
     //양식에서 여러개의 input 으로 다양한 필드 검색
     //25/11/23 00:31:05.606589
     @Query("""
-            SELECT i FROM InfoPost i  WHERE 
-                i.title LIKE CONCAT('%',:title,'%') AND 
-                i.content LIKE CONCAT('%',:content,'%') AND 
-                i.categoryId LIKE CONCAT('%',:categoryId,'%') AND 
-                i.member.nickname LIKE CONCAT('%',:categoryId,'%') AND 
-                i.createdAt BETWEEN :startAt AND :endAt
+            SELECT i FROM InfoPost i WHERE 
+                ( TRIM(:title)='' OR i.title LIKE CONCAT('%',:title,'%'))
+                AND ( TRIM(:content)=''  OR i.content LIKE CONCAT('%',:content,'%'))
+                AND ( TRIM(:categoryId)=''  OR i.categoryId LIKE CONCAT('%',:categoryId,'%'))
+                AND ( TRIM(:nickname)=''  OR i.member.nickname LIKE CONCAT('%',:nickname,'%'))
+                AND ( TRIM(:email)=''  OR i.member.email LIKE CONCAT('%',:email,'%'))
+                AND ( :startAt IS NULL OR :endAt IS NULL OR i.createdAt BETWEEN :startAt AND :endAt)
             """)
     Page<InfoPost> search(
             String title,
             String content,
             String categoryId,
+            String nickname,
+            String email,
             LocalDateTime startAt,
             LocalDateTime endAt,
             Pageable pageable);

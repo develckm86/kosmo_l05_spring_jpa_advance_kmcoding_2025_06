@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.service.impl;
 
+import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import com.smu.l04_jpa_km_coding.repository.InfoPostRepository;
 import com.smu.l04_jpa_km_coding.service.InfoPostService;
@@ -32,10 +33,23 @@ public class InfoPostServiceImp implements InfoPostService {
     }
     //복수 조건 검색
     @Override
-    public Page<InfoPost> getInfoPosts(String title, String content, String categoryId, LocalDateTime startAt, LocalDateTime endAt, Pageable pageable) {
-        return infoPostRepository.search(title, content, categoryId, startAt, endAt, pageable);
+    public Page<InfoPost> getInfoPosts(String title, String content, String categoryId,String nickname,String email, LocalDateTime startAt, LocalDateTime endAt, Pageable pageable) {
+        return infoPostRepository.search(title, content, categoryId, nickname, email, startAt, endAt, pageable);
     }
 
+    @Override
+    public Page<InfoPost> getInfoPosts(InfoPostSearchBean infoPostSearchBean, Pageable pageable) {
+        return infoPostRepository.search(
+                infoPostSearchBean.getTitle(),
+                infoPostSearchBean.getContent(),
+                infoPostSearchBean.getCategoryId(),
+                infoPostSearchBean.getEmail(),
+                infoPostSearchBean.getNickname(),
+                infoPostSearchBean.getStartAt(),
+                infoPostSearchBean.getEndAt(),
+                pageable
+                );
+    }
 
 
     @Override

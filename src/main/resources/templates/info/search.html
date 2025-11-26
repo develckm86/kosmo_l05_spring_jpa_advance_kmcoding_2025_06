@@ -11,7 +11,7 @@
         <a class="btn btn-primary" href="/info/write.do">글 작성</a>
     </div>
 
-    <form th:action="@{/info/list.do}" method="get" class="card mb-4 shadow-sm">
+    <form th:action="@{/info/search.do}" method="get" class="card mb-4 shadow-sm">
         <div class="card-header bg-light">
             <span class="fw-semibold">검색</span>
         </div>
@@ -36,29 +36,20 @@
                     <input type="datetime-local" class="form-control" id="endAt" name="endAt" th:value="${param.endAt}">
                 </div>
             </div>
+            <h6 class="mt-3">카테고리</h6>
+            <div style="font-size: 0.8em;">
+                <th:block th:replace="category/list :: categoryList(categories=${categories})"></th:block>
+            </div>
+
         </div>
         <div class="card-footer d-flex gap-2">
             <button type="submit" class="btn btn-outline-primary">검색</button>
             <a class="btn btn-outline-secondary" th:href="@{/info/list.do}">초기화</a>
         </div>
+
     </form>
 
-    <section class="card">
-        <div class="card-header d-flex align-items-center justify-content-between bg-light">
-            <h2 class="h5 mb-0">목록</h2>
-            <small class="text-muted">Pageable: <span th:text="${pageable}">pageable</span></small>
-        </div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">예시 정보글 1</li>
-                <li class="list-group-item">예시 정보글 2</li>
-            </ul>
-        </div>
-        <div class="card-footer">
-            <a class="link-secondary" href="/index.html">← 홈</a>
-        </div>
-    </section>
-
+    <th:block th:replace="~{info/list ::pageList(infoPostPage=${infoPostPage}) }"></th:block>
 </div>
 
 
