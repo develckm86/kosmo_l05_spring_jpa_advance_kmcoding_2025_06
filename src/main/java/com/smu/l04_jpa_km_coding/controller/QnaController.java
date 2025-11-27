@@ -27,10 +27,18 @@ public class QnaController {
     @GetMapping("/list.do")
     public String list(
             Model model,
-            @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(defaultValue="") String search,
+            @RequestParam(defaultValue="") String field
     ) {
         model.addAttribute("keyword", "안녕!");
-        Page<QnaPost> qnaPostPage=qnaService.getQnaPosts(pageable);
+        Page<QnaPost> qnaPostPage=null;
+        if(!search.isEmpty() && !field.isEmpty()){
+            qnaPostPage=qnaService.getQanPosts(search, field, pageable);
+        }else{
+            qnaPostPage=qnaService.getQnaPosts(pageable);
+        }
+
         model.addAttribute("qnaPostPage", qnaPostPage);
         log.info("qnaPostPage.content : {}", qnaPostPage.getContent());
         return "qna/list";

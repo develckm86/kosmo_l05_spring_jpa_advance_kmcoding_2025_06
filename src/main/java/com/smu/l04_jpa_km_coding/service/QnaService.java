@@ -20,6 +20,7 @@ public interface QnaService {
     //Page java.util.List+Pageable :List 인데 페이지 정보를 포함
     Page<QnaPost> getQnaPosts(Pageable pageable);
 
+    Page<QnaPost> getQanPosts(String search, String field, Pageable pageable);
 //    /**
 //     * 질문글 목록/검색 조회 (Pageable 기반, 기본 page size=20)
 //     */

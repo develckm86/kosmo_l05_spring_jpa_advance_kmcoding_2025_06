@@ -8,6 +8,19 @@
 <div layout:fragment="content">
     <h1>질문 리스트</h1>
     <a href="/qna/write.do">질문 작성</a>
+    <form action="/qna/list.do" method="GET"  class="my-4">
+        <!--<input type="hidden" name="categoryId" th:value="${categoryId}">-->
+        <div class="input-group">
+            <select class="col-3 form-select" name="field" id="searchField">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input class="col-7 form-control" name="search" type="text">
+            <button class="col-2 btn btn-outline-primary" type="submit">검색</button>
+        </div>
+    </form>
+
+
     <table class="table table-hover">
         <thead>
             <tr>
@@ -40,13 +53,13 @@
     <div class="d-flex mt-3 justify-content-end">
         <nav class="">
             <a class="btn btn-sm btn-outline-secondary"
-               th:href="@{'?'(page=0,size=2)}">2</a>
+               th:href="@{'?'(page=0,size=2,search=${param.search},field=${param.field}) }">2</a>
             <a class="btn btn-sm btn-outline-secondary"
-               th:href="@{'?'(page=0,size=4)}">4</a>
+               th:href="@{'?'(page=0,size=4,search=${param.search},field=${param.field})}">4</a>
             <a class="btn btn-sm btn-outline-secondary"
-               th:href="@{'?'(page=0,size=6)}">6</a>
+               th:href="@{'?'(page=0,size=6,search=${param.search},field=${param.field})}">6</a>
             <a class="btn btn-sm btn-outline-secondary"
-               th:href="@{'?'(page=0,size=10)}">10</a>
+               th:href="@{'?'(page=0,size=10,search=${param.search},field=${param.field})}">10</a>
         </nav>
     </div>
 
@@ -60,16 +73,16 @@
             <ul class="pagination">
                 <li class="page-item"
                     th:classappend="${page}==0 ? 'disabled' ">
-                    <a th:href="@{'?'(page=0,size=${size})}" class="page-link">start</a>
+                    <a th:href="@{'?'(page=0,size=${size},search=${param.search},field=${param.field})}" class="page-link">start</a>
                 </li>
                 <li  th:each="i : ${#numbers.sequence(1,last)}"
                      th:classappend="( (${i}-1)==${page}?'active' )"
                      class="page-item">
-                    <a th:href="@{'?'(page=(${i}-1), size=${size})}" class="page-link" th:text="${i}" > </a>
+                    <a th:href="@{'?'(page=(${i}-1), size=${size},search=${param.search},field=${param.field})}" class="page-link" th:text="${i}" > </a>
                 </li>
                 <li class="page-item"
                     th:classappend="${page}==(${last}-1) ? 'disabled' ">
-                    <a th:href="@{'?'(page=${last}-1,size=${size})}" class="page-link">last</a>
+                    <a th:href="@{'?'(page=${last}-1,size=${size},search=${param.search},field=${param.field})}" class="page-link">last</a>
                 </li>
 
             </ul>

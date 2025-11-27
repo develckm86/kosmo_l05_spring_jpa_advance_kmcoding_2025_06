@@ -70,6 +70,16 @@ public class InfoPostServiceImp implements InfoPostService {
      * 	•   Date 검색 지원안됨
      * 	•	조인 조건 불가. 단일 엔티티 검색에 적합
      * 	https://docs.spring.io/spring-data/jpa/reference/repositories/query-by-example.html
+     * 	.withIgnoreCase() : WHERE LOWER(title) LIKE LOWER('%Spring%')
+     * 	.withIgnoreNullValues() : null 항목은 조건에서 제외.
+     * 	.matchingAny() : WHERE title LIKE '%spring%' OR category_id LIKE '%jpa%'
+     * 	.matchingAll() : WHERE title LIKE '%spring%' AND category_id LIKE '%jpa%'
+     *
+     * 	.withMatcher("title", m -> m.contains()); : WHERE title LIKE '%spring%'
+     * 	.withMatcher("title", m -> m.startsWith()); : WHERE title LIKE 'spring%'
+     *  .withMatcher("title", m -> m.endsWith()); : WHERE title LIKE '%spring'
+     *  .withMatcher("title", m -> m.exact()); :WHERE title = 'spring'
+     *  .withMatcher("title", m -> m.regex()); : WHERE title REGEXP 'spring'
      * */
 
 
@@ -81,13 +91,15 @@ public class InfoPostServiceImp implements InfoPostService {
         probe.setContent(s.getContent());
         probe.setCategoryId(s.getCategoryId());
 
-        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+        ExampleMatcher matcher = ExampleMatcher
+                .matchingAll()
                 .withIgnoreNullValues()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // LIKE %...%
                 .withMatcher("title", match -> match.contains())
                 .withMatcher("content", match -> match.contains())
                 .withMatcher("categoryId", match -> match.contains());
+
 
         Example<InfoPost> example = Example.of(probe, matcher);
 
@@ -103,8 +115,11 @@ public class InfoPostServiceImp implements InfoPostService {
         return page;
     }
     public Page<InfoPost> searchSpec(InfoPostSearchBean searchBean,Pageable pageable) {
+
+
         Page<InfoPost>  infoPostPage=null;
         Specification<InfoPost> spec= (root,query,cb)->{
+
             if(!searchBean.getNickname().isEmpty() || !searchBean.getEmail().isEmpty()){
                 //root.join("member");
                 root.fetch("member", JoinType.INNER); //fetch join 영속성에 저장되는 조인으로 효율이 좋음
@@ -126,7 +141,8 @@ public class InfoPostServiceImp implements InfoPostService {
 
         }
         if(!searchBean.getTitle().isEmpty()){
-            spec=spec.and((root,query,cb)->cb.like(root.get("title"),"%"+searchBean.getTitle()+"%"));
+            spec=spec.and((root,query,cb)->
+                    cb.like(root.get("title"),"%"+searchBean.getTitle()+"%"));
         }
         if(!searchBean.getContent().isEmpty()){
             spec=spec.and((root,query,cb)->cb.like(root.get("content"),"%"+searchBean.getContent()+"%"));
@@ -134,9 +150,14 @@ public class InfoPostServiceImp implements InfoPostService {
         if(searchBean.getStartAt()!=null && searchBean.getEndAt()!=null){
             spec=spec.and((root,query,cb)->cb.between(root.get("createdAt"),searchBean.getStartAt(),searchBean.getEndAt()));
         }
+
+
+
         infoPostPage=infoPostRepository.findAll(spec,pageable);
         return infoPostPage;
     }
+
+
     @Override
     public Page<InfoPost> searchSpec2(InfoPostSearchBean searchBean,Pageable pageable) {
         Specification<InfoPost> spec = Specification.allOf(InfoPostSpecification.fetchMember())
@@ -287,9 +308,8 @@ public class InfoPostServiceImp implements InfoPostService {
      * 이 패턴이 거의 표준이다.
      *
      * 2) Specification은 동적 조인
-     * join()은 필요한 조건이 있을 때만 실행해야 한다.
-     * 예: cb.like(root.join("member").get("email"), "%gmail%")
-
+     * join()은 필요한 조건이 있을 때만 실행해야 한다. 예: cb.like(root.join("member").get("email"), "%gmail%")
+     *
      *
      * 3) order by는 Pageable 사용 권장  : Specification 내부에서 query.orderBy()를 직접 쓰면 충돌 위험 있음.
      *
