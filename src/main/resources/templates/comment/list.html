@@ -25,7 +25,8 @@
         </form>
 
         <div th:if="${commentCount > 0}">
-            <div class="list-group list-group-flush">
+            <!--    대댓글 호출  -->
+            <div th:fragment="commentEach(commentList)" class="list-group list-group-flush">
                 <div class="list-group-item px-0" th:each="comment : ${commentList}">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
@@ -55,6 +56,9 @@
                                 onclick="document.getElementById('commentContent').focus();">
                             답글
                         </button>
+                    </div>
+                    <div class="bg-dark ms-4" th:if="${comment.infoComments != null} ">
+                        <th:block th:replace="~{comment/list :: commentEach(commentList=${comment.infoComments})}"></th:block>
                     </div>
                 </div>
             </div>

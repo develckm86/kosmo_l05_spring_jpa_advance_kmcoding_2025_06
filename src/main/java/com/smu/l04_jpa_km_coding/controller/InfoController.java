@@ -4,21 +4,17 @@ import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
 import com.smu.l04_jpa_km_coding.entity.Category;
 import com.smu.l04_jpa_km_coding.entity.InfoComment;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
-import com.smu.l04_jpa_km_coding.repository.CategoryRepository;
-import com.smu.l04_jpa_km_coding.repository.InfoPostRepository;
-import com.smu.l04_jpa_km_coding.service.CategoryService;
-import com.smu.l04_jpa_km_coding.service.InfoPostService;
+import com.smu.l04_jpa_km_coding.service.InfoCommentService;
 import com.smu.l04_jpa_km_coding.service.impl.CategoryServiceImp;
 import com.smu.l04_jpa_km_coding.service.impl.InfoPostServiceImp;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +32,7 @@ import java.util.Optional;
 public class InfoController {
     private final InfoPostServiceImp infoPostService;
     private final CategoryServiceImp categoryService;
+    private final InfoCommentService infoCommentService;
     //private static Logger log = LoggerFactory.getLogger(this.getClass()); //@Slf4j
     // 정보글 리스트/검색
     @GetMapping("/list.do")
@@ -64,7 +61,7 @@ public class InfoController {
     // 정보글 상세
     @GetMapping("/{id}/detail.do")
     public String detail(@PathVariable Long id,
-                         @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                         @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                          Model model) {
         model.addAttribute("postId", id);
         Optional<InfoPost> infoPostOpt=infoPostService.getInfoPostDetail(id);
@@ -74,7 +71,7 @@ public class InfoController {
         }
 
         InfoPost infoPost = infoPostOpt.get();
-        Page<InfoComment> commentPage = paginateComments(infoPost.getInfoComments(), pageable);
+        Page<InfoComment> commentPage = infoCommentService.getInfoComments(id, pageable);
 
         model.addAttribute("infoPost", infoPost);
         model.addAttribute("commentPage", commentPage);
