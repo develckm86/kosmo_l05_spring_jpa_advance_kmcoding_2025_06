@@ -1,8 +1,10 @@
 package com.smu.l04_jpa_km_coding.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -12,6 +14,8 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "MEMBER")
+@ToString(exclude = {"infoComments","infoCommentLikes","infoLikes","infoPosts","qnaComments","qnaCommentLikes","qnaPosts","qnaReactions"})
+@JsonIgnoreProperties({"infoComments","infoCommentLikes","infoLikes","infoPosts","qnaComments","qnaCommentLikes","qnaPosts","qnaReactions"})
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

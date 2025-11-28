@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<section th:fragment="commentList(commentPage)"
+        class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+            <h2 class="h5 mb-0">댓글</h2>
+            <span class="badge text-bg-secondary" th:text="${commentCount}">0</span>
+        </div>
+        <div class="d-flex mt-3 justify-content-end">
+            <nav th:with="size=${commentPage.size}">
+                <a class="btn btn-sm btn-outline-secondary"
+                   th:classappend="${#strings.equals(size,'4')} ? 'active' "
+                   th:href="@{'?'(page=0,size=4,search=${param.search},field=${param.field}) }">4</a>
+                <a class="btn btn-sm btn-outline-secondary"
+                   th:classappend="${#strings.equals(size,'6')} ? 'active' "
+                   th:href="@{'?'(page=0,size=6,search=${param.search},field=${param.field})}">6</a>
+                <a class="btn btn-sm btn-outline-secondary"
+                   th:classappend="${#strings.equals(size,'8')} ? 'active' "
+                   th:href="@{'?'(page=0,size=8,search=${param.search},field=${param.field})}">8</a>
+                <a class="btn btn-sm btn-outline-secondary"
+                   th:classappend="${#strings.equals(size,'10')} ? 'active' "
+                   th:href="@{'?'(page=0,size=10,search=${param.search},field=${param.field})}">10</a>
+            </nav>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <form class="mb-4" th:action="@{/info/comment/write.do}" method="post">
+            <input type="hidden" name="postId" th:value="${info?.id} ?: ${postId}">
+            <label for="commentContent" class="form-label">댓글 작성</label>
+            <textarea class="form-control mb-2" id="commentContent" name="content" rows="3" placeholder="내용을 입력하세요" required></textarea>
+            <div class="d-flex justify-content-end gap-2">
+                <a class="btn btn-outline-secondary btn-sm"
+                   th:href="@{/info/{id}/detail.do(id=${info.id})}">취소</a>
+                <button type="submit" class="btn btn-primary btn-sm">등록</button>
+            </div>
+        </form>
+
+        <div th:if="${commentPage.totalElements > 0}">
+            <!--    댓글 호출  -->
+            <div th:fragment="commentEach(commentPage)" class="list-group list-group-flush ms-2">
+                <div class="list-group-item" th:each="comment : ${commentPage}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div>
+                                <span class="fw-semibold" th:text="${comment.member.nickname}"></span>
+                                <span class="fw-semibold" th:text="${comment.member.email}"></span>
+                            </div>
+                            <div class="text-secondary small"
+                                 th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')} ?: '-'">날짜</div>
+                        </div>
+                        <form th:action="@{/info/comment/{commentId}/remove.do(commentId=${comment.id})}"
+                              method="post"
+                              onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="postId" th:value="${info?.id} ?: ${postId}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                        </form>
+                    </div>
+                    <p class="my-3" th:text="${comment.content}">댓글 내용</p>
+                    <div class="d-flex gap-2 align-items-center">
+                        <form th:action="@{/info/comment/{commentId}/like(commentId=${comment.id})}"
+                              method="post">
+                            <button class="btn btn-sm btn-outline-primary" type="submit">
+                                좋아요
+                                <span class="badge text-bg-primary ms-1"
+                                      th:text="${comment.infoCommentLikes != null ? #lists.size(comment.infoCommentLikes) : 0}">0</span>
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                onclick="document.getElementById('commentContent').focus();">
+                            답글
+                        </button>
+                    </div>
+                    <!--   대댓글 호출     -->
+                    <div class="ms-2 mt-3 position-relative" th:if="${ comment.infoComments.size() > 0} ">
+                        <span class="position-absolute text-black-50" style="font-size: 1.3em;">L</span>
+                        <th:block th:replace="~{info/comment/list :: commentEach(commentPage=${comment.infoComments})}"></th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-muted py-4" th:if="${commentCount == 0}">
+            아직 등록된 댓글이 없습니다.
+        </div>
+    </div>
+    <div class="card-footer">
+        <div th:with="
+        page=${commentPage.number},
+        last=${commentPage.totalPages},
+        sort=${commentPage.sort},
+        size=${commentPage.size}"
+             class="my-4 d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"
+                        th:classappend="${page}==0 ? 'disabled' ">
+                        <a th:href="@{'?'(page=0,size=${size})}" class="page-link">start</a>
+                    </li>
+                    <li  th:each="i : ${#numbers.sequence(1,last)}"
+                         th:classappend="( (${i}-1)==${page}?'active' )"
+                         class="page-item">
+                        <a th:href="@{'?'(page=(${i}-1), size=${size})}" class="page-link" th:text="${i}" > </a>
+                    </li>
+                    <li class="page-item"
+                        th:classappend="${page}==(${last}-1) ? 'disabled' ">
+                        <a th:href="@{'?'(page=${last}-1,size=${size})}" class="page-link">last</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</section>
+</body>
+</html>

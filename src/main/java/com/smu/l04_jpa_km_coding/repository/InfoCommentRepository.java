@@ -21,7 +21,13 @@ public interface InfoCommentRepository extends JpaRepository<InfoComment, Long> 
      */
     @Query(
             """
-            SELECT a FROM InfoComment a JOIN FETCH a.infoComments b JOIN FETCH b.infoComments WHERE a.parentId IS NULL
+            SELECT a FROM InfoComment a 
+                    JOIN FETCH a.member
+                    JOIN FETCH a.infoComments b 
+                    JOIN FETCH b.member
+                    JOIN FETCH b.infoComments c
+                    JOIN FETCH c.member 
+                        WHERE a.parentId IS NULL
             """
     )
     Page<InfoComment> findByPostIdAndParentIdIsNull(long postId, Pageable pageable);

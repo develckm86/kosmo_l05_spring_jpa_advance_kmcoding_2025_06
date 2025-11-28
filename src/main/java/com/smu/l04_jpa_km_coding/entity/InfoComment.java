@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "INFO_COMMENT")
 @ToString(exclude = {"member","post","parent","infoComments","infoCommentLikes"})
-@JsonIgnoreProperties({"member","post","parent","infoComments","infoCommentLikes"})
+@JsonIgnoreProperties({"post","parent","infoCommentLikes"})
 
 public class InfoComment {
     @Id

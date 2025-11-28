@@ -61,7 +61,7 @@ public class InfoController {
     // 정보글 상세
     @GetMapping("/{id}/detail.do")
     public String detail(@PathVariable Long id,
-                         @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                         @PageableDefault(size = 4, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                          Model model) {
         model.addAttribute("postId", id);
         Optional<InfoPost> infoPostOpt=infoPostService.getInfoPostDetail(id);
@@ -138,58 +138,4 @@ public class InfoController {
         return "redirect:/info/" + postId + "/detail.do";
     }
 
-    // 댓글 리스트
-    @GetMapping("/comment/list.do")
-    public String comments(@RequestParam Long postId,
-                           @PageableDefault(size = 20) Pageable pageable,
-                           @RequestParam(required = false) String sort,
-                           Model model) {
-        model.addAttribute("postId", postId);
-        model.addAttribute("pageable", pageable);
-        model.addAttribute("sort", sort);
-        return "info/detail";
-    }
-
-    // 댓글 작성
-    @PostMapping("/comment/write.do")
-    public String writeComment(@RequestParam Long postId,
-                               @RequestParam(required = false) Long parentId) {
-        return "redirect:/info/" + postId + "/detail.do";
-    }
-
-    // 댓글 삭제
-    @DeleteMapping("/comment/{commentId}/remove.do")
-    public String removeComment(@PathVariable Long commentId, @RequestParam Long postId) {
-        return "redirect:/info/" + postId + "/detail.do";
-    }
-
-    // 댓글 좋아요
-    @PostMapping("/comment/{commentId}/like")
-    public String likeComment(@PathVariable Long commentId, @RequestParam Long postId) {
-        return "redirect:/info/" + postId + "/detail.do";
-    }
-
-    // 댓글 좋아요 취소
-    @DeleteMapping("/comment/{commentId}/like")
-    public String cancelCommentLike(@PathVariable Long commentId, @RequestParam Long postId) {
-        return "redirect:/info/" + postId + "/detail.do";
-    }
-
-    /**
-     * 간단한 in-memory 페이징 유틸 (별도 댓글 리포지토리/서비스가 준비되지 않은 상태 고려)
-     */
-    private Page<InfoComment> paginateComments(java.util.Set<InfoComment> comments, Pageable pageable) {
-        List<InfoComment> sorted = new ArrayList<>();
-        if (comments != null) {
-            sorted = comments.stream()
-                    .sorted(Comparator.comparing(InfoComment::getCreatedAt, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
-                    .toList();
-        }
-
-        int start = Math.min((int) pageable.getOffset(), sorted.size());
-        int end = Math.min(start + pageable.getPageSize(), sorted.size());
-        List<InfoComment> pageContent = sorted.subList(start, end);
-
-        return new org.springframework.data.domain.PageImpl<>(pageContent, pageable, sorted.size());
-    }
 }

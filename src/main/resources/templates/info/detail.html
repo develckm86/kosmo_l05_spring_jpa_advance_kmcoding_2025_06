@@ -7,9 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content"
-     th:with="info=${infoPost} ?: ${info},
-              commentList=${commentPage != null ? commentPage.content : comments},
-              commentCount=${commentPage != null ? commentPage.totalElements : (commentList != null ? #lists.size(commentList) : 0)}">
+     th:with="info=${infoPost}">
 
     <div class="alert alert-danger d-flex align-items-center justify-content-between"
          th:if="${errorMessage}">
@@ -74,7 +72,171 @@
         </div>
     </div>
     </div>
-    <div th:replace="~{comment/list :: commentList(infoPostPage=${commentPage})}"></div>
+    <h4>비동기식 댓글 조회 및 페이징 <button type="button" id="loadCommentsBtn">조회</button> </h4>
+    <div id="commentListAjax" class="card shadow-sm border-0">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <h2 class="h5 mb-0">댓글</h2>
+                <span class="badge text-bg-secondary" th:text="${commentCount}">0</span>
+            </div>
+            <div class="d-flex mt-3 justify-content-end">
+                <nav th:with="size=${commentPage.size}">
+                    <a class="btn btn-sm btn-outline-secondary"
+                       th:classappend="${#strings.equals(size,'4')} ? 'active' "
+                       th:href="@{'?'(page=0,size=4,search=${param.search},field=${param.field}) }">4</a>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       th:classappend="${#strings.equals(size,'6')} ? 'active' "
+                       th:href="@{'?'(page=0,size=6,search=${param.search},field=${param.field})}">6</a>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       th:classappend="${#strings.equals(size,'8')} ? 'active' "
+                       th:href="@{'?'(page=0,size=8,search=${param.search},field=${param.field})}">8</a>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       th:classappend="${#strings.equals(size,'10')} ? 'active' "
+                       th:href="@{'?'(page=0,size=10,search=${param.search},field=${param.field})}">10</a>
+                </nav>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <form class="mb-4" th:action="@{/info/comment/write.do}" method="post">
+                <input type="hidden" name="postId" th:value="${info?.id} ?: ${postId}">
+                <label for="commentContent" class="form-label">댓글 작성</label>
+                <textarea class="form-control mb-2" id="commentContent" name="content" rows="3" placeholder="내용을 입력하세요" required></textarea>
+                <div class="d-flex justify-content-end gap-2">
+                    <a class="btn btn-outline-secondary btn-sm"
+                       th:href="@{/info/{id}/detail.do(id=${info.id})}">취소</a>
+                    <button type="submit" class="btn btn-primary btn-sm">등록</button>
+                </div>
+            </form>
+
+            <div>
+                <div id="commentsCont" class="list-group list-group-flush ms-2">
+                </div>
+            </div>
+            <div class="text-center text-muted py-4" th:if="${commentCount == 0}">
+                아직 등록된 댓글이 없습니다.
+            </div>
+        </div>
+        <div class="card-footer">
+            <div th:with="
+        page=${commentPage.number},
+        last=${commentPage.totalPages},
+        sort=${commentPage.sort},
+        size=${commentPage.size}"
+                 class="my-4 d-flex justify-content-center">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item"
+                            th:classappend="${page}==0 ? 'disabled' ">
+                            <a th:href="@{'?'(page=0,size=${size})}" class="page-link">start</a>
+                        </li>
+                        <li  th:each="i : ${#numbers.sequence(1,last)}"
+                             th:classappend="( (${i}-1)==${page}?'active' )"
+                             class="page-item">
+                            <a th:href="@{'?'(page=(${i}-1), size=${size})}" class="page-link" th:text="${i}" > </a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${page}==(${last}-1) ? 'disabled' ">
+                            <a th:href="@{'?'(page=${last}-1,size=${size})}" class="page-link">last</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script>
+        const commentListAjax = document.getElementById('commentListAjax');
+        const commentsCont = document.getElementById('commentsCont');
+        const loadCommentsBtn = document.getElementById('loadCommentsBtn');
+        function commentRender(comment) {
+            return`<div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div>
+                                    <span class="fw-semibold">${comment.member.nickname}</span>
+                                    <span class="fw-semibold">${comment.member.email}</span>
+                                </div>
+                                <div class="text-secondary small">${comment.createdAt}</div>
+                            </div>
+                            <form th:action="@{/info/comment/{commentId}/remove.do(commentId=${comment.id})}"
+                                  method="post"
+                                  onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
+                                <input type="hidden" name="_method" value="delete">
+                                <input type="hidden" name="postId" value="${postId}">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                            </form>
+                        </div>
+                        <p class="my-3" th:text="${comment.content}">댓글 내용</p>
+                        <div class="d-flex gap-2 align-items-center">
+                            <form th:action="@{/info/comment/{commentId}/like(commentId=${comment.id})}"
+                                  method="post">
+                                <button class="btn btn-sm btn-outline-primary" type="submit">
+                                    좋아요
+                                    <span class="badge text-bg-primary ms-1">${comment.infoCommentLikes}</span>
+                                </button>
+                            </form>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                    onclick="document.getElementById('commentContent').focus();">
+                                답글
+                            </button>
+                        </div>
+                    </div>`;
+        }
+        function pageRender(page, last, sort, size) {
+
+            html=
+        `<div class="my-4 d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"
+                        th:classappend="${page===0 && 'disabled'} ">
+                        <a th:href="@{'?'(page=0,size=${size})}" class="page-link">start</a>
+                    </li>`;
+            for(let i=1;i<=last;i++){
+                html+=`<li class="page-item" th:classappend="${page===i-1 && 'active'}">
+                        <button onclick="loadCommentList(page,size)"  class="page-link">${i}</button>
+                    </li>`;
+            }
+            html+=`<li class="page-item"
+                        th:classappend="${page}==(${last}-1) ? 'disabled' ">
+                        <a th:href="@{'?'(page=${last}-1,size=${size})}" class="page-link">last</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>`;
+            return html;
+        }
+        const postId=[[${info.id}]];
+        function commentListRender(comments) {
+            let html="";
+            for(const comment of comments){
+                html+=commentRender(comment);
+                if(comment.infoComments.length > 0){
+                    html +=`<div class="list-group list-group-flush ms-4 mt-3 position-relative">`
+                    html+=  `<span  style="position: absolute;z-index: 999">L</span>`
+                    html+=          commentListRender(comment.infoComments)
+                    html+=`</div>`
+                }
+            }
+            return html;
+        }
+        async function loadCommentList(page=0,size=5) {
+            let url=`/info/comment/${postId}?page=${page}&size=${size}`;
+            const resp=await fetch(url);
+            if(!resp.ok){alert("error");}
+            const commentPage=await resp.json();
+            console.log(commentPage);
+            let html="";
+                html+=pageRender(commentPage.page,commentPage.totalPages,commentPage.sort,commentPage.size)
+                html+=commentListRender(commentPage.content);
+            commentsCont.innerHTML=html;
+        }
+        loadCommentsBtn.addEventListener('click',loadCommentList);
+    </script>
+    <hr>
+    <!--    <h4>동기식 댓글 조회 및 페이지 </h4>-->
+    <!--    <div th:replace="~{info/comment/list :: commentList(commentPage=${commentPage})}"></div>-->
 </div>
 </body>
 </html>
