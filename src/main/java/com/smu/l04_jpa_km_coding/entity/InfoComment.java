@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -57,5 +58,9 @@ public class InfoComment {
 
     @OneToMany(mappedBy = "comment")
     private Set<InfoCommentLike> infoCommentLikes = new LinkedHashSet<>();
+
+    @Formula("(SELECT COUNT(*) FROM INFO_COMMENT_LIKE l WHERE l.COMMENT_ID=COMMENT_ID)")
+    private Long likeCount=0L;
+
 
 }
