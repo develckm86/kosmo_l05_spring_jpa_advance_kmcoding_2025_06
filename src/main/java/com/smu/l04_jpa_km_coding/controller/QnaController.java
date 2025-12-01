@@ -4,8 +4,6 @@ import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import com.smu.l04_jpa_km_coding.service.QnaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,7 +32,7 @@ public class QnaController {
         model.addAttribute("keyword", "안녕!");
         Page<QnaPost> qnaPostPage=null;
         if(!search.isEmpty() && !field.isEmpty()){
-            qnaPostPage=qnaService.getQanPosts(search, field, pageable);
+            qnaPostPage=qnaService.getQnaPosts(search, field, pageable);
         }else{
             qnaPostPage=qnaService.getQnaPosts(pageable);
         }

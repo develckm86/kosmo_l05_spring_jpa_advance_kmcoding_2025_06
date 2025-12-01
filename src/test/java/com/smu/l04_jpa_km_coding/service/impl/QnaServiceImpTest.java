@@ -8,19 +8,47 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDateTime;
+
 @SpringBootTest
 class QnaServiceImpTest {
     @Autowired
     private QnaServiceImp qnaService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Test
-    void getQanPosts() {
+    void getQnaPosts() {
         Pageable pageable = PageRequest.of(0, 10);
         String field = "title";
         String search = "jwt";
-        Page qnaPostPage =qnaService.getQanPosts(search, field, pageable);
+        Page qnaPostPage =qnaService.getQnaPosts(search, field, pageable);
         logger.info(qnaPostPage.getContent().toString());
+    }
+    @Transactional(readOnly = true)
+    @Test
+    void testGetQnaPosts() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page qnaPostPage =qnaService.getQnaPosts("","","km@",pageable);
+        logger.info(qnaPostPage.getContent().toString());
+
+    }
+
+    @Test
+    void testGetQnaPosts1() {
+        String startStr="2025-11-24T00:00:00";
+        String endStr="2025-11-26T00:00:00";
+        Pageable pageable = PageRequest.of(0, 10);
+        Page qnaPostPage =qnaService.getQnaPosts(
+                "",
+                "",
+                "km@",
+                LocalDateTime.parse(startStr),
+                LocalDateTime.parse(endStr),
+                pageable);
+//        Page qnaPostPage =qnaService.getQnaPosts("","","km@", null,null,pageable);
+        logger.info(qnaPostPage.getContent().toString());
+
+
     }
 }
