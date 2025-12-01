@@ -6,11 +6,22 @@
 <head></head>
 <body>
 <div layout:fragment="content">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
     <h1>로그인</h1>
-    <form action="/user/login.do" method="post">
-        <input type="email" name="email" placeholder="이메일">
+    <form  th:object="${loginValid}"
+            action="/user/login.do" method="post">
+        <input  th:value="*{email}"
+                type="text" name="email" placeholder="이메일">
+        <span class="text-danger" th:errors="*{email}" ></span>
         <br>
-        <input type="password" name="password" placeholder="비밀번호">
+        <input  th:value="*{password}"
+                type="text" name="password" placeholder="비밀번호">
+        <span class="text-danger" th:errors="*{password}" ></span>
+
         <br>
         <button type="submit">로그인</button>
     </form>
