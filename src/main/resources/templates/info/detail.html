@@ -4,6 +4,7 @@
       layout:decorate="~{fragments/layout}"
       th:with="pageTitle='정보 상세'">
 <head>
+    <script defer src="/src/js/infoLike.js"></script>
 </head>
 <body>
 <div layout:fragment="content"
@@ -44,12 +45,14 @@
                 <span class="me-2" th:text="${info.member?.email}"></span>
                 <span class="me-2" th:text="${info.member?.nickname}"></span>
             </div>
-            <form class="d-flex align-items-center gap-2"
-                  th:action="@{/info/{id}/like(id=${info.id})}"
-                  method="post">
-                <button type="submit" class="btn btn-outline-primary">
+            <form   name="likeForm"
+                    class="d-flex align-items-center gap-2"
+                    th:action="@{ /info/like/{id} (id=${info.id}) }"
+                    method="post">
+                <button th:classappend="${session.loginUser!=null && info.getLiked(session.loginUser.id)} ? 'active'"
+                        name="likeBtn" type="submit"  class="btn btn-outline-primary rounded-pill">
                     좋아요
-                    <span class="badge text-bg-primary ms-2" th:text="${info.likeCount} ?: 0">0</span>
+                    <span class="badge text-bg-danger ms-2" th:text="${info.likeCount}">0</span>
                 </button>
             </form>
 

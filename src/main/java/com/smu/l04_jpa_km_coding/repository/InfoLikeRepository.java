@@ -18,4 +18,6 @@ public interface InfoLikeRepository extends CrudRepository<InfoLike, Long> {
     void deleteById(Long id);
 
     boolean existsByMemberIdAndPostId(Long memberId, Long postId);
+
+    Long countByPostId(Long postId);
 }

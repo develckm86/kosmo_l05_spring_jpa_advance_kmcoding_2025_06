@@ -4,6 +4,7 @@ import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -98,8 +99,13 @@ public interface InfoPostRepository extends JpaRepository<InfoPost, Long> , JpaS
             LocalDateTime endAt,
             Pageable pageable);
 
+    @EntityGraph(attributePaths = {"member","category","infoPostTags","infoLikes"})
+    @Override
+    Optional<InfoPost> findById(Long id);
+
     @Override
     Optional<InfoPost> findOne(Specification<InfoPost> spec);
+
 
     @Override
     Page<InfoPost> findAll(Specification<InfoPost> spec, Pageable pageable);

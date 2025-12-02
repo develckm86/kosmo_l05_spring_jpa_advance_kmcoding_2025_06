@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.service.impl;
 
+import com.smu.l04_jpa_km_coding.bean.InfoLikeBean;
 import com.smu.l04_jpa_km_coding.entity.InfoLike;
 import com.smu.l04_jpa_km_coding.repository.InfoLikeRepository;
 import com.smu.l04_jpa_km_coding.service.InfoLikeService;
@@ -17,19 +18,26 @@ public class InfoLikeServiceImp implements InfoLikeService {
 
     @Override
     @Transactional
-    public InfoLike toggleInfoPost(Long memberId, Long postId) {
+    public InfoLikeBean toggleInfoPost(Long memberId, Long postId) {
         boolean exist=infoLikeRepository.existsByMemberIdAndPostId(memberId,postId);
-        InfoLike saveInfoLike=null;
+        Boolean toggle=null;
         if(exist) { //이미 좋아요한 상태로 삭제
             infoLikeRepository.deleteByMemberIdAndPostId(memberId,postId);
+            toggle=false;
         }else {
             InfoLike infoLike=new InfoLike();
             infoLike.setMemberId(memberId);
             infoLike.setPostId(postId);
-            saveInfoLike=infoLikeRepository.save(infoLike);
+            infoLikeRepository.save(infoLike);
+            toggle=true;
         }
-        return saveInfoLike;
+        Long likeCount=infoLikeRepository.countByPostId(postId);
+        InfoLikeBean infoLikeBean=new InfoLikeBean();
+        infoLikeBean.setToggle(toggle);
+        infoLikeBean.setLikeCount(likeCount);
+        return infoLikeBean;
     }
+
 
     @Override
     public Optional<InfoLike> getInfoPost(Long memberId, Long postId) {

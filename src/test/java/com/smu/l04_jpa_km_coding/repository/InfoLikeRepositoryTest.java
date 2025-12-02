@@ -48,4 +48,9 @@ class InfoLikeRepositoryTest {
         System.out.println(infoLikeRepository.existsByMemberIdAndPostId(1L,1L));
         System.out.println(infoLikeRepository.existsByMemberIdAndPostId(1L,2L));
     }
+
+    @Test
+    void countByPostId() {
+        System.out.println(infoLikeRepository.countByPostId(1L));
+    }
 }

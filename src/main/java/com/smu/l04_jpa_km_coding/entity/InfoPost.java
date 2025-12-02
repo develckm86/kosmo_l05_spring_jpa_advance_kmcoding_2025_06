@@ -3,6 +3,7 @@ package com.smu.l04_jpa_km_coding.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -72,5 +73,10 @@ public class InfoPost {
 
     @Formula("(select count(*) from info_like l where l.post_id = post_id)")
     private Long likeCount=0L;
-
+    @Transient
+    private Boolean liked;
+    public Boolean getLiked(Long memberId) {
+        this.liked = infoLikes.stream().anyMatch(like -> like.getMemberId().equals(memberId));
+        return this.liked;
+    }
 }
