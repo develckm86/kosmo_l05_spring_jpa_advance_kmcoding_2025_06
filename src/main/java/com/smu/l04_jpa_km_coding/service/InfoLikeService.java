@@ -2,16 +2,15 @@ package com.smu.l04_jpa_km_coding.service;
 
 import com.smu.l04_jpa_km_coding.entity.InfoLike;
 
+import java.util.Optional;
+
 public interface InfoLikeService {
 
     /**
-     * 정보글 좋아요 등록
+     * 정보글 좋아요 등록 및 취소
      */
-    InfoLike likeInfoPost(Long memberId, Long postId);
+    InfoLike toggleInfoPost(Long memberId, Long postId);
 
-    /**
-     * 정보글 좋아요 취소
-     */
-    void cancelInfoPostLike(Long likeId);
+    Optional<InfoLike> getInfoPost(Long memberId, Long postId);
 
 }
