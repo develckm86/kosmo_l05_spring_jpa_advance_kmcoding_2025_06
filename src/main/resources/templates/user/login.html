@@ -5,21 +5,29 @@
       th:with="pageTitle='로그인'">
 <head></head>
 <body>
-<div layout:fragment="content">
-    <h1>로그인</h1>
-    <div th:text="${loginError}"></div>
-    <form action="/user/login.do" method="post" th:object="${loginValid}">
-        <div>
-            <input type="text" name="email" th:value="${loginValid != null ? loginValid.email : ''}">
-        </div>
-        <div th:text="${loginError?.getFieldError('email')?.getDefaultMessage()}"></div>
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-        <br>
-        <input type="password" name="password" placeholder="비밀번호">
-        <br>
-        <button type="submit">로그인</button>
-    </form>
-    <a href="/user/signup.do">회원가입</a>
+<div layout:fragment="content" style="height: 80vh;" class="d-flex align-items-center justify-content-center">
+    <div style="width: 350px;">
+        <h1>로그인</h1>
+        <p th:if="${msg}" th:text="${msg}" class="text-danger"></p>
+        <form action="/user/login.do" method="post" th:object="${loginValid}">
+            <div class="form-floating mb-3">
+                <input type="email" th:value="*{email}" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Email address</label>
+            </div>
+            <span class="text-danger" th:if="*{email!=null && #fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+            <div class="form-floating mb-3">
+                <input type="password"  th:value="*{password}" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <span class="text-danger" th:if="*{password!=null && #fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+            <div class="col-12  mb-3">
+                <button class="btn btn-primary" type="submit">로그인</button>
+                <a href="/user/signup.do">회원가입</a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

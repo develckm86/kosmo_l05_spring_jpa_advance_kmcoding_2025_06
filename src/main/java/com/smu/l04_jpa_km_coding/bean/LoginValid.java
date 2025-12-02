@@ -8,10 +8,11 @@ import lombok.Data;
 @Data
 public class LoginValid {
     //@Email
-    @NotBlank(message = "이메일은 필수 입력입니다.")
+//    @NotBlank(message = "이메일은 필수 입력입니다.")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message="이메일 형식으로 작성하세요.")
     String email;
     @NotBlank(message = "비밀번호는 필수 입력입니다.")
+//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*]).{8,20}$",message = "비밀번호는 영문자에 수와 특수문자를 포함해야합니다.(8~12)")
     String password;
 }
 /**
