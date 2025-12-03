@@ -99,7 +99,7 @@ public interface InfoPostRepository extends JpaRepository<InfoPost, Long> , JpaS
             LocalDateTime endAt,
             Pageable pageable);
 
-    @EntityGraph(attributePaths = {"member","category","infoPostTags","infoLikes"})
+    @EntityGraph(attributePaths = {"member","category","infoPostTags","infoLikes","infoImages"})
     @Override
     Optional<InfoPost> findById(Long id);
 

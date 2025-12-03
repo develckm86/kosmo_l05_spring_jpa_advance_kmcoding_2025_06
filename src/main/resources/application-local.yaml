@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+cloud:
+  aws:
+    credentials:
+      access-key: test
+      secret-key: test
+    s3:
+      bucket: images
+    region:
+      static: us-east-1
+    endpoint: http://localhost:8333
+#    endpoint: http://localhost:4566

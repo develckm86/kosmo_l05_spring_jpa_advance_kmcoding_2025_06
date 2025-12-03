@@ -6,17 +6,107 @@
 <head></head>
 <body>
 <div layout:fragment="content">
-    <h1>정보 작성</h1>
-    <form action="/info/write.do" method="post">
-        <input type="text" name="title" placeholder="제목">
-        <br>
-        <textarea name="content" placeholder="내용"></textarea>
-        <br>
-        <input type="text" name="tags" placeholder="태그 콤마로 입력">
-        <br>
-        <button type="submit">작성</button>
+    <h1 class="mb-4">정보 작성</h1>
+
+    <h1 class="mb-4">정보 작성</h1>
+
+    <form action="/info/write.do" method="post" enctype="multipart/form-data"
+          th:object="${infoPostWriteBean}">
+
+        <!-- 제목 -->
+        <div class="mb-3">
+            <label class="form-label">제목</label>
+            <input type="text" th:field="*{title}"
+                   class="form-control"
+                   th:classappend=" *{title} ? (${#fields.hasErrors('title')}  ? 'is-invalid' )">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+
+        <!-- 내용 -->
+        <div class="mb-3">
+            <label class="form-label">내용</label>
+            <textarea th:field="*{content}" rows="5"
+                      class="form-control"
+                      th:classappend="*{content} ? ( ${#fields.hasErrors('content')} ? 'is-invalid' ) "></textarea>
+            <div class="invalid-feedback" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></div>
+        </div>
+
+        <!-- 태그 -->
+        <div class="mb-3">
+            <label class="form-label">태그</label>
+            <input type="text" th:field="*{tags}"
+                   class="form-control"
+                   placeholder="태그를 콤마로 구분하여 입력하세요"
+                   th:classappend="*{tags} ? ( ${#fields.hasErrors('tags')} ? 'is-invalid' )">
+            <div class="invalid-feedback" th:errors="*{tags}" th:if="${#fields.hasErrors('tags')}"></div>
+        </div>
+
+        <!-- 이미지 업로드 -->
+        <div class="mb-3">
+            <label class="form-label">이미지 업로드</label>
+            <input type="file" name="images" id="imageInput" class="form-control" multiple>
+        </div>
+
+
+        <!-- 이미지 미리보기 -->
+        <div id="preview" class="d-flex flex-wrap gap-4"></div>
+
+        <button type="submit" class="btn btn-primary mt-3">작성하기</button>
     </form>
-    <a href="/info/list.do">← 목록</a>
+
+
+    <script>
+        const imageInput = document.getElementById("imageInput");
+        const preview = document.getElementById("preview");
+        const majorIndex = document.getElementById("majorIndex");
+
+        imageInput.addEventListener("change", function () {
+            preview.innerHTML = ""; // 기존 미리보기 삭제
+
+            Array.from(this.files).forEach((file, index) => {
+
+                if (!file.type.startsWith("image/")) return;
+
+                const wrapper = document.createElement("label");
+                wrapper.className = "text-center";
+
+                // 이미지 태그
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.className = "rounded border";
+                img.style.width = "150px";
+                img.style.height = "150px";
+                img.style.objectFit = "cover";
+
+                // 대표 이미지 select (라디오)
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.name = "major";
+                radio.value = index;
+                radio.className = "form-check-input mt-2";
+
+                radio.addEventListener("change", () => {
+                    majorIndex.value = index; // 선택한 index 저장
+                });
+
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(radio);
+
+                preview.appendChild(wrapper);
+            });
+        });
+    </script>
+    <hr class="my-5">
+    <h2>Multipart란?</h2>
+    <div>
+        웹 브라우저가 파일을 업로드할 때 사용하는 HTTP 요청 형식으로,
+        multipart/form-data 라는 Content-Type을 사용해 텍스트와 바이너리 데이터를 함께 전송할 수 있게 해주는 방식이다.
+
+        일반 application/x-www-form-urlencoded 방식은 **바이너리(이미지, 영상)**를 보낼 수 없기 때문에
+        파일 업로드를 하려면 반드시 multipart 방식이 필요하다.
+    </div>
+
 </div>
 </body>
 </html>

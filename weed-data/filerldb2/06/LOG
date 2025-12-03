@@ -1,0 +1,26 @@
+=============== Dec 3, 2025 (UTC) ===============
+19:00:49.793243 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:00:49.794717 db@open opening
+19:00:49.795976 version@stat F·[] S·0B[] Sc·[]
+19:00:49.796506 db@janitor F·2 G·0
+19:00:49.796563 db@open done T·1.803625ms
+=============== Dec 3, 2025 (UTC) ===============
+19:13:59.086256 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:13:59.086833 version@stat F·[] S·0B[] Sc·[]
+19:13:59.086900 db@open opening
+19:13:59.087042 journal@recovery F·1
+19:13:59.087114 journal@recovery recovering @1
+19:13:59.087579 memdb@flush created L0@2 N·4 S·472B "kU\xff..img,v3":"\xe9B}..f1b,v4"
+19:13:59.087770 version@stat F·[1] S·472B[472B] Sc·[0.25]
+19:13:59.089040 db@janitor F·3 G·0
+19:13:59.089071 db@open done T·2.14625ms
+=============== Dec 3, 2025 (UTC) ===============
+19:21:49.250552 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:21:49.251063 version@stat F·[1] S·472B[472B] Sc·[0.25]
+19:21:49.251128 db@open opening
+19:21:49.251300 journal@recovery F·1
+19:21:49.251426 journal@recovery recovering @3
+19:21:49.252345 memdb@flush created L0@5 N·3 S·510B "kU\xff..ebp,v6":"kU\xff..png,v8"
+19:21:49.252631 version@stat F·[2] S·982B[982B] Sc·[0.50]
+19:21:49.254196 db@janitor F·4 G·0
+19:21:49.254234 db@open done T·3.07525ms

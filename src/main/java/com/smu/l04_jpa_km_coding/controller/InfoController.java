@@ -1,13 +1,16 @@
 package com.smu.l04_jpa_km_coding.controller;
 
 import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
+import com.smu.l04_jpa_km_coding.bean.InfoPostWriteBean;
 import com.smu.l04_jpa_km_coding.entity.Category;
 import com.smu.l04_jpa_km_coding.entity.InfoComment;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
+import com.smu.l04_jpa_km_coding.entity.Member;
 import com.smu.l04_jpa_km_coding.service.InfoCommentService;
 import com.smu.l04_jpa_km_coding.service.impl.CategoryServiceImp;
 import com.smu.l04_jpa_km_coding.service.impl.InfoPostServiceImp;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,8 +21,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -92,21 +97,36 @@ public class InfoController {
 
         return "info/search";
     }
-
-
     // 정보글 작성 폼
     @GetMapping("/write.do")
-    public String writeForm() {
+    public String writeForm( @Valid InfoPostWriteBean infoPostWriteBean,
+                             BindingResult bindingResult,
+                             Model model) {
+        model.addAttribute("infoPostWriteBean", infoPostWriteBean);
         return "info/write";
     }
     // 정보글 작성 폼
 
     // 정보글 작성 액션
     @PostMapping("/write.do")
-    public String writeSubmit() {
-        return "redirect:/info/list.do";
-    }
+    public String writeSubmit(
+            @Valid InfoPostWriteBean infoPostWriteBean,
+            BindingResult bindingResult,
+            Model model,
+            @SessionAttribute(required = false) Member loginUser
+    ) throws IOException {
+        if(loginUser==null){
+            return "redirect:/user/login.do";
+        }
 
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            return "info/write";  // 다시 form으로 이동
+        }
+        infoPostWriteBean.setWriterId(loginUser.getId());
+        InfoPost saveInfoPost = infoPostService.writeInfoPost(infoPostWriteBean);
+        return "redirect:/info/" +saveInfoPost.getId() + "/detail.do";
+    }
     // 정보글 수정 폼
     @GetMapping("/edit.do")
     public String editForm(@RequestParam Long id, Model model) {

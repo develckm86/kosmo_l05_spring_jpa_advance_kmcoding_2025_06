@@ -23,6 +23,7 @@ public class InfoPostTag {
 
     @Column(name = "TAG_ID", nullable = false, length = 50)
     private String tagId;
+
     @Column(name = "POST_ID", nullable = false)
     private Long postId;
 
@@ -34,6 +35,6 @@ public class InfoPostTag {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "TAG_ID", insertable = false, updatable = false)
-    private com.smu.l04_jpa_km_coding.entity.Tag tag;
+    private Tag tag;
 
 }

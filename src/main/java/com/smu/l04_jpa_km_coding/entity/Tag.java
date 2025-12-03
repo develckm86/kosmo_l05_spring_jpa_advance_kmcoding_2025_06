@@ -13,7 +13,6 @@ import java.util.Set;
 @Table(name = "TAG")
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TAG_ID", nullable = false, length = 50)
     private String id;
 

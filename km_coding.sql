@@ -203,4 +203,26 @@ CREATE TABLE km_coding.QNA_POST_TAG (
                                         CONSTRAINT UQ_QNA_TAG UNIQUE (POST_ID, TAG_ID)
 );
 
+-- DROP TABLE km_coding.INFO_IMAGE CASCADE CONSTRAINTS;
+-- DROP TABLE km_coding.QNA_IMAGE CASCADE CONSTRAINTS;
 
+-- 20251203_224523_5721_info.png
+CREATE TABLE km_coding.INFO_IMAGE (
+                                     IMAGE_ID      NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                     POST_ID       NUMBER NOT NULL,
+                                     IMAGE_URL     VARCHAR2(40) NOT NULL,
+                                     IS_MAJOR NUMBER(1) DEFAULT 0 CHECK (IS_MAJOR IN (0,1)),
+                                     CONSTRAINT FK_INFO_IMAGE_POST
+                                        FOREIGN KEY (POST_ID) REFERENCES km_coding.INFO_POST(POST_ID)
+                                        ON DELETE CASCADE
+);
+
+CREATE TABLE km_coding.QNA_IMAGE (
+                                     IMAGE_ID      NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                     POST_ID       NUMBER NOT NULL,
+                                     IMAGE_URL     VARCHAR2(40) NOT NULL,
+                                     IS_MAJOR NUMBER(1) DEFAULT 0 CHECK (IS_MAJOR IN (0,1)),
+                                     CONSTRAINT FK_QNA_IMAGE_POST
+                                        FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID)
+                                        ON DELETE CASCADE
+);

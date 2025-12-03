@@ -1,0 +1,25 @@
+=============== Dec 3, 2025 (UTC) ===============
+19:00:49.790002 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:00:49.791498 db@open opening
+19:00:49.791948 version@stat F·[] S·0B[] Sc·[]
+19:00:49.792400 db@janitor F·2 G·0
+19:00:49.792445 db@open done T·910.25µs
+=============== Dec 3, 2025 (UTC) ===============
+19:13:59.079611 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:13:59.080627 version@stat F·[] S·0B[] Sc·[]
+19:13:59.080719 db@open opening
+19:13:59.080983 journal@recovery F·1
+19:13:59.081438 journal@recovery recovering @1
+19:13:59.083559 memdb@flush created L0@2 N·2 S·331B "\v\x89\x9d..kek,v2":"\x18/\x15..]s3,v1"
+19:13:59.083813 version@stat F·[1] S·331B[331B] Sc·[0.25]
+19:13:59.085972 db@janitor F·3 G·0
+19:13:59.086002 db@open done T·5.248708ms
+=============== Dec 3, 2025 (UTC) ===============
+19:21:49.246673 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:21:49.247306 version@stat F·[1] S·331B[331B] Sc·[0.25]
+19:21:49.247394 db@open opening
+19:21:49.247687 journal@recovery F·1
+19:21:49.247795 journal@recovery recovering @3
+19:21:49.248352 version@stat F·[1] S·331B[331B] Sc·[0.25]
+19:21:49.250238 db@janitor F·3 G·0
+19:21:49.250276 db@open done T·2.851833ms

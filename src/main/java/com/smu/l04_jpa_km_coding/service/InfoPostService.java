@@ -1,10 +1,12 @@
 package com.smu.l04_jpa_km_coding.service;
 
 import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
+import com.smu.l04_jpa_km_coding.bean.InfoPostWriteBean;
 import com.smu.l04_jpa_km_coding.entity.InfoPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -61,7 +63,7 @@ public interface InfoPostService {
     /**
      * 정보글 작성 (태그 N:N 매핑 포함) - 엔티티 기반 입력
      */
-    InfoPost writeInfoPost(InfoPost infoPost, Set<Long> tagIds);
+    InfoPost writeInfoPost(InfoPostWriteBean infoPostWriteBean) throws IOException;
 
     /**
      * 정보글 수정 (내용/태그 업데이트) - 엔티티 기반 입력
