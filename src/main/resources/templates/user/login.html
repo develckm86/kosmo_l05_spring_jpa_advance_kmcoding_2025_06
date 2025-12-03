@@ -12,20 +12,28 @@
         }
     </style>
     <h1>로그인</h1>
-    <form  th:object="${loginValid}"
+    <form  th:object="${loginValid}" style="width: 350px;"
             action="/user/login.do" method="post">
-        <input  th:value="*{email}"
-                type="text" name="email" placeholder="이메일">
-        <span class="text-danger" th:errors="*{email}" ></span>
-        <br>
-        <input  th:value="*{password}"
-                type="text" name="password" placeholder="비밀번호">
-        <span class="text-danger" th:errors="*{password}" ></span>
+        <div class="mb-3 form-floating">
+            <input  id="loginEmail" class="form-control"
+                    th:value="*{email}"
+                    type="text" name="email" placeholder="이메일">
+            <label for="loginEmail">이메일 작성</label>
+        </div>
+        <span th:if="( *{email} != null)"  class="text-danger" th:errors="*{email}" ></span>
 
-        <br>
-        <button type="submit">로그인</button>
+        <div class="mb-3 form-floating">
+            <input  id="loginPassword" class="form-control"
+                    th:value="*{password}"
+                    type="text" name="password" placeholder="비밀번호">
+            <label for="loginPassword">비밀번호 작성</label>
+        </div>
+        <span th:if="(*{password} != null )"  class="text-danger" th:errors="*{password}" ></span>
+        <div>
+            <button class="btn btn-outline-secondary" type="submit">로그인</button>
+            <a  class="btn btn-link" href="/user/signup.do">회원가입</a>
+        </div>
     </form>
-    <a href="/user/signup.do">회원가입</a>
 </div>
 </body>
 </html>

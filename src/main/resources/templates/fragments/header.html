@@ -28,9 +28,17 @@
                     <li class="nav-item"><a class="nav-link" href="/category/list.do">카테고리</a></li>
                 </ul>
                 <div class="d-flex gap-2">
-                    <a class="btn btn-outline-light btn-sm" href="/user/login.do">로그인</a>
-                    <a class="btn btn-primary btn-sm" href="/user/signup.do">회원가입</a>
-                    <a class="btn btn-success btn-sm" href="/user/my.do">마이페이지</a>
+                    <th:block th:if="${session.loginUser==null}">
+                        <a class="btn btn-outline-light btn-sm" href="/user/login.do">로그인</a>
+                        <a class="btn btn-primary btn-sm" href="/user/signup.do">회원가입</a>
+                    </th:block>
+                    <th:block th:if="${session.loginUser!=null}">
+                        <a class="btn btn-link btn-sm" href="/user/my.do">
+                            <span th:text="${session.loginUser?.email}"></span>
+                            (<span th:text="${session.loginUser?.nickname}"></span>)
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="/user/logout.do">로그아웃</a>
+                    </th:block>
                 </div>
             </div>
         </div>
