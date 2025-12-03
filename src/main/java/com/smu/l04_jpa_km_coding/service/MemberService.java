@@ -14,10 +14,6 @@ public interface MemberService {
      */
     Optional<Member> login(String email, String password);
 
-    /**
-     * 로그아웃 처리 (세션 만료/토큰 블랙리스트 등 구현체 책임)
-     */
-    void logout(Long memberId);
 
 //    /**
 //     * 회원가입 - 엔티티 입력 기반

@@ -126,16 +126,5 @@ public class InfoController {
         return "redirect:/info/list.do";
     }
 
-    // 좋아요 등록
-    @PostMapping("/{id}/like")
-    public String like(@PathVariable Long id) {
-        return "redirect:/info/" + id + "/detail.do";
-    }
-
-    // 좋아요 취소
-    @DeleteMapping("/{likeId}/like")
-    public String cancelLike(@PathVariable Long likeId, @RequestParam Long postId) {
-        return "redirect:/info/" + postId + "/detail.do";
-    }
 
 }

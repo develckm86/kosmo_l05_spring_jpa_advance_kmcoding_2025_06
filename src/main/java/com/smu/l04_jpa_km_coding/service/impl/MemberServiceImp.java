@@ -23,8 +23,4 @@ public class MemberServiceImp implements MemberService {
         return memberRepository.findByEmailAndPassword(email, password);
     }
 
-    @Override
-    public void logout(Long memberId) {
-
-    }
 }

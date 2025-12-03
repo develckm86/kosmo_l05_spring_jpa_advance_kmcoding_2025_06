@@ -102,4 +102,12 @@ class InfoPostRepositoryTest {
         List<InfoPost> content = infoPage.getContent();
         System.out.println(content);
     }
+
+    @Test
+    @Transactional(readOnly = true)
+    void findByIdAndInfoLikes_MemberId() {
+        InfoPost infoPost=infoPostRepository.findByIdAndInfoLikes_MemberId(10L,1L).get();
+        System.out.println(infoPost);
+        System.out.println(infoPost.getInfoLikes());
+    }
 }
