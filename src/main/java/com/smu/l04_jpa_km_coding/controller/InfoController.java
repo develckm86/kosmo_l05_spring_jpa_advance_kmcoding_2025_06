@@ -2,12 +2,10 @@ package com.smu.l04_jpa_km_coding.controller;
 
 import com.smu.l04_jpa_km_coding.bean.InfoPostSearchBean;
 import com.smu.l04_jpa_km_coding.bean.InfoPostWriteBean;
-import com.smu.l04_jpa_km_coding.entity.Category;
-import com.smu.l04_jpa_km_coding.entity.InfoComment;
-import com.smu.l04_jpa_km_coding.entity.InfoPost;
-import com.smu.l04_jpa_km_coding.entity.Member;
+import com.smu.l04_jpa_km_coding.entity.*;
 import com.smu.l04_jpa_km_coding.service.InfoCommentService;
 import com.smu.l04_jpa_km_coding.service.impl.CategoryServiceImp;
+import com.smu.l04_jpa_km_coding.service.impl.FileUploadS3Service;
 import com.smu.l04_jpa_km_coding.service.impl.InfoPostServiceImp;
 
 import jakarta.validation.Valid;
@@ -25,10 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -38,6 +33,7 @@ public class InfoController {
     private final InfoPostServiceImp infoPostService;
     private final CategoryServiceImp categoryService;
     private final InfoCommentService infoCommentService;
+
     //private static Logger log = LoggerFactory.getLogger(this.getClass()); //@Slf4j
     // 정보글 리스트/검색
     @GetMapping("/list.do")
@@ -76,8 +72,9 @@ public class InfoController {
         }
 
         InfoPost infoPost = infoPostOpt.get();
-        Page<InfoComment> commentPage = infoCommentService.getInfoComments(id, pageable);
 
+
+        Page<InfoComment> commentPage = infoCommentService.getInfoComments(id, pageable);
         model.addAttribute("infoPost", infoPost);
         model.addAttribute("commentPage", commentPage);
         return "info/detail";

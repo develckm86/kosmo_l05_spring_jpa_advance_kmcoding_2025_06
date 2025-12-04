@@ -46,7 +46,7 @@ public class InfoPostServiceImp implements InfoPostService {
         infoPost=infoPostRepository.save(infoPost);
         MultipartFile [] images=infoPostWriteBean.getImages();
         for(int i=0;i<images.length;i++){
-            String imageUrl=fileUploadS3Service.uploadProfileImage(images[i],"info");
+            String imageUrl=fileUploadS3Service.upload(images[i],"info");
             InfoImage infoImage=new InfoImage();
             infoImage.setImageUrl(imageUrl);
             infoImage.setPostId(infoPost.getId());
@@ -195,7 +195,17 @@ public class InfoPostServiceImp implements InfoPostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<InfoPost> getInfoPostDetail(Long postId) {
+        Optional<InfoPost> infoPostOptional=infoPostRepository.findById(postId);
+        if(infoPostOptional.isPresent()){
+            Set<InfoImage> infoImages=infoPostOptional.get().getInfoImages();
+            infoImages.forEach(infoImage->{
+                String presignedUrl= fileUploadS3Service.createPresignedGetUrl(infoImage.getImageUrl());
+                infoImage.setPresignedUrl(presignedUrl);
+            });
+        }
+
         return infoPostRepository.findById(postId);
     }
 

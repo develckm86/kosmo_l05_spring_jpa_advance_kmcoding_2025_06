@@ -25,11 +25,6 @@
                 <span th:text="${info.id}"></span>.
                 <span th:text="${info.title}"></span>
             </h1>
-            <div class="row g-3" th:if="${info.infoImages?.size() > 0}">
-                <div class="col-6 col-md-4 col-lg-3" th:each="img : ${infoPost.infoImages}">
-                    <img th:src="@{{server}{url} (server=${imgServer},url=${img.imageUrl})}" class="img-fluid rounded border" />
-                </div>
-            </div>
             <div class="text-secondary small d-flex flex-wrap gap-2">
                 <span class="me-2" th:text="${info.category?.name}">카테고리 없음</span>
                 <span class="me-2" th:text="${#temporals.format(info?.createdAt, 'yyyy-MM-dd HH:mm')} ?: '-'">작성일</span>
@@ -63,6 +58,15 @@
 
         </div>
         <div class="card-body">
+            <div class="row g-3 mb-4" th:if="${info.infoImages?.size() > 0}">
+                <div class="col-4 col-md-3 col-lg-2"
+                     th:each="img : ${infoPost.infoImages}">
+                    <img th:src="@{${img.presignedUrl}}"
+                         th:classappend="${img.isMajor ? 'border-primary': ''}"
+                         class="img-fluid rounded border border-2" />
+                </div>
+            </div>
+
             <div class="border rounded p-4" th:utext="${info.content}">내용이 없습니다.</div>
         </div>
         <div class="card-footer px-4 py-3 bg-transparent d-flex justify-content-between align-items-center flex-wrap gap-2">

@@ -38,4 +38,8 @@ public class InfoImage {
     @Column(name = "IS_MAJOR")
     private Boolean isMajor;
 
+    @Transient
+    public String presignedUrl;
+
+
 }
