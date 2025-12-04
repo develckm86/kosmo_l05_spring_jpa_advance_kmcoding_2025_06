@@ -70,7 +70,7 @@ docker run -d --name seaweedfs \
 -v $(pwd)/weed-data:/data \
 chrislusf/seaweedfs server -s3 -dir=/data
 
-### (윈도우) 도커 실행
+### (윈도우 Powershell만 가능) 도커 실행
 docker run -d --name seaweedfs `
   -p 8333:8333 -p 8334:8334 `
 -v ${PWD}\weed-data:/data `
@@ -91,7 +91,7 @@ aws --endpoint-url=http://localhost:8333 \
 s3 cp ./src/main/resources/static/src/img \
 s3://images/img --recursive --profile weed
 
-### (윈도우) 이미지 업로드 
+### (윈도우 Powershell만 가능) 이미지 업로드 
 aws --endpoint-url=http://localhost:8333  `
 s3 cp ./src/main/resources/static/src/img  `
 s3://images/img --recursive --profile weed
