@@ -57,19 +57,23 @@
 - awscli-lacal 설치 : brew install awscli
 
 ### awscli-local Window 설치(리눅스)
-- 리눅스 접속 :ubuntu
-- pip install awscli
-
+- https://awscli.amazonaws.com/AWSCLIV2.msi 
 
 # 이미지 서버를 위한 로컬 s3
 
 ##  seaweedfs s3 도커 설치
 
-### 도커 실행
+### (맥) 도커 실행
 docker run -d --name seaweedfs \
 -p 8333:8333 \
 -p 8334:8334 \
 -v $(pwd)/weed-data:/data \
+chrislusf/seaweedfs server -s3 -dir=/data
+
+### (윈도우) 도커 실행
+docker run -d --name seaweedfs `
+  -p 8333:8333 -p 8334:8334 `
+-v ${PWD}\weed-data:/data `
 chrislusf/seaweedfs server -s3 -dir=/data
 
 ### 버킷 설정
@@ -81,10 +85,17 @@ aws configure --profile weed
     Default output format [None]: json
 ### 버킷 생성
 aws --endpoint-url=http://localhost:8333 s3 mb s3://images --profile weed
-### 이미지 업로드
+
+### (맥) 이미지 업로드 
 aws --endpoint-url=http://localhost:8333 \
 s3 cp ./src/main/resources/static/src/img \
 s3://images/img --recursive --profile weed
+
+### (윈도우) 이미지 업로드 
+aws --endpoint-url=http://localhost:8333  `
+s3 cp ./src/main/resources/static/src/img  `
+s3://images/img --recursive --profile weed
+
 
 ### 이미지 확인
 http://localhost:8333/images/img/dog.png
