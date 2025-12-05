@@ -1,4 +1,4 @@
-DROP USER km_coding CASCADE;
+-- DROP USER km_coding CASCADE;
 
 -- 0. 유저 생성 및 권한
 

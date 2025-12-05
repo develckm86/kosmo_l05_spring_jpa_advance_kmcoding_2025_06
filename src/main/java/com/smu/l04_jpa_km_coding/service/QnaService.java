@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.service;
 
+import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,10 @@ public interface QnaService {
             Pageable pageable);
 
 
+    /**
+     * 질문글 작성 (태그 N:N 매핑 포함) - 엔티티 기반 입력
+     */
+    QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid);
 
 
     //    /**
@@ -41,10 +46,6 @@ public interface QnaService {
 //    QnaPost getQnaPostDetail(Long postId);
 //
 //
-//    /**
-//     * 질문글 작성 (태그 N:N 매핑 포함) - 엔티티 기반 입력
-//     */
-//    QnaPost writeQnaPost(QnaPost qnaPost, Set<Long> tagIds);
 //
 //    /**
 //     * 질문글 수정 - 엔티티 기반 입력

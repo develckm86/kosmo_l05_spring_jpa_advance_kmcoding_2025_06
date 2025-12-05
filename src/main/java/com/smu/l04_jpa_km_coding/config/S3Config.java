@@ -49,7 +49,7 @@ public class S3Config {
     private String bucket;
     @Value("${cloud.aws.endpoint}")
     private String endpoint;
-
+    //파일 업로드 및 삭제를 위한 접속
     @Bean
     public S3Client s3Client() {
         //객체 생성시 접속

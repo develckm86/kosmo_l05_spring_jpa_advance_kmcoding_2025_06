@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.repository;
 
+import com.smu.l04_jpa_km_coding.entity.Member;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
@@ -12,11 +13,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class QnaPostRepositoryTest {
     @Autowired
     private QnaPostRepository qnaPostRepository;
+    @Autowired
+    private MemberRepository memberRepository;
     @Test
     @Transactional(readOnly = true)
     void findAll() {
@@ -33,5 +39,29 @@ class QnaPostRepositoryTest {
         System.out.println(qnaPostPage.getTotalPages()); //사이즈가 3일때 총 페이지수
         System.out.println(qnaPostPage.getTotalElements()); //row의 총 수
         System.out.println(qnaPostPage.getContent().size()); //List<QnaPost>
+    }
+    @Test
+    @Transactional(readOnly = true)
+    void findById(){
+        Optional<QnaPost> qnaPostOpt=qnaPostRepository.findById(1L);
+        if(qnaPostOpt.isPresent()){
+            QnaPost qnaPost=qnaPostOpt.get();
+            System.out.println(qnaPost);
+            System.out.println(qnaPost.getQnaImages());
+        }
+    }
+
+    @Test
+    void save() {
+        QnaPost qnaPost=new QnaPost();
+        qnaPost.setTitle("test");
+        qnaPost.setContent("test");
+        qnaPost.setMemberId(1L);
+        qnaPost.setCategoryId("backend");
+        //qnaPost.setCreatedAt(LocalDateTime.now());
+//        Member member=memberRepository.findById(1L).get();
+//        qnaPost.setMember(member);
+        qnaPost=qnaPostRepository.save(qnaPost);
+        System.out.println(qnaPost);
     }
 }

@@ -19,6 +19,8 @@ import java.util.Optional;
 @Repository
 public interface InfoPostRepository extends JpaRepository<InfoPost, Long> , JpaSpecificationExecutor<InfoPost> {
 
+    @Override //존재하면 update 없으면 INSERT
+    <S extends InfoPost> S save(S entity);
 
     Page<InfoPost> findAll(Pageable pageable);
 

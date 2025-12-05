@@ -28,9 +28,11 @@ import java.util.Random;
 public class FileUploadS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-
+    //S3Config.s3Client()
     private final S3Client s3Client;
     private final S3Presigner s3Presigner;
+
+
     private final String[] imageTypes = {
             "png", "jpg", "jpeg", "webp", "gif", "bmp", "tiff", "svg"
     };
@@ -38,12 +40,12 @@ public class FileUploadS3Service {
     //요청시 받아온 파일이 이미지인지 확인 : 아니면 오류
     public void imgTypeTest(MultipartFile file) throws IOException {
         if (file.isEmpty()) throw new IOException("File is empty.");
-
+        // .text :확장자
+        // image/png
 
         String[] contentType = file.getContentType().split("/");
         if (!contentType[0].equals("image"))
             throw new IOException("이미지만 저장 가능");
-
 
         boolean match = Arrays.stream(imageTypes).anyMatch(type -> contentType[1].equals(type));
         if (!match)
@@ -62,7 +64,7 @@ public class FileUploadS3Service {
         int random = new Random().nextInt(9000) + 1000;
 
         String fileName = timestamp + "_" + random + "_" + filename + "." + ext;
-        //20251203_224523_5721_info.png
+        //   20251203_224523_5721_info.png
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucket)

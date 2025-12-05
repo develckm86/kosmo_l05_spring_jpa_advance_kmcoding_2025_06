@@ -31,3 +31,13 @@
 03:14:25.316992 version@stat F·[] S·0B[] Sc·[]
 03:14:25.320390 db@janitor F·2 G·0
 03:14:25.320444 db@open done T·4.364292ms
+=============== Dec 5, 2025 (UTC) ===============
+01:40:55.234431 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+01:40:55.238745 version@stat F·[] S·0B[] Sc·[]
+01:40:55.239122 db@open opening
+01:40:55.240054 journal@recovery F·1
+01:40:55.240248 journal@recovery recovering @6
+01:40:55.256202 memdb@flush created L0@8 N·1 S·280B "\x92\x9d;..fad,v1":"\x92\x9d;..fad,v1"
+01:40:55.257580 version@stat F·[1] S·280B[280B] Sc·[0.25]
+01:40:55.319427 db@janitor F·3 G·0
+01:40:55.319624 db@open done T·80.368528ms

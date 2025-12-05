@@ -10,11 +10,18 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 //JpaRepository (페이징,QBE)
 @Repository
 public interface QnaPostRepository extends JpaRepository<QnaPost, Long>
         , JpaSpecificationExecutor<QnaPost> {
+    @Override
+    <S extends QnaPost> S save(S entity);
+
+    @EntityGraph(attributePaths = {"qnaAdopt","qnaImages","member"})
+    @Override
+    Optional<QnaPost> findById(Long aLong);
 
     @EntityGraph(attributePaths = {"qnaAdopt"})
     List<QnaPost> findAll();

@@ -1,6 +1,7 @@
 package com.smu.l04_jpa_km_coding.service.impl;
 
 import com.smu.l04_jpa_km_coding.bean.QnaPostSpecification;
+import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
 import com.smu.l04_jpa_km_coding.entity.Member;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import com.smu.l04_jpa_km_coding.repository.QnaPostRepository;
@@ -27,6 +28,18 @@ public class QnaServiceImp implements QnaService {
 //    public QnaServiceImp(QnaPostRepository qnaPostRepository) {
 //        this.qnaPostRepository = qnaPostRepository;
 //    }
+    /**
+     * 질문 게시글에 글 작성
+     * qna_post insert
+     * 이미지들 업로드
+     *
+     * qna_tags insert
+     * tag insert (해당 태그가 없을 때 생성)
+     * */
+    @Override
+    public QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid) {
+        return null;
+    }
 
     @Override
     public Page<QnaPost> getQnaPosts(Pageable pageable) {
@@ -97,4 +110,5 @@ public class QnaServiceImp implements QnaService {
 
         return qnaPostRepository.findAll(spec,pageable);
     }
+
 }
