@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class QnaPostWriteValid {
+    private Long writerId;
+
     @NotBlank(message = "제목은 꼭 입력")
     private String title;
     @NotBlank(message = "컨텐츠는 꼭 입력")

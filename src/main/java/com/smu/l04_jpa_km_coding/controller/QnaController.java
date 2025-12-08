@@ -1,7 +1,9 @@
 package com.smu.l04_jpa_km_coding.controller;
 
+import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import com.smu.l04_jpa_km_coding.service.QnaService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -10,7 +12,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/qna")
@@ -44,15 +49,31 @@ public class QnaController {
 
     // 질문 작성 폼
     @GetMapping("/write.do")
-    public String writeForm() {
+    public String writeForm(
+            @Valid QnaPostWriteValid qnaPostWriteValid,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        model.addAttribute("qnaPostWriteValid", qnaPostWriteValid);
         return "qna/write";
     }
 
     // 질문 작성 액션
     @PostMapping("/write.do")
-    public String writeSubmit() {
+    public String writeSubmit(
+            @Valid QnaPostWriteValid qnaPostWriteValid,
+            BindingResult bindingResult,
+            Model model
+
+            ) throws IOException {
+        if(bindingResult.hasErrors()){
+            return "qna/write";
+        }
+        QnaPost qnaPost =qnaService.writeQnaPost(qnaPostWriteValid);
+
         return "redirect:/qna/list.do";
     }
+
 
     // 질문 수정 폼
     @GetMapping("/edit.do")

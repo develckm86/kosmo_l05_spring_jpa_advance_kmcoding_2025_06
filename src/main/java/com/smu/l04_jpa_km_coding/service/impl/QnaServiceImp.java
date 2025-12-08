@@ -2,8 +2,11 @@ package com.smu.l04_jpa_km_coding.service.impl;
 
 import com.smu.l04_jpa_km_coding.bean.QnaPostSpecification;
 import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
+import com.smu.l04_jpa_km_coding.entity.InfoImage;
 import com.smu.l04_jpa_km_coding.entity.Member;
+import com.smu.l04_jpa_km_coding.entity.QnaImage;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
+import com.smu.l04_jpa_km_coding.repository.QnaImageRepository;
 import com.smu.l04_jpa_km_coding.repository.QnaPostRepository;
 import com.smu.l04_jpa_km_coding.service.QnaService;
 import jakarta.persistence.criteria.*;
@@ -16,14 +19,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class QnaServiceImp implements QnaService {
 
     private final QnaPostRepository qnaPostRepository;
+    private final FileUploadS3Service fileUploadS3Service;//S3
+    private final QnaImageRepository qnaImageRepository;
 //    @Autowired
 //    public QnaServiceImp(QnaPostRepository qnaPostRepository) {
 //        this.qnaPostRepository = qnaPostRepository;
@@ -37,8 +47,28 @@ public class QnaServiceImp implements QnaService {
      * tag insert (해당 태그가 없을 때 생성)
      * */
     @Override
-    public QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid) {
-        return null;
+    @Transactional
+    public QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid) throws IOException {
+        QnaPost qnaPost=new QnaPost();
+        qnaPost.setTitle(qnaPostWriteValid.getTitle());
+        qnaPost.setContent(qnaPostWriteValid.getContent());
+        qnaPost.setMemberId(qnaPostWriteValid.getWriterId());
+        qnaPost.setCategoryId("backend");
+        qnaPost=qnaPostRepository.save(qnaPost);
+        //33
+        List<QnaImage> images=new ArrayList<>();
+        if(qnaPostWriteValid.getImages()!=null){
+            for(MultipartFile image:qnaPostWriteValid.getImages()){
+                String key=fileUploadS3Service.upload(image,"qna");
+                QnaImage qnaImage=new QnaImage();
+                qnaImage.setImageUrl(key);
+                qnaImage.setPostId(qnaPost.getId());
+                images.add(qnaImage);
+            }
+        }
+        qnaImageRepository.saveAll(images);
+
+        return qnaPost;
     }
 
     @Override

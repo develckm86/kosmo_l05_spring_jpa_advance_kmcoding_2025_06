@@ -5,6 +5,7 @@ import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
@@ -32,7 +33,7 @@ public interface QnaService {
     /**
      * 질문글 작성 (태그 N:N 매핑 포함) - 엔티티 기반 입력
      */
-    QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid);
+    QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid) throws IOException;
 
 
     //    /**
