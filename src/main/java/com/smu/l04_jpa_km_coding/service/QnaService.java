@@ -1,7 +1,9 @@
 package com.smu.l04_jpa_km_coding.service;
 
 import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
+import com.smu.l04_jpa_km_coding.bean.QnaReactionBean;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
+import com.smu.l04_jpa_km_coding.entity.QnaReaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -41,7 +43,16 @@ public interface QnaService {
      */
     Optional<QnaPost> getQnaPostDetail(Long postId);
 
-
+    /**
+     * 공감 하기
+     * 유저 1, 게시글 41, 'EMPATHY','CONFUSING','INTERESTING','HELPFUL'
+     * 한번도 공감을 하지 않았다면 => 등록 (insert)
+     * 동일한 공감 => 기존의 공감을 삭제 (delete)
+     * 다른 공감 => 수정 (update)
+     * 해당 게시글에 공감을 했는지 조회 (memberId, qnaPostId, reactionType)
+     *
+     * */
+    QnaReaction reaction(QnaReactionBean qnaReactionBean);
 
     //    /**
 //     * 질문글 목록/검색 조회 (Pageable 기반, 기본 page size=20)

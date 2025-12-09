@@ -1,8 +1,10 @@
 package com.smu.l04_jpa_km_coding.controller;
 
 import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
+import com.smu.l04_jpa_km_coding.bean.QnaReactionBean;
 import com.smu.l04_jpa_km_coding.entity.Member;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
+import com.smu.l04_jpa_km_coding.entity.QnaReaction;
 import com.smu.l04_jpa_km_coding.service.QnaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -29,6 +34,33 @@ public class QnaController {
 
     private final QnaService qnaService;
     //private static Logger log = LoggerFactory.getLogger(this.getClass());
+
+    @PostMapping("/reaction")
+    public String reaction(
+             QnaReactionBean qnaReactionBean,
+             @SessionAttribute Member loginUser
+    ){
+        qnaReactionBean.setMemberId(loginUser.getId());
+        System.out.println(qnaReactionBean);
+
+        qnaService.reaction(qnaReactionBean);
+
+        return "redirect:/qna/"+qnaReactionBean.getQnaPostId()+"/detail.do";
+    }
+    //qna/api/reaction
+    @ResponseBody //응답을 view 가 아닌 text나 josn 으로 반환
+    @GetMapping("/api/reaction")
+    public ResponseEntity<QnaReaction> apiReaction(
+            @RequestBody QnaReactionBean qnaReactionBean,
+            @SessionAttribute Member loginUser
+
+    ){
+        qnaReactionBean.setMemberId(loginUser.getId());
+        QnaReaction qnaReaction=qnaService.reaction(qnaReactionBean);
+        return ResponseEntity.ok(qnaReaction);
+    }
+
+
 
     // 질문 리스트/검색
     @GetMapping("/list.do")

@@ -7,8 +7,23 @@
 <body>
 <div layout:fragment="content">
     <h1>질문 상세</h1>
-    <p>POST ID: <span th:text="${postId}">1</span></p>
+    <div class="d-flex">
+<!--   Long qnaPostId; Long memberId; Reaction reaction;-->
+        <form class="me-2" action="/qna/reaction" method="post">
+            <input type="hidden"  name="qnaPostId" th:value="${post.id}">
+            <input type="hidden"  name="reaction" value="HELPFUL">
+            <button class="btn btn-outline-primary">도움됨</button>
+        </form>
+        <form action="/qna/reaction" method="post">
+            <input type="hidden"  name="qnaPostId" th:value="${post.id}">
+            <input type="hidden"  name="reaction" value="INTERESTING">
+            <button class="btn btn-outline-danger">흥미로움</button>
+        </form>
+    </div>
 
+
+
+    <p>POST ID: <span th:text="${postId}">1</span></p>
     <section class="d-flex">
         <div th:each="image : ${post.qnaImages}">
 <!--            <img width="100" th:src="@{ http://localhost:8333/images/{url} (url=${image.imageUrl})}" alt="">-->

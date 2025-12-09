@@ -2,12 +2,11 @@ package com.smu.l04_jpa_km_coding.service.impl;
 
 import com.smu.l04_jpa_km_coding.bean.QnaPostSpecification;
 import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
-import com.smu.l04_jpa_km_coding.entity.InfoImage;
-import com.smu.l04_jpa_km_coding.entity.Member;
-import com.smu.l04_jpa_km_coding.entity.QnaImage;
-import com.smu.l04_jpa_km_coding.entity.QnaPost;
+import com.smu.l04_jpa_km_coding.bean.QnaReactionBean;
+import com.smu.l04_jpa_km_coding.entity.*;
 import com.smu.l04_jpa_km_coding.repository.QnaImageRepository;
 import com.smu.l04_jpa_km_coding.repository.QnaPostRepository;
+import com.smu.l04_jpa_km_coding.repository.QnaReactionRepository;
 import com.smu.l04_jpa_km_coding.service.QnaService;
 import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
@@ -36,8 +35,44 @@ public class QnaServiceImp implements QnaService {
     private final QnaPostRepository qnaPostRepository;
     private final FileUploadS3Service fileUploadS3Service;//S3
     private final QnaImageRepository qnaImageRepository;
+    private final QnaReactionRepository qnaReactionRepository;
 
 
+    @Override
+    public QnaReaction reaction(QnaReactionBean qnaReactionBean) {
+        QnaReaction reaction = null;
+        //리액션 한적 있니?
+        Optional<QnaReaction> qnaReactionOpt =
+                qnaReactionRepository.findByPostIdAndMemberId(
+                        qnaReactionBean.getQnaPostId()
+                        , qnaReactionBean.getMemberId()
+                );
+        //있으면 수정 or 삭제
+        if (qnaReactionOpt.isPresent()) {
+            QnaReaction qnaReaction = qnaReactionOpt.get();
+            //"INTERESTING".euqals(Reaction.INTERESTING);
+            String reactionStr = qnaReactionBean.getReaction().toString();
+
+            //리액션이 같으면 삭제
+            if (qnaReaction.getReactionType().equals(reactionStr)) {
+//                qnaReactionRepository.deleteById(qnaReaction.getId());
+                qnaReactionRepository.delete(qnaReaction);
+            } else { //리액션이 다르면 수정
+                qnaReaction.setReactionType(reactionStr);
+                reaction = qnaReactionRepository.save(qnaReaction);
+                //데이터베이스에서 조회 => Entity 가 영속성 컨텍스트에 저장
+                //Entity의 내용 일부만 수정하면 update
+            }
+        } else { //등록
+            QnaReaction qnaReaction = new QnaReaction();
+            qnaReaction.setPostId(qnaReactionBean.getQnaPostId());
+            qnaReaction.setMemberId(qnaReactionBean.getMemberId());
+            qnaReaction.setReactionType(qnaReactionBean.getReaction().toString());
+            reaction = qnaReactionRepository.save(qnaReaction);
+        }
+        //QnaReaction 조회, 수정, 등록 (save), 삭제
+        return reaction;
+    }
     @Override
     public Optional<QnaPost> getQnaPostDetail(Long postId) {
         Optional<QnaPost> postOpt= qnaPostRepository.findById(postId);
@@ -52,6 +87,7 @@ public class QnaServiceImp implements QnaService {
 
         return postOpt;
     }
+
 
 
 //    @Autowired
