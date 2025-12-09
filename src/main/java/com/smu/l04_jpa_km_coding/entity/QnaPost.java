@@ -3,13 +3,11 @@ package com.smu.l04_jpa_km_coding.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -18,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = {"member","category","qnaComments","qnaPostTags","qnaReactions","qnaImages"})
+@ToString(exclude = {"member","category","qnaComments","qnaPostTags","qnaReactions","qnaImages","qnaReactionCount"})
 @Table(name = "QNA_POST")
 public class QnaPost {
     //GenerationType.IDENTITY==auto increment (insert => default)
@@ -75,4 +73,26 @@ public class QnaPost {
 
     @OneToMany(mappedBy = "post")
     private Set<QnaImage> qnaImages = new LinkedHashSet<>();
+
+    @Formula("(SELECT COUNT(*) FROM QNA_REACTION r WHERE r.post_id=post_id AND r.reaction_type='HELPFUL')")
+    private Long helpfulCnt=0L;
+    @Formula("(SELECT COUNT(*) FROM QNA_REACTION r WHERE r.post_id=post_id AND r.reaction_type='INTERESTING')")
+    private Long interestingCnt=0L;
+    @Formula("(SELECT COUNT(*) FROM QNA_REACTION r WHERE r.post_id=post_id AND r.reaction_type='CONFUSING')")
+    private Long confusingCnt=0L;
+    @Formula("(SELECT COUNT(*) FROM QNA_REACTION r WHERE r.post_id=post_id AND r.reaction_type='EMPATHY')")
+    private Long empathyCnt=0L;
+
+    public boolean isHelpful(Long memberId){
+        return qnaReactions.stream().anyMatch(reaction -> reaction.getMemberId().equals(memberId) && reaction.getReactionType().equals("HELPFUL"));
+    }
+    public boolean isInteresting(Long memberId){
+        return qnaReactions.stream().anyMatch(reaction -> reaction.getMemberId().equals(memberId) && reaction.getReactionType().equals("INTERESTING"));
+    }
+    public boolean isConfusing(Long memberId){
+        return qnaReactions.stream().anyMatch(reaction -> reaction.getMemberId().equals(memberId) && reaction.getReactionType().equals("CONFUSING"));
+    }
+    public boolean isEmpathy(Long memberId){
+        return qnaReactions.stream().anyMatch(reaction -> reaction.getMemberId().equals(memberId) && reaction.getReactionType().equals("EMPATHY"));
+    }
 }

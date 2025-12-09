@@ -226,3 +226,18 @@ CREATE TABLE km_coding.QNA_IMAGE (
                                         FOREIGN KEY (POST_ID) REFERENCES km_coding.QNA_POST(POST_ID)
                                         ON DELETE CASCADE
 );
+-- CREATE VIEW km_coding.QNA_REACTION_COUNT AS (
+--         SELECT
+--             g.POST_ID,
+--             CASE WHEN g.REACTION_TYPE='INTERESTING' THEN g.REACTION_COUNT ELSE 0 END AS INTERESTING,
+--             CASE WHEN g.REACTION_TYPE='HELPFUL' THEN g.REACTION_COUNT ELSE 0 END AS HELPFUL,
+--             CASE WHEN g.REACTION_TYPE='EMPATHY' THEN g.REACTION_COUNT ELSE 0 END AS EMPATHY,
+--             CASE WHEN g.REACTION_TYPE='CONFUSING' THEN g.REACTION_COUNT ELSE 0 END AS CONFUSING
+--
+--         FROM (SELECT
+--                   POST_ID,
+--                   REACTION_TYPE,
+--                   COUNT(REACTION_ID) AS REACTION_COUNT
+--               FROM km_coding.QNA_REACTION r
+--               GROUP BY r.POST_ID, r.REACTION_TYPE) g
+-- );

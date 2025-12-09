@@ -1,6 +1,7 @@
 package com.smu.l04_jpa_km_coding.repository;
 
 import com.smu.l04_jpa_km_coding.entity.QnaReaction;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,5 +44,17 @@ class QnaReactionRepositoryTest {
         qnaReaction=qnaReactionRepository.save(qnaReaction);
         System.out.println(qnaReaction);
 
+    }
+
+    @Test
+    @Transactional
+    void getReactionCount() {
+        System.out.println(qnaReactionRepository.getReactionCount(10L));
+    }
+
+    @Test
+    void testFindByPostIdAndMemberId() {
+//        System.out.println(qnaReactionRepository.getReactionCount(10L,1L));
+        System.out.println(qnaReactionRepository.getReactionCount(10L,null));
     }
 }

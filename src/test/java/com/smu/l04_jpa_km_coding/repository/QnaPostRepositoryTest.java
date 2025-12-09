@@ -32,13 +32,17 @@ class QnaPostRepositoryTest {
     @Test
     @Transactional(readOnly = true)
     void testFindAll() {
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("createdAt").ascending());
         Page<QnaPost> qnaPostPage = qnaPostRepository.findAll(pageable);
         System.out.println(qnaPostPage.getNumber()); //현재페이지 (0페이지부터 시작)
         System.out.println(qnaPostPage.getSize()); //3
         System.out.println(qnaPostPage.getTotalPages()); //사이즈가 3일때 총 페이지수
         System.out.println(qnaPostPage.getTotalElements()); //row의 총 수
         System.out.println(qnaPostPage.getContent().size()); //List<QnaPost>
+        for(QnaPost qnaPost : qnaPostPage.getContent()){
+            System.out.println(qnaPost);
+
+        }
     }
     @Test
     @Transactional(readOnly = true)
