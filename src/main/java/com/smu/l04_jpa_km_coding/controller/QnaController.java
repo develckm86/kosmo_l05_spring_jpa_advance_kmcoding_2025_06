@@ -1,6 +1,7 @@
 package com.smu.l04_jpa_km_coding.controller;
 
 import com.smu.l04_jpa_km_coding.bean.QnaPostWriteValid;
+import com.smu.l04_jpa_km_coding.entity.Member;
 import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import com.smu.l04_jpa_km_coding.service.QnaService;
 import jakarta.validation.Valid;
@@ -14,8 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/qna")
@@ -52,8 +56,14 @@ public class QnaController {
     public String writeForm(
             @Valid QnaPostWriteValid qnaPostWriteValid,
             BindingResult bindingResult,
-            Model model
+            Model model,
+            @SessionAttribute(required = false) Member loginUser,
+            RedirectAttributes redirectAttributes
     ) {
+        if(loginUser==null){
+            redirectAttributes.addFlashAttribute("msg","로그인 후 이용");
+            return "redirect:/user/login.do";
+        }
         model.addAttribute("qnaPostWriteValid", qnaPostWriteValid);
         return "qna/write";
     }
@@ -63,16 +73,35 @@ public class QnaController {
     public String writeSubmit(
             @Valid QnaPostWriteValid qnaPostWriteValid,
             BindingResult bindingResult,
-            Model model
-
+            Model model,
+            @SessionAttribute(name = "loginUser") Member loginUser
+            //, MultipartFile[] images
             ) throws IOException {
         if(bindingResult.hasErrors()){
             return "qna/write";
         }
+        qnaPostWriteValid.setWriterId(loginUser.getId());
         QnaPost qnaPost =qnaService.writeQnaPost(qnaPostWriteValid);
 
         return "redirect:/qna/list.do";
     }
+
+    // 질문 상세  //localhost:7777/qna/33/detail.do
+    @GetMapping("/{id}/detail.do")
+    public String detail(
+            @PathVariable Long id,
+            Model model) {
+        model.addAttribute("postId", id);
+        Optional<QnaPost> qnaPostOpt=qnaService.getQnaPostDetail(id);
+        if(qnaPostOpt.isEmpty()){ //삭제된 게시물 404 or list
+            return "redirect:/qna/list.do";
+        }
+        model.addAttribute("post", qnaPostOpt.get());
+        return "qna/detail";
+
+    }
+
+
 
 
     // 질문 수정 폼
@@ -94,12 +123,6 @@ public class QnaController {
         return "redirect:/qna/list.do";
     }
 
-    // 질문 상세
-    @GetMapping("/{id}/detail.do")
-    public String detail(@PathVariable Long id, Model model) {
-        model.addAttribute("postId", id);
-        return "qna/detail";
-    }
 
     // 질문 리액션 등록
     @PostMapping("/{id}/{react}/recation")

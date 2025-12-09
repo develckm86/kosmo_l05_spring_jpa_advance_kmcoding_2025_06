@@ -1,5 +1,6 @@
 package com.smu.l04_jpa_km_coding.service.impl;
 
+import com.smu.l04_jpa_km_coding.entity.QnaPost;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootTest
 class QnaServiceImpTest {
@@ -48,6 +50,16 @@ class QnaServiceImpTest {
                 pageable);
 //        Page qnaPostPage =qnaService.getQnaPosts("","","km@", null,null,pageable);
         logger.info(qnaPostPage.getContent().toString());
+
+
+    }
+    @Test
+    @Transactional(readOnly = true)
+    void getQnaPostDetail() {
+        Optional<QnaPost> qnaPostOpt=qnaService.getQnaPostDetail(42L);
+        QnaPost qnaPost=qnaPostOpt.get();
+        System.out.println(qnaPost);
+        System.out.println(qnaPost.getQnaImages());
 
 
     }

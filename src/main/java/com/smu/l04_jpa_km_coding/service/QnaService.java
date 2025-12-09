@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * README에 정의된 QNA 게시판 기능 계약 인터페이스
@@ -35,16 +36,17 @@ public interface QnaService {
      */
     QnaPost writeQnaPost(QnaPostWriteValid qnaPostWriteValid) throws IOException;
 
+    /**
+     * 질문글 상세 조회
+     */
+    Optional<QnaPost> getQnaPostDetail(Long postId);
+
+
 
     //    /**
 //     * 질문글 목록/검색 조회 (Pageable 기반, 기본 page size=20)
 //     */
 //    Page<QnaPost> getQnaPosts(Pageable pageable, String search, String field, String tag);
-//
-//    /**
-//     * 질문글 상세 조회
-//     */
-//    QnaPost getQnaPostDetail(Long postId);
 //
 //
 //

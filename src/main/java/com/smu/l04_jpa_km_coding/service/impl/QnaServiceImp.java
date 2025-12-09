@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor(onConstructor_ = @Autowired)
@@ -34,6 +36,24 @@ public class QnaServiceImp implements QnaService {
     private final QnaPostRepository qnaPostRepository;
     private final FileUploadS3Service fileUploadS3Service;//S3
     private final QnaImageRepository qnaImageRepository;
+
+
+    @Override
+    public Optional<QnaPost> getQnaPostDetail(Long postId) {
+        Optional<QnaPost> postOpt= qnaPostRepository.findById(postId);
+        if(postOpt.isPresent()){
+            QnaPost post=postOpt.get();
+            Set<QnaImage> qnaImages=post.getQnaImages();
+            for(QnaImage qnaImage:qnaImages){
+                String presignedUrl=fileUploadS3Service.createPresignedGetUrl(qnaImage.getImageUrl());
+                qnaImage.setPresignedUrl(presignedUrl);
+            }
+        }
+
+        return postOpt;
+    }
+
+
 //    @Autowired
 //    public QnaServiceImp(QnaPostRepository qnaPostRepository) {
 //        this.qnaPostRepository = qnaPostRepository;
@@ -70,6 +90,7 @@ public class QnaServiceImp implements QnaService {
 
         return qnaPost;
     }
+
 
     @Override
     public Page<QnaPost> getQnaPosts(Pageable pageable) {

@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = {"member","category","qnaComments","qnaPostTags","qnaReactions"})
+@ToString(exclude = {"member","category","qnaComments","qnaPostTags","qnaReactions","qnaImages"})
 @Table(name = "QNA_POST")
 public class QnaPost {
     //GenerationType.IDENTITY==auto increment (insert => default)

@@ -11,6 +11,7 @@
             color: red;
         }
     </style>
+    <div th:text="${msg}" class="text-danger"></div>
     <h1>로그인</h1>
     <form  th:object="${loginValid}" style="width: 350px;"
             action="/user/login.do" method="post">

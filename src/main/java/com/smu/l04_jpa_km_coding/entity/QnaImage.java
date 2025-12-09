@@ -35,6 +35,9 @@ public class QnaImage {
     @Column(name = "IMAGE_URL", nullable = false, length = 40)
     private String imageUrl;
 
+    @Transient //Table과 관련 없는 필드야!
+    private String presignedUrl;
+
     @ColumnDefault("0")
     @Column(name = "IS_MAJOR")
     private Boolean isMajor;
