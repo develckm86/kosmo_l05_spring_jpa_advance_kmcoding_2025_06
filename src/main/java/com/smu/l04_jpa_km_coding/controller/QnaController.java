@@ -49,12 +49,16 @@ public class QnaController {
     }
     //qna/api/reaction
     @ResponseBody //응답을 view 가 아닌 text나 josn 으로 반환
-    @GetMapping("/api/reaction")
+    @PutMapping("/api/reaction")
     public ResponseEntity<QnaReaction> apiReaction(
             @RequestBody QnaReactionBean qnaReactionBean,
-            @SessionAttribute Member loginUser
+            @SessionAttribute(required = false) Member loginUser
 
     ){
+        System.out.println(qnaReactionBean);
+        if(loginUser==null){
+            return ResponseEntity.badRequest().build();//400
+        }
         qnaReactionBean.setMemberId(loginUser.getId());
         QnaReaction qnaReaction=qnaService.reaction(qnaReactionBean);
         return ResponseEntity.ok(qnaReaction);

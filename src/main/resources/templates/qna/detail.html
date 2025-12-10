@@ -9,17 +9,51 @@
     <h1>질문 상세</h1>
     <div class="d-flex">
 <!--   Long qnaPostId; Long memberId; Reaction reaction;-->
-        <form class="me-2" action="/qna/reaction" method="post">
+        <form class="reaction-form me-2" action="/qna/reaction" method="post">
             <input type="hidden"  name="qnaPostId" th:value="${post.id}">
             <input type="hidden"  name="reaction" value="HELPFUL">
-            <button class="btn btn-outline-primary">도움됨</button>
+            <button class="btn btn-outline-primary"
+                th:classappend="${session.loginUser!=null && post.isHelpful(session.loginUser.id) ? 'active' : ''}"
+            >
+                도움됨
+                <span class="badge bg-secondary" th:text="${post.helpfulCnt}"></span>
+            </button>
         </form>
-        <form action="/qna/reaction" method="post">
+        <form class="reaction-form" action="/qna/reaction" method="post">
             <input type="hidden"  name="qnaPostId" th:value="${post.id}">
             <input type="hidden"  name="reaction" value="INTERESTING">
-            <button class="btn btn-outline-danger">흥미로움</button>
+            <button class="btn btn-outline-danger"
+                    th:classappend="${session.loginUser!=null && post.isInteresting(session.loginUser.id) ? 'active' : ''}"
+            >흥미로움
+                <span class="badge bg-secondary" th:text="${post.interestingCnt}"></span>
+            </button>
         </form>
+        <script>
+            const reactionForms=document.querySelectorAll('.reaction-form');
+            const reactionFormSubmitHandler=async (e)=>{
+                e.preventDefault();
+                let url="/qna/api/reaction";
+                const formData=new FormData(e.target);
+                const jsonData=Object.fromEntries(formData.entries());
+
+                const options={
+                    method:"PUT",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify(jsonData)
+                };
+                const response=await fetch(url,options);
+
+            }
+            reactionForms.forEach((form)=>{
+               form.addEventListener('submit',reactionFormSubmitHandler);
+            });
+
+
+        </script>
     </div>
+
 
 
 

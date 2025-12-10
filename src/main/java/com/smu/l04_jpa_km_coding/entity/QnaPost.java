@@ -1,15 +1,11 @@
 package com.smu.l04_jpa_km_coding.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -75,4 +71,46 @@ public class QnaPost {
 
     @OneToMany(mappedBy = "post")
     private Set<QnaImage> qnaImages = new LinkedHashSet<>();
+    //formula 는 네이티브 쿼리만 작성 가능, ()
+    @Formula("""
+    (SELECT COUNT(*) FROM QNA_REACTION r 
+    WHERE r.post_id=post_id AND r.reaction_type='HELPFUL')
+    """)
+    private Long helpfulCnt=0L;
+    @Formula("""
+    (SELECT COUNT(*) FROM QNA_REACTION r 
+    WHERE r.post_id=post_id AND r.reaction_type='INTERESTING')
+    """)
+    private Long interestingCnt=0L;
+    @Formula("""
+    (SELECT COUNT(*) FROM QNA_REACTION r 
+    WHERE r.post_id=post_id AND r.reaction_type='CONFUSING')
+    """)
+    private Long confusingCnt=0L;
+    @Formula("""
+    (SELECT COUNT(*) FROM QNA_REACTION r 
+    WHERE r.post_id=post_id AND r.reaction_type='EMPATHY')
+    """)
+    private Long empathyCnt=0L;
+
+    public boolean isHelpful(Long loginUserId){
+        boolean isHelpful=false;
+        for(QnaReaction qnaReaction:qnaReactions){
+            if(qnaReaction.getMemberId()==loginUserId &&
+               qnaReaction.getReactionType().equals("HELPFUL")){
+                isHelpful=true;
+                break;
+            }
+        }
+        return isHelpful;
+    }
+    //steam api (자바에서 새로 나온 반복자 (콜백함수를 재사용하기 위해나옴))
+    public boolean isInteresting(Long loginUserId){
+        return qnaReactions.stream().anyMatch(
+                qnaReaction ->
+                        qnaReaction.getMemberId()==loginUserId
+                                && qnaReaction.getReactionType().equals("INTERESTING"));
+
+    }
+
 }

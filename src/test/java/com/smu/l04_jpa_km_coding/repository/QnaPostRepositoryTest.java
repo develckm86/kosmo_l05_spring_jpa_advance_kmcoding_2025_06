@@ -43,7 +43,7 @@ class QnaPostRepositoryTest {
     @Test
     @Transactional(readOnly = true)
     void findById(){
-        Optional<QnaPost> qnaPostOpt=qnaPostRepository.findById(1L);
+        Optional<QnaPost> qnaPostOpt=qnaPostRepository.findById(10L);
         if(qnaPostOpt.isPresent()){
             QnaPost qnaPost=qnaPostOpt.get();
             System.out.println(qnaPost);

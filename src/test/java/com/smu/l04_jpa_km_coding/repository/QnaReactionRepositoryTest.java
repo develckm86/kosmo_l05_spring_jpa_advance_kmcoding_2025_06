@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,6 +43,12 @@ class QnaReactionRepositoryTest {
         qnaReaction.setReactionType("CONFUSING");
         qnaReaction=qnaReactionRepository.save(qnaReaction);
         System.out.println(qnaReaction);
+
+    }
+
+    @Test
+    void getReaction() {
+        System.out.println(qnaReactionRepository.getReaction(10L));
 
     }
 }
